@@ -37,6 +37,7 @@ linters-settings:
         allow:
           - $gostd
           - template # Name of the root package
+          - "github.com/google/uuid"
       tests:
         list-mode: strict
         files:
