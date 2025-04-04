@@ -11,7 +11,7 @@ type Generator interface {
 }
 type GeneratorImpl struct{}
 
-func NewEntityIDGenerator() *GeneratorImpl {
+func NewGenerator() *GeneratorImpl {
 	return &GeneratorImpl{}
 }
 

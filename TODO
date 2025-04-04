@@ -1,0 +1,11 @@
+Transactional User Actions
+
+Remove Configs hardcode
+
+Use OpenTelemetry in pkg/telemetry
+
+Add config validations (everywhere)
+
+Add Authorisation, Tracing, Logging and metrics to user actions
+
+Check configs for available options (gorm, chi (http server), logging etc)

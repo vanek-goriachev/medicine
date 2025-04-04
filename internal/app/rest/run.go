@@ -2,13 +2,53 @@ package rest
 
 import (
 	"context"
+	"errors"
+	"fmt"
+
+	logAttrs "medicine/pkg/telemetry/logging/logging-attributes"
 )
 
-func (a *App) run(ctx context.Context) error { //nolint:revive // going to fix later
-	a.printStringToStdout("Running...\n") //nolint:revive,errcheck // going to remove later
+func (a *App) runWithGracefulShutdown(ctx context.Context) error {
+	a.appCore.ApplicationDependencies.Telemetry.Logging.Logger.DebugContext(
+		ctx,
+		"Running application",
+	)
 
-	// Запустить сервер
-	// Настроить Graceful Shutdown (в том числе телеметрии)
+	go a.gracefulShutdowns(ctx)
 
-	return nil
+	err := a.chiApp.Run(ctx)
+
+	return fmt.Errorf("error while running the server: %w", err)
+}
+
+func (a *App) gracefulShutdowns(ctx context.Context) {
+	<-ctx.Done()
+
+	a.appCore.ApplicationDependencies.Telemetry.Logging.Logger.InfoContext(
+		ctx,
+		"Shutting down the chi application (rest)",
+	)
+
+	chiShutdownErr := a.chiApp.Shutdown(ctx)
+	if chiShutdownErr != nil {
+		a.appCore.ApplicationDependencies.Telemetry.Logging.Logger.ErrorContext(
+			ctx,
+			"error while shutting down the chi application",
+			logAttrs.Error(chiShutdownErr),
+		)
+	}
+
+	a.appCore.ApplicationDependencies.Telemetry.Logging.Logger.InfoContext(
+		ctx,
+		"Shutting down the app core",
+	)
+
+	appCoreShutdownErr := a.appCore.Shutdown(ctx)
+
+	var shutdownErrors = errors.Join(chiShutdownErr, appCoreShutdownErr)
+
+	if shutdownErrors != nil {
+		//nolint:errcheck // Cant do anything about this error
+		_, _ = a.toStderr("shutdown errors: " + shutdownErrors.Error())
+	}
 }

@@ -5,3 +5,7 @@ import (
 )
 
 type EntityID uuid.UUID
+
+func (e EntityID) String() string {
+	return uuid.UUID(e).String()
+}

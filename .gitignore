@@ -32,3 +32,9 @@ venv.bak/
 
 # IDE files
 .idea
+
+# MacOS files
+.DS_Store
+
+# Local development files
+bin/
