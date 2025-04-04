@@ -16,13 +16,12 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.24.x'
-      - name: Install python 3.13.x
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13.x'
+      - name: Install linting tools
+        run: |
+          make ling
       - name: Init linters
         run: |
-          make init_linters
+          make ling
       - name: Run linters
         run: |
           make lint
