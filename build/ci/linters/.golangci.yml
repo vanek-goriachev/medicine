@@ -459,13 +459,6 @@ linters-settings:
     multi-func: false # never turn this shit on - it conflicts with wsl
 
   wsl:
-    # Allows assignments to be cuddled with variables used in calls on
-    # line above and calls to be cuddled with assignments of variables
-    # used in call on line above.
-    # https://github.com/bombsimon/wsl/blob/HEAD/doc/configuration.md#allow-assign-and-call
-    # Default: true
-    allow-assign-and-call: false
-
     # Allow multiple comments in the beginning of a block separated with newline.
     # https://github.com/bombsimon/wsl/blob/HEAD/doc/configuration.md#allow-separated-leading-comment
     # Default: false
