@@ -3,39 +3,77 @@ package rest
 import (
 	"context"
 	"fmt"
+	"time"
 
-	"template/internal/appcore"
+	"medicine/internal/app/rest/chi"
+	"medicine/internal/appcore/dependencies"
+	"medicine/internal/appcore/dependencies/db"
+	"medicine/pkg/telemetry"
+	"medicine/pkg/telemetry/logging"
 )
 
 const writeFail = "failed to write to stdout: %w"
 
-func (a *App) initialize(ctx context.Context) error { //nolint:revive,unparam // going to fix later
-	_, err := a.printStringToStdout("Initializing application\n")
+func (a *App) initialize(ctx context.Context) error {
+	_, err := a.toStdout("Initializing application\n") // No logger here since it is not initialized yet
 	if err != nil {
 		return fmt.Errorf(writeFail, err)
 	}
 
-	// Загрузить из файловой системы различные данные (конфиги, TLS сертификаты, креды итд)
-	_, err = a.printStringToStdout("Loading filesystem data\n") // No logger here since it is not initialized yet
+	_, err = a.toStdout("Loading filesystem data\n") // No logger here since it is not initialized yet
 	if err != nil {
 		return fmt.Errorf(writeFail, err)
 	}
 
-	// Собрать зависимости (IAM, телеметрия [логирование, трейсинг, метрики], БД [хранилище, кэш, очереди])
-	applicationDependencies := appcore.NewDependencies()
+	restCfg, coreDepsCfg, err := a.loadFileSystemData()
+	if err != nil {
+		return fmt.Errorf("failed to load filesystem data: %w", err)
+	}
 
-	err = applicationDependencies.Initialize()
+	var applicationDependencies dependencies.ApplicationDependencies
+
+	err = applicationDependencies.Initialize(ctx, coreDepsCfg) // Ping and migrations happens here
 	if err != nil {
 		return fmt.Errorf("failed to initialize dependencies: %w", err)
 	}
 
-	// Собрать ядро приложения (бизнес логику)
-	a.appCore = appcore.NewCore(applicationDependencies)
-	a.appCore.Initialize()
+	applicationDependencies.Telemetry.Logging.Logger.DebugContext(ctx, "Initializing appcore (business logic)")
+	a.appCore.Initialize(a.systemDependencies, &applicationDependencies)
 
-	// Мигрировать БД
-
-	// Собрать сервер
+	a.logger().DebugContext(ctx, "Initializing chi-application (rest)")
+	a.chiApp.Initialize(
+		restCfg,
+		a.appCore.CommonMappers,
+		a.appCore.UserActions,
+		a.logger(),
+	)
 
 	return nil
+}
+
+//nolint:mnd,unparam // Hardcode will be removed later
+func (*App) loadFileSystemData() (chi.Config, dependencies.DepsConfig, error) {
+	restCfg := chi.Config{
+		Port:        8080,
+		ReadTimeout: time.Millisecond * 100,
+		IdleTimeout: time.Second * 30,
+	}
+
+	coreDepsCfg := dependencies.DepsConfig{
+		DB: db.Config{
+			Host:     "db",
+			Port:     5432,
+			User:     "postgres",
+			Password: "postgres",
+			DBName:   "postgres",
+			SslMode:  "disable",
+			Timezone: "UTC",
+		},
+		Telemetry: telemetry.Config{
+			Logging: logging.Config{},
+		},
+		IAM: dependencies.IAMConfig{},
+	}
+
+	return restCfg, coreDepsCfg, nil
 }

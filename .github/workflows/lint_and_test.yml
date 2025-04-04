@@ -16,13 +16,9 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.24.x'
-      - name: Install python 3.13.x
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13.x'
-      - name: Init linters
+      - name: Install linting tools
         run: |
-          make init_linters
+          make tools
       - name: Run linters
         run: |
           make lint
@@ -35,14 +31,14 @@ jobs:
         ports:
           - "5432:5432"
         env:
-          POSTGRES_DB: template_db_test
-          POSTGRES_USER: template_user
-          POSTGRES_PASSWORD: template_password
+          POSTGRES_DB: medicine_db_test
+          POSTGRES_USER: medicine_user
+          POSTGRES_PASSWORD: medicine_password
     env:
-      POSTGRES_DB: template_db_test
-      POSTGRES_USER: template_user
-      POSTGRES_PASSWORD: template_password
-      DATABASE_URL: "postgres://template_user:template_password@localhost:5432/template_db_test"
+      POSTGRES_DB: medicine_db_test
+      POSTGRES_USER: medicine_user
+      POSTGRES_PASSWORD: medicine_password
+      DATABASE_URL: "postgres://medicine_user:medicine_password@localhost:5432/medicine_db_test"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

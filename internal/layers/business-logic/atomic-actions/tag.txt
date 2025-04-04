@@ -1,0 +1,1 @@
+All atomic actions are implemented by gateway
