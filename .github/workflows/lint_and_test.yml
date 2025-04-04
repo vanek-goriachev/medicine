@@ -18,10 +18,7 @@ jobs:
           go-version: '1.24.x'
       - name: Install linting tools
         run: |
-          make ling
-      - name: Init linters
-        run: |
-          make ling
+          make tools
       - name: Run linters
         run: |
           make lint
