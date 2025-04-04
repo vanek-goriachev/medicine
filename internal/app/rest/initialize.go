@@ -40,12 +40,12 @@ func (a *App) initialize(ctx context.Context) error {
 	applicationDependencies.Telemetry.Logging.Logger.DebugContext(ctx, "Initializing appcore (business logic)")
 	a.appCore.Initialize(a.systemDependencies, &applicationDependencies)
 
-	applicationDependencies.Telemetry.Logging.Logger.DebugContext(ctx, "Initializing chi-application (rest)")
+	a.logger().DebugContext(ctx, "Initializing chi-application (rest)")
 	a.chiApp.Initialize(
 		restCfg,
 		a.appCore.CommonMappers,
 		a.appCore.UserActions,
-		applicationDependencies.Telemetry.Logging.Logger,
+		a.logger(),
 	)
 
 	return nil

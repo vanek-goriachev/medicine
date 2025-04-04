@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 
 	"medicine/internal/appcore/dependencies/db"
 	"medicine/pkg/telemetry"
@@ -27,16 +28,14 @@ func (a *ApplicationDependencies) Initialize(
 		return fmt.Errorf("failed to initialize telemetry: %w", err)
 	}
 
-	a.Telemetry.Logging.Logger.DebugContext(ctx, "Initialized telemetry")
+	a.logger().DebugContext(ctx, "Initialized telemetry")
 
-	// Initialize IAM
+	a.logger().DebugContext(ctx, "Initializing DB")
 
-	a.Telemetry.Logging.Logger.DebugContext(ctx, "Initializing DB")
-
-	a.DB, err = db.NewDB(ctx, depsCfg.DB, a.Telemetry.Logging.Logger)
+	a.DB, err = db.NewDB(ctx, depsCfg.DB, a.logger())
 	if err != nil {
 		// Log this error here, because on upper levels we can't be sure that logging was initialized correctly
-		a.Telemetry.Logging.Logger.ErrorContext(ctx, "Failed to initialize DB", logAttrs.Error(err))
+		a.logger().ErrorContext(ctx, "Failed to initialize DB", logAttrs.Error(err))
 
 		return fmt.Errorf("failed to initialize DB: %w", err)
 	}
@@ -45,15 +44,17 @@ func (a *ApplicationDependencies) Initialize(
 }
 
 func (a *ApplicationDependencies) Shutdown(ctx context.Context) error {
-	a.Telemetry.Logging.Logger.DebugContext(ctx, "Shutting down DB")
-
+	a.logger().DebugContext(ctx, "Shutting down DB")
 	dbShutdownErr := a.DB.Shutdown(ctx)
 
-	a.Telemetry.Logging.Logger.DebugContext(ctx, "Shutting down telemetry")
-
+	a.logger().DebugContext(ctx, "Shutting down telemetry")
 	telemetryShutdownErr := a.Telemetry.Shutdown(ctx)
 
 	var shutdownErrors = errors.Join(dbShutdownErr, telemetryShutdownErr)
 
 	return shutdownErrors
+}
+
+func (a *ApplicationDependencies) logger() *slog.Logger {
+	return a.Telemetry.Logging.Logger
 }

@@ -2,6 +2,7 @@ package rest
 
 import (
 	"context"
+	"fmt"
 	"syscall"
 
 	"medicine/internal/app/rest/chi"
@@ -31,26 +32,20 @@ func (a *App) InitializeAndRun() {
 
 	err := a.initialize(ctx)
 	if err != nil {
-		_, err = a.toStderr("initialization failed: " + err.Error())
-		panic(err)
+		panic(fmt.Errorf("initialization failed: %w", err))
 	}
 
 	go a.cancelContextOnReceiveInterruptingSignals(ctx, cancel)
 
 	err = a.runWithGracefulShutdown(ctx)
 	if err != nil {
-		_, err = a.toStderr("running failed: " + err.Error())
-		panic(err)
+		panic(fmt.Errorf("running failed: %w", err))
 	}
 }
 
 func (a *App) cancelContextOnReceiveInterruptingSignals(ctx context.Context, cancelFunc context.CancelFunc) {
 	terminal := a.systemDependencies.Terminal
 	signal := <-terminal.SignalCh(1, syscall.SIGINT, syscall.SIGTERM)
-	a.appCore.ApplicationDependencies.Telemetry.Logging.Logger.InfoContext(
-		ctx,
-		"Received interrupting signal. Shutting down...",
-		logAttrs.Signal(signal.String()),
-	)
+	a.logger().InfoContext(ctx, "Received interrupting signal. Shutting down...", logAttrs.Signal(signal.String()))
 	cancelFunc()
 }

@@ -3,6 +3,7 @@ package appcore
 import (
 	"context"
 	"fmt"
+	"log/slog"
 
 	"medicine/internal/appcore/collections"
 	"medicine/internal/appcore/dependencies"
@@ -47,7 +48,7 @@ func (c *Core) Initialize(
 }
 
 func (c *Core) Shutdown(ctx context.Context) error {
-	c.ApplicationDependencies.Telemetry.Logging.Logger.DebugContext(ctx, "Shutting down the appcore")
+	c.logger().DebugContext(ctx, "Shutting down the appcore")
 
 	err := c.ApplicationDependencies.Shutdown(ctx)
 	if err != nil {
@@ -55,4 +56,8 @@ func (c *Core) Shutdown(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+func (c *Core) logger() *slog.Logger {
+	return c.ApplicationDependencies.Telemetry.Logging.Logger
 }

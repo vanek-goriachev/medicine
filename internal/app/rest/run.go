@@ -9,10 +9,7 @@ import (
 )
 
 func (a *App) runWithGracefulShutdown(ctx context.Context) error {
-	a.appCore.ApplicationDependencies.Telemetry.Logging.Logger.DebugContext(
-		ctx,
-		"Running application",
-	)
+	a.logger().DebugContext(ctx, "Running application")
 
 	go a.gracefulShutdowns(ctx)
 
@@ -24,24 +21,18 @@ func (a *App) runWithGracefulShutdown(ctx context.Context) error {
 func (a *App) gracefulShutdowns(ctx context.Context) {
 	<-ctx.Done()
 
-	a.appCore.ApplicationDependencies.Telemetry.Logging.Logger.InfoContext(
-		ctx,
-		"Shutting down the chi application (rest)",
-	)
+	a.logger().InfoContext(ctx, "Shutting down the chi application (rest)")
 
 	chiShutdownErr := a.chiApp.Shutdown(ctx)
 	if chiShutdownErr != nil {
-		a.appCore.ApplicationDependencies.Telemetry.Logging.Logger.ErrorContext(
+		a.logger().ErrorContext(
 			ctx,
 			"error while shutting down the chi application",
 			logAttrs.Error(chiShutdownErr),
 		)
 	}
 
-	a.appCore.ApplicationDependencies.Telemetry.Logging.Logger.InfoContext(
-		ctx,
-		"Shutting down the app core",
-	)
+	a.logger().InfoContext(ctx, "Shutting down the app core")
 
 	appCoreShutdownErr := a.appCore.Shutdown(ctx)
 
