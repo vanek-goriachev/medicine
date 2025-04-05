@@ -10,6 +10,7 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"medicine/internal/appcore/collections"
+	"medicine/internal/tooling/go-chi/middleware"
 	logAttrs "medicine/pkg/telemetry/logging/logging-attributes"
 )
 
@@ -48,12 +49,26 @@ func (r *App) Initialize(
 func (r *App) initializeRouter(ctx context.Context) error {
 	r.router = chi.NewRouter()
 
+	r.registerMiddlewares()
+
+	err := r.registerHandlers(ctx)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *App) registerMiddlewares() {
+	r.router.Use(middleware.Authentification())
+}
+
+func (r *App) registerHandlers(ctx context.Context) error {
 	openApiDefinition := generateApiSpec(r.services)
 
 	err := openApiDefinition.SetupRoutes(r.router, openApiDefinition)
 	if err != nil {
 		r.logger.ErrorContext(ctx, "error setting up routes", logAttrs.Error(err))
-
 		return fmt.Errorf("error setting up routes: %w", err)
 	}
 
