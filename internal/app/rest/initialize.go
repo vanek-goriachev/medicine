@@ -41,12 +41,17 @@ func (a *App) initialize(ctx context.Context) error {
 	a.appCore.Initialize(a.systemDependencies, &applicationDependencies)
 
 	a.logger().DebugContext(ctx, "Initializing chi-application (rest)")
-	a.chiApp.Initialize(
+
+	err = a.chiApp.Initialize(
+		ctx,
 		restCfg,
 		a.appCore.CommonMappers,
 		a.appCore.UserActions,
 		a.logger(),
 	)
+	if err != nil {
+		return fmt.Errorf("failed to initialize chi-application (rest): %w", err)
+	}
 
 	return nil
 }

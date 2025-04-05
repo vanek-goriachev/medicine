@@ -13,10 +13,12 @@ func NewUserActionsChiMapper(tagsSpaceChiMapper tagsSpaceChiMapper) *UserActions
 	return &UserActionsChiMapper{tagsSpaceChiMapper: tagsSpaceChiMapper}
 }
 
-func (*UserActionsChiMapper) CreateTagsSpaceInFromChi(in dto.CreateTagsSpaceIn) createUA.CreateTagsSpaceIn {
+func (*UserActionsChiMapper) CreateTagsSpaceInFromChi(
+	in dto.CreateTagsSpaceIn,
+) (createUA.CreateTagsSpaceIn, error) { //nolint:unparam // Required signature for handlers generation
 	return createUA.CreateTagsSpaceIn{
 		Name: in.Name,
-	}
+	}, nil
 }
 
 func (m *UserActionsChiMapper) CreateTagsSpaceOutToChi(out createUA.CreateTagsSpaceOut) dto.CreateTagsSpaceOut {

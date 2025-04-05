@@ -52,3 +52,7 @@ tools:
 lint:
 	bin/goimports -w cmd internal pkg tests tools
 	bin/golangci-lint run --config $(GOLANGCI_LINT_CONFIG) --max-issues-per-linter=0 --max-same-issues=0 --show-stats
+
+.PHONY: local_run
+local_run:
+	docker-compose -f ./build/local_development/service.yml up --build -d

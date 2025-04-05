@@ -6,10 +6,20 @@ linters:
     - goheader # checks is file header matches to pattern
     - gomodguard # [use more powerful depguard] allow and block lists linter for direct Go module dependencies
     - grouper # analyzes expression groups
-    #    - importas # enforces consistent import aliases (have to hardcode aliases mapping)
     - makezero # finds slice declarations with non-zero initial length
     - tenv # [deprecated, replaced by usetesting] detects using os.Setenv instead of t.Setenv since Go1.17
     - varnamelen # [great idea, but too many false positives] checks that the length of a variable's name matches its scope
+    - gochecknoglobals # I am fine with global variables
+    - decorder # No profit of checkoing declarations order
+    - importas # enforces consistent import aliases (have to hardcode aliases mapping) - too hard to use
+
+  exclusions:
+    rules:
+      - path: "cmd/*"
+        linters:
+          - forbidigo
+          - revive
+          - nolintlint
 
 # All available settings of specific linters.
 linters-settings:
@@ -20,16 +30,6 @@ linters-settings:
     # The maximal code complexity to report.
     # Default: 10
     max-complexity: 10
-
-  decorder:
-    # If true, order of declarations is not checked at all.
-    # Default: true (disabled)
-    disable-dec-order-check: false
-    dec-order:
-      - type
-      - const
-      - var
-      - func
 
   depguard:
     rules:
@@ -42,6 +42,7 @@ linters-settings:
           - $gostd
           - medicine # Name of the root package
           - "github.com/google/uuid"
+          - "github.com/go-andiamo/chioas"
           - "github.com/go-chi/chi/v5"
           - "gorm.io"
       tests:
@@ -53,6 +54,14 @@ linters-settings:
           - medicine # Name of the root package
           - "github.com/stretchr/testify"
           - "github.com/jackc/pgx/v5"
+      pkg:
+        list-mode: strict
+        files:
+          - "pkg/*"
+        deny:
+          - pkg: "medicine/internal/*"
+            desc: "pkg should never use internal packages"
+
 
   errcheck:
     # Report about not checking of errors in type assertions: `a := b.(MyStruct)`.
@@ -65,6 +74,9 @@ linters-settings:
     # Default: false
     check-blank: true
 
+  exhaustruct:
+    exclude:
+      - '.+/chioas\..*$'
 
   forbidigo:
     forbid:
@@ -257,6 +269,10 @@ linters-settings:
     # Default: false
     require-specific: true
 
+  # https://github.com/ssgreg/nlreturn
+  nlreturn:
+    block-size: 3 # Allow a block of 3 lines of code before a return statement.
+
   predeclared:
     # Include method names and field names (i.e., qualified names) in checks.
     # Default: false
@@ -385,7 +401,7 @@ linters-settings:
     # Enable all checkers (https://github.com/Antonboom/testifylint#checkers).
     # Default: false
     enable-all: true
-    disable: ["require-error"]
+    disable: [ "require-error" ]
 
   testpackage:
     # Regexp pattern to skip files.
