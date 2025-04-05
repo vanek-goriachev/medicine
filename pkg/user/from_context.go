@@ -6,8 +6,9 @@ import (
 	entityID "medicine/pkg/entity-id"
 )
 
-func FromContext(_ context.Context) User {
+func FromContext(_ context.Context) (User, error) { //nolint:unparam // Gonna fix later
 	return User{
-		ID: entityID.EntityID(VanekID),
-	}
+		ID:          entityID.EntityID(VanekID),
+		isAnonymous: false,
+	}, nil
 }

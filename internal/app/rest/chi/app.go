@@ -17,30 +17,47 @@ type App struct {
 	router   chi.Router
 	logger   *slog.Logger
 	mappers  *mappers
-	services *services
+	services *chiServices
 	server   *http.Server
 	config   Config
 }
 
 func (r *App) Initialize(
+	ctx context.Context,
 	config Config,
 	commonMappers *collections.CommonMappers,
 	userActions *collections.UserActions,
 	logger *slog.Logger,
-) {
+) error {
 	r.logger = logger
 	r.mappers = newChiMappers(commonMappers)
 	r.services = newChiServices(r.mappers, userActions)
 
 	r.config = config
-	r.initializeRouter()
+
+	err := r.initializeRouter(ctx)
+	if err != nil {
+		return err
+	}
+
 	r.initializeServer()
+
+	return nil
 }
 
-func (r *App) initializeRouter() {
+func (r *App) initializeRouter(ctx context.Context) error {
 	r.router = chi.NewRouter()
 
-	r.router.Post("/api/v1/tags-space/", r.services.tagsSpace.Create)
+	openApiDefinition := generateApiSpec(r.services)
+
+	err := openApiDefinition.SetupRoutes(r.router, openApiDefinition)
+	if err != nil {
+		r.logger.ErrorContext(ctx, "error setting up routes", logAttrs.Error(err))
+
+		return fmt.Errorf("error setting up routes: %w", err)
+	}
+
+	return nil
 }
 
 func (r *App) initializeServer() {

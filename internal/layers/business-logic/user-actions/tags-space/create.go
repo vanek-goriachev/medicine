@@ -26,7 +26,12 @@ func NewCreateUA(simpleActions SimpleActions) *CreateUA {
 	}
 }
 
-func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in CreateTagsSpaceIn) (CreateTagsSpaceOut, error) {
+func (ua *CreateUA) Act(ctx context.Context, in CreateTagsSpaceIn) (CreateTagsSpaceOut, error) {
+	user, err := userModels.FromContext(ctx)
+	if err != nil {
+		return CreateTagsSpaceOut{}, fmt.Errorf("can't get user: %w", err)
+	}
+
 	tagsSpace, err := ua.simpleActions.Create(ctx, user, in.Name)
 	if err != nil {
 		return CreateTagsSpaceOut{}, fmt.Errorf("can't create tags space: %w", err)

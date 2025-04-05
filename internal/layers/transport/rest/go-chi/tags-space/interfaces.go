@@ -4,14 +4,13 @@ import (
 	"context"
 
 	createUA "medicine/internal/layers/business-logic/user-actions/tags-space"
-	userModels "medicine/pkg/user"
 )
 
 type userActionsMapper interface {
-	CreateTagsSpaceInFromChi(in CreateTagsSpaceIn) createUA.CreateTagsSpaceIn
+	CreateTagsSpaceInFromChi(in CreateTagsSpaceIn) (createUA.CreateTagsSpaceIn, error)
 	CreateTagsSpaceOutToChi(out createUA.CreateTagsSpaceOut) CreateTagsSpaceOut
 }
 
 type createTagsSpaceUserAction interface {
-	Act(ctx context.Context, user userModels.User, in createUA.CreateTagsSpaceIn) (createUA.CreateTagsSpaceOut, error)
+	Act(ctx context.Context, in createUA.CreateTagsSpaceIn) (createUA.CreateTagsSpaceOut, error)
 }
