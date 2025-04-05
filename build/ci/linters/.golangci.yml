@@ -15,11 +15,16 @@ linters:
 
   exclusions:
     rules:
+      # No need to lint those small files
       - path: "cmd/*"
         linters:
           - forbidigo
           - revive
           - nolintlint
+      # This text is always false positive for me - this is a way i want to format my code
+      - text: "only one cuddle assignment allowed before if statement"
+        linters:
+          - wsl
 
 # All available settings of specific linters.
 linters-settings:

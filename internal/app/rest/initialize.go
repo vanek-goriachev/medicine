@@ -8,6 +8,7 @@ import (
 	"medicine/internal/app/rest/chi"
 	"medicine/internal/appcore/dependencies"
 	"medicine/internal/appcore/dependencies/db"
+	"medicine/internal/tooling/iam"
 	"medicine/pkg/telemetry"
 	"medicine/pkg/telemetry/logging"
 )
@@ -77,7 +78,7 @@ func (*App) loadFileSystemData() (chi.Config, dependencies.DepsConfig, error) {
 		Telemetry: telemetry.Config{
 			Logging: logging.Config{},
 		},
-		IAM: dependencies.IAMConfig{},
+		IAM: iam.Config{},
 	}
 
 	return restCfg, coreDepsCfg, nil

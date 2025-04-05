@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"medicine/internal/layers/business-logic/authorization"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
 	userModels "medicine/pkg/user"
 )
@@ -17,19 +18,35 @@ type CreateTagsSpaceOut struct {
 }
 
 type CreateUA struct {
+	authorizer    authorization.Authorizer
 	simpleActions SimpleActions
 }
 
-func NewCreateUA(simpleActions SimpleActions) *CreateUA {
+func NewCreateUA(
+	authorizer authorization.Authorizer,
+	simpleActions SimpleActions,
+) *CreateUA {
 	return &CreateUA{
 		simpleActions: simpleActions,
+		authorizer:    authorizer,
 	}
 }
 
 func (ua *CreateUA) Act(ctx context.Context, in CreateTagsSpaceIn) (CreateTagsSpaceOut, error) {
-	user, err := userModels.FromContext(ctx)
+	user, err := userModels.GetFromContext(ctx)
 	if err != nil {
-		return CreateTagsSpaceOut{}, fmt.Errorf("can't get user: %w", err)
+		return CreateTagsSpaceOut{}, fmt.Errorf("can't get user from context: %w", err)
+	}
+
+	err = ua.authorizer.Authorize(
+		ctx,
+		user,
+		authorization.CreateTagsSpacePermission,
+		authorization.TagsSpaceResource,
+		"",
+	)
+	if err != nil {
+		return CreateTagsSpaceOut{}, fmt.Errorf("authorization failed: %w", err)
 	}
 
 	tagsSpace, err := ua.simpleActions.Create(ctx, user, in.Name)

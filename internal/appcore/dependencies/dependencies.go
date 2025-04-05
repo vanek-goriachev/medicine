@@ -7,14 +7,15 @@ import (
 	"log/slog"
 
 	"medicine/internal/appcore/dependencies/db"
+	"medicine/internal/tooling/iam"
 	"medicine/pkg/telemetry"
 	logAttrs "medicine/pkg/telemetry/logging/logging-attributes"
 )
 
 type ApplicationDependencies struct {
 	Telemetry telemetry.Infrastructure
-	// IAM
-	DB *db.DB
+	IAM       iam.IAM
+	DB        *db.DB
 }
 
 func (a *ApplicationDependencies) Initialize(
@@ -30,8 +31,13 @@ func (a *ApplicationDependencies) Initialize(
 
 	a.logger().DebugContext(ctx, "Initialized telemetry")
 
-	a.logger().DebugContext(ctx, "Initializing DB")
+	a.logger().DebugContext(ctx, "Initializing IAM")
+	a.IAM, err = iam.NewIAM(ctx, depsCfg.IAM)
+	if err != nil {
+		return fmt.Errorf("failed to initialize IAM: %w", err)
+	}
 
+	a.logger().DebugContext(ctx, "Initializing DB")
 	a.DB, err = db.NewDB(ctx, depsCfg.DB, a.logger())
 	if err != nil {
 		// Log this error here, because on upper levels we can't be sure that logging was initialized correctly

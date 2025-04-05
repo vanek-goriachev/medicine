@@ -7,6 +7,7 @@ import (
 
 	"medicine/internal/appcore/collections"
 	"medicine/internal/appcore/dependencies"
+	"medicine/internal/layers/business-logic/authorization"
 )
 
 type Core struct {
@@ -44,7 +45,10 @@ func (c *Core) Initialize(
 	c.factories = collections.NewFactories()
 
 	c.simpleActions = collections.NewSimpleActions(c.others, c.gateways, c.factories)
-	c.UserActions = collections.NewUserActions(c.simpleActions)
+	c.UserActions = collections.NewUserActions(
+		authorization.NewAuthorizer(c.ApplicationDependencies.IAM),
+		c.simpleActions,
+	)
 }
 
 func (c *Core) Shutdown(ctx context.Context) error {
