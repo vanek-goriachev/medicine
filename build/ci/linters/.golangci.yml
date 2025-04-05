@@ -6,12 +6,20 @@ linters:
     - goheader # checks is file header matches to pattern
     - gomodguard # [use more powerful depguard] allow and block lists linter for direct Go module dependencies
     - grouper # analyzes expression groups
-    #    - importas # enforces consistent import aliases (have to hardcode aliases mapping)
     - makezero # finds slice declarations with non-zero initial length
     - tenv # [deprecated, replaced by usetesting] detects using os.Setenv instead of t.Setenv since Go1.17
     - varnamelen # [great idea, but too many false positives] checks that the length of a variable's name matches its scope
     - gochecknoglobals # I am fine with global variables
     - decorder # No profit of checkoing declarations order
+    - importas # enforces consistent import aliases (have to hardcode aliases mapping) - too hard to use
+
+  exclusions:
+    rules:
+      - path: "cmd/*"
+        linters:
+          - forbidigo
+          - revive
+          - nolintlint
 
 # All available settings of specific linters.
 linters-settings:
@@ -393,7 +401,7 @@ linters-settings:
     # Enable all checkers (https://github.com/Antonboom/testifylint#checkers).
     # Default: false
     enable-all: true
-    disable: ["require-error"]
+    disable: [ "require-error" ]
 
   testpackage:
     # Regexp pattern to skip files.

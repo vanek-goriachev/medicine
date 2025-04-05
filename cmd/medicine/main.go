@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Running application") //nolint:forbidigo // Print is fine here and no need to handle error
+	fmt.Println("Running application")
 
 	terminal := os.NewTerminal()
 	systemDependencies := &appcore.SystemDependencies{
