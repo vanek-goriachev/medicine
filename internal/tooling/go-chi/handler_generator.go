@@ -44,7 +44,8 @@ func Handler[dtoInT, domainInT, domainOutT, outT any](
 	}
 }
 
-func processInput[dtoInType, domainInType any]( //nolint:ireturn // Return type is not an interface
+//nolint:ireturn // Return type is not an interface
+func processInput[dtoInType, domainInType any](
 	jsDec *json.Decoder,
 	inputMapper func(dto dtoInType) (domainInType, error),
 ) (domainInType, error) {

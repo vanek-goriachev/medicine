@@ -2,13 +2,17 @@ package user
 
 import (
 	"context"
-
-	entityID "medicine/pkg/entity-id"
 )
 
-func FromContext(_ context.Context) (User, error) { //nolint:unparam // Gonna fix later
-	return User{
-		ID:          entityID.EntityID(VanekID),
-		isAnonymous: false,
-	}, nil
+func StoreInContext(ctx context.Context, user User) context.Context {
+	return context.WithValue(ctx, userKey, user)
+}
+
+func GetFromContext(ctx context.Context) (User, error) {
+	user, ok := ctx.Value(userKey).(User)
+	if !ok {
+		return User{}, ErrUserNotFound
+	}
+
+	return user, nil
 }
