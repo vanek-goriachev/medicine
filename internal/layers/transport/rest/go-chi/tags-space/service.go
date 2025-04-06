@@ -10,36 +10,54 @@ import (
 )
 
 type Service struct {
-	mapper   userActionsMapper
-	createUA createTagsSpaceUserAction
+	mapper    userActionsMapper
+	createUA  createTagsSpaceUserAction
+	getByIDUA tagsSpaceGetByIDUserAction
 }
 
 func NewService(
 	mapper userActionsMapper,
 	createUA createTagsSpaceUserAction,
+	getByIDUA tagsSpaceGetByIDUserAction,
 ) *Service {
 	return &Service{
-		mapper:   mapper,
-		createUA: createUA,
+		mapper:    mapper,
+		createUA:  createUA,
+		getByIDUA: getByIDUA,
 	}
 }
 
 func (s *Service) GenerateOpenApiDefinition() chioas.Path {
+	getByIDHandler := goChiTooling.Handler[
+		TagsSpaceGetByIDIn,
+		tagsSpaceUA.TagsSpaceGetByIDIn,
+		tagsSpaceUA.TagsSpaceGetByIDOut,
+		TagsSpaceGetByIDOut,
+	](s.mapper.TagsSpaceGetByIDInFromChi, s.getByIDUA, s.mapper.TagsSpaceGetByIDOutToChi)
+
 	createHandler := goChiTooling.Handler[
-		CreateTagsSpaceIn,
-		tagsSpaceUA.CreateTagsSpaceIn,
-		tagsSpaceUA.CreateTagsSpaceOut,
-		CreateTagsSpaceOut,
-	](s.mapper.CreateTagsSpaceInFromChi, s.createUA, s.mapper.CreateTagsSpaceOutToChi)
+		TagsSpaceCreateIn,
+		tagsSpaceUA.TagsSpaceCreateIn,
+		tagsSpaceUA.TagsSpaceCreateOut,
+		TagsSpaceCreateOut,
+	](s.mapper.TagsSpaceCreateInFromChi, s.createUA, s.mapper.TagsSpaceCreateOutToChi)
 
 	return chioas.Path{
 		Methods: chioas.Methods{
+			http.MethodGet: {
+				Description: "Эндпоинт для получения TagsSpace",
+				Handler:     getByIDHandler,
+				Request:     &chioas.Request{Schema: TagsSpaceGetByIDInOpenApiDefinition},
+				Responses: chioas.Responses{
+					http.StatusOK: {Schema: TagsSpaceGetByIDOutOpenApiDefinition},
+				},
+			},
 			http.MethodPost: {
 				Description: "Эндпоинт для создания TagsSpace",
 				Handler:     createHandler,
-				Request:     &chioas.Request{Schema: CreateTagsSpaceInOpenApiDefinition},
+				Request:     &chioas.Request{Schema: TagsSpaceCreateInOpenApiDefinition},
 				Responses: chioas.Responses{
-					http.StatusCreated: {Schema: CreateTagsSpaceOutOpenApiDefinition},
+					http.StatusCreated: {Schema: TagsSpaceCreateOutOpenApiDefinition},
 				},
 			},
 		},

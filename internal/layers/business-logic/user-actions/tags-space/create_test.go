@@ -18,7 +18,7 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 
 	// Test data
 	user := tests.TestUser()
-	in := tagsSpaceUA.CreateTagsSpaceIn{
+	in := tagsSpaceUA.TagsSpaceCreateIn{
 		Name: "test",
 	}
 	createdTagsSpace := tagsSpaceModels.TagsSpace{
@@ -27,7 +27,7 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 		ID:     tests.GenerateEntityID(),
 		UserID: user.ID,
 	}
-	expectedOut := tagsSpaceUA.CreateTagsSpaceOut{
+	expectedOut := tagsSpaceUA.TagsSpaceCreateOut{
 		TagsSpace: createdTagsSpace,
 	}
 

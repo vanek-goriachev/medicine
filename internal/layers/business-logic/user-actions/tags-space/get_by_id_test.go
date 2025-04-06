@@ -19,7 +19,7 @@ func TestTagsSpaceGetByIDUA(t *testing.T) {
 	// Test data
 	tagsSpaceID := tests.GenerateEntityID()
 	user := tests.TestUser()
-	in := tagsSpaceUA.GetByIDTagsSpaceIn{
+	in := tagsSpaceUA.TagsSpaceGetByIDIn{
 		ID: tagsSpaceID,
 	}
 	expectedTagsSpace := tagsSpaceModels.TagsSpace{
@@ -39,7 +39,7 @@ func TestTagsSpaceGetByIDUA(t *testing.T) {
 		ID:     tagsSpaceID,
 		UserID: user.ID,
 	}
-	expectedOut := tagsSpaceUA.GetByIDTagsSpaceOut{
+	expectedOut := tagsSpaceUA.TagsSpaceGetByIDOut{
 		TagsSpace: expectedTagsSpace,
 	}
 

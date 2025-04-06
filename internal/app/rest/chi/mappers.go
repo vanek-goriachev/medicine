@@ -18,7 +18,7 @@ func newChiMappers(commonMappers *collections.CommonMappers) *mappers {
 	m.tag = chiTagMapper.NewChiMapper(commonMappers.EntityIDMapper)
 
 	m.tagsSpace = chiTagsSpaceMapper.NewChiMapper(commonMappers.EntityIDMapper, m.tag)
-	m.tagsSpaceUA = chiTagsSpaceMapper.NewUserActionsChiMapper(m.tagsSpace)
+	m.tagsSpaceUA = chiTagsSpaceMapper.NewUserActionsChiMapper(commonMappers.EntityIDMapper, m.tagsSpace)
 
 	return &m
 }

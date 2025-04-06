@@ -4,12 +4,12 @@ import (
 	"github.com/go-andiamo/chioas"
 )
 
-type CreateTagsSpaceIn struct {
+type TagsSpaceCreateIn struct {
 	Name string `json:"name"`
 }
 
-var CreateTagsSpaceInOpenApiDefinition = chioas.Schema{
-	Name: "CreateTagsSpaceIn",
+var TagsSpaceCreateInOpenApiDefinition = chioas.Schema{
+	Name: "TagsSpaceCreateIn",
 	Properties: chioas.Properties{
 		{
 			Name: "name",
@@ -18,12 +18,12 @@ var CreateTagsSpaceInOpenApiDefinition = chioas.Schema{
 	},
 }
 
-type CreateTagsSpaceOut struct {
+type TagsSpaceCreateOut struct {
 	TagsSpace TagsSpace `json:"tags_space"`
 }
 
-var CreateTagsSpaceOutOpenApiDefinition = chioas.Schema{
-	Name: "CreateTagsSpaceOut",
+var TagsSpaceCreateOutOpenApiDefinition = chioas.Schema{
+	Name: "TagsSpaceCreateOut",
 	Properties: chioas.Properties{
 		{
 			Name:      "tags_space",

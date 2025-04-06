@@ -10,11 +10,11 @@ import (
 	userModels "medicine/pkg/user"
 )
 
-type GetByIDTagsSpaceIn struct {
+type TagsSpaceGetByIDIn struct {
 	ID entityID.EntityID
 }
 
-type GetByIDTagsSpaceOut struct {
+type TagsSpaceGetByIDOut struct {
 	TagsSpace tagsSpaceModels.TagsSpace
 }
 
@@ -36,11 +36,11 @@ func NewGetByIDUA(
 func (ua *GetByIDUA) Act(
 	ctx context.Context,
 	user userModels.User,
-	in GetByIDTagsSpaceIn,
-) (GetByIDTagsSpaceOut, error) {
+	in TagsSpaceGetByIDIn,
+) (TagsSpaceGetByIDOut, error) {
 	tagsSpace, err := ua.simpleActions.GetByID(ctx, in.ID)
 	if err != nil {
-		return GetByIDTagsSpaceOut{}, fmt.Errorf("can't GetByID tags space: %w", err)
+		return TagsSpaceGetByIDOut{}, fmt.Errorf("can't GetByID tags space: %w", err)
 	}
 
 	err = ua.authorizer.Authorize(
@@ -51,10 +51,10 @@ func (ua *GetByIDUA) Act(
 		tagsSpace.ID.String(),
 	)
 	if err != nil {
-		return GetByIDTagsSpaceOut{}, authorization.NewUnauthorizedError(err)
+		return TagsSpaceGetByIDOut{}, authorization.NewUnauthorizedError(err)
 	}
 
-	return GetByIDTagsSpaceOut{
+	return TagsSpaceGetByIDOut{
 		TagsSpace: tagsSpace,
 	}, nil
 }

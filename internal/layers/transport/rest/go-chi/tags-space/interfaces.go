@@ -8,10 +8,17 @@ import (
 )
 
 type userActionsMapper interface {
-	CreateTagsSpaceInFromChi(in CreateTagsSpaceIn) (createUA.CreateTagsSpaceIn, error)
-	CreateTagsSpaceOutToChi(out createUA.CreateTagsSpaceOut) CreateTagsSpaceOut
+	TagsSpaceGetByIDInFromChi(in TagsSpaceGetByIDIn) (createUA.TagsSpaceGetByIDIn, error)
+	TagsSpaceGetByIDOutToChi(out createUA.TagsSpaceGetByIDOut) TagsSpaceGetByIDOut
+
+	TagsSpaceCreateInFromChi(in TagsSpaceCreateIn) (createUA.TagsSpaceCreateIn, error)
+	TagsSpaceCreateOutToChi(out createUA.TagsSpaceCreateOut) TagsSpaceCreateOut
 }
 
 type createTagsSpaceUserAction interface {
-	Act(ctx context.Context, user userModels.User, in createUA.CreateTagsSpaceIn) (createUA.CreateTagsSpaceOut, error)
+	Act(ctx context.Context, user userModels.User, in createUA.TagsSpaceCreateIn) (createUA.TagsSpaceCreateOut, error)
+}
+
+type tagsSpaceGetByIDUserAction interface {
+	Act(ctx context.Context, user userModels.User, in createUA.TagsSpaceGetByIDIn) (createUA.TagsSpaceGetByIDOut, error)
 }

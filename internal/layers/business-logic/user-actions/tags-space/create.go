@@ -9,11 +9,11 @@ import (
 	userModels "medicine/pkg/user"
 )
 
-type CreateTagsSpaceIn struct {
+type TagsSpaceCreateIn struct {
 	Name string
 }
 
-type CreateTagsSpaceOut struct {
+type TagsSpaceCreateOut struct {
 	TagsSpace tagsSpaceModels.TagsSpace
 }
 
@@ -32,7 +32,7 @@ func NewCreateUA(
 	}
 }
 
-func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in CreateTagsSpaceIn) (CreateTagsSpaceOut, error) {
+func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in TagsSpaceCreateIn) (TagsSpaceCreateOut, error) {
 	err := ua.authorizer.Authorize(
 		ctx,
 		user,
@@ -41,15 +41,15 @@ func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in CreateTags
 		"",
 	)
 	if err != nil {
-		return CreateTagsSpaceOut{}, authorization.NewUnauthorizedError(err)
+		return TagsSpaceCreateOut{}, authorization.NewUnauthorizedError(err)
 	}
 
 	tagsSpace, err := ua.simpleActions.Create(ctx, user, in.Name)
 	if err != nil {
-		return CreateTagsSpaceOut{}, fmt.Errorf("can't create tags space: %w", err)
+		return TagsSpaceCreateOut{}, fmt.Errorf("can't create tags space: %w", err)
 	}
 
-	return CreateTagsSpaceOut{
+	return TagsSpaceCreateOut{
 		TagsSpace: tagsSpace,
 	}, nil
 }
