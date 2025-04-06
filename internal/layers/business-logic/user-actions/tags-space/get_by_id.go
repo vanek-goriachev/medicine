@@ -3,10 +3,10 @@ package tags_space
 import (
 	"context"
 	"fmt"
-	entityID "medicine/pkg/entity-id"
 
 	"medicine/internal/layers/business-logic/authorization"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
+	entityID "medicine/pkg/entity-id"
 	userModels "medicine/pkg/user"
 )
 
@@ -33,7 +33,11 @@ func NewGetByIDUA(
 	}
 }
 
-func (ua *GetByIDUA) Act(ctx context.Context, user userModels.User, in GetByIDTagsSpaceIn) (GetByIDTagsSpaceOut, error) {
+func (ua *GetByIDUA) Act(
+	ctx context.Context,
+	user userModels.User,
+	in GetByIDTagsSpaceIn,
+) (GetByIDTagsSpaceOut, error) {
 	tagsSpace, err := ua.simpleActions.GetByID(ctx, in.ID)
 	if err != nil {
 		return GetByIDTagsSpaceOut{}, fmt.Errorf("can't GetByID tags space: %w", err)
@@ -47,7 +51,7 @@ func (ua *GetByIDUA) Act(ctx context.Context, user userModels.User, in GetByIDTa
 		tagsSpace.ID.String(),
 	)
 	if err != nil {
-		return GetByIDTagsSpaceOut{}, fmt.Errorf("authorization failed: %w", err)
+		return GetByIDTagsSpaceOut{}, authorization.NewUnauthorizedError(err)
 	}
 
 	return GetByIDTagsSpaceOut{

@@ -2,9 +2,9 @@ package tags_space
 
 import (
 	"context"
-	entityID "medicine/pkg/entity-id"
 
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
+	entityID "medicine/pkg/entity-id"
 	userModels "medicine/pkg/user"
 )
 

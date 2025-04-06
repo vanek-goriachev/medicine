@@ -3,9 +3,9 @@ package tags_space
 import (
 	"context"
 	"fmt"
-	entityID "medicine/pkg/entity-id"
 
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
+	entityID "medicine/pkg/entity-id"
 )
 
 func (sa *SimpleActions) GetByID(

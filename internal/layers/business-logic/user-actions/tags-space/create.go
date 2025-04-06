@@ -41,7 +41,7 @@ func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in CreateTags
 		"",
 	)
 	if err != nil {
-		return CreateTagsSpaceOut{}, fmt.Errorf("authorization failed: %w", err)
+		return CreateTagsSpaceOut{}, authorization.NewUnauthorizedError(err)
 	}
 
 	tagsSpace, err := ua.simpleActions.Create(ctx, user, in.Name)
