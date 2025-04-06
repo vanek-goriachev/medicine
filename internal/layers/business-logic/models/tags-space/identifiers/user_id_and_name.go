@@ -1,4 +1,4 @@
-package custom_identifiers
+package identifiers
 
 import (
 	"fmt"
@@ -16,8 +16,8 @@ func (UserIDAndNameIdentifier) Identifier() {}
 func (u UserIDAndNameIdentifier) String() string {
 	return fmt.Sprintf(
 		"identifier: user_id=%q name=%q",
-		u.Name,
 		u.UserID,
+		u.Name,
 	)
 }
 

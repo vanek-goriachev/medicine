@@ -4,11 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	customIdentifiers "medicine/internal/layers/business-logic/models/tags-space/identifiers"
 
 	"gorm.io/gorm"
 
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
-	customIdentifiers "medicine/internal/tooling/identifiers/custom-identifiers"
 	pkgErrors "medicine/pkg/errors/db"
 )
 

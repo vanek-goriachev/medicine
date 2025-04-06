@@ -13,14 +13,14 @@ type Service struct {
 	mapper       userActionsMapper
 	getByIDUA    tagsSpaceGetByIDUserAction
 	listByUserUA tagsSpaceListByUserUserAction
-	createUA     createTagsSpaceUserAction
+	createUA     tagsSpaceCreateUserAction
 }
 
 func NewService(
 	mapper userActionsMapper,
 	getByIDUA tagsSpaceGetByIDUserAction,
 	listByUserUA tagsSpaceListByUserUserAction,
-	createUA createTagsSpaceUserAction,
+	createUA tagsSpaceCreateUserAction,
 ) *Service {
 	return &Service{
 		mapper:       mapper,

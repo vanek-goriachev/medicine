@@ -3,33 +3,33 @@ package tags_space
 import (
 	"context"
 
-	createUA "medicine/internal/layers/business-logic/user-actions/tags-space"
+	tagsSpaceUA "medicine/internal/layers/business-logic/user-actions/tags-space"
 	userModels "medicine/pkg/user"
 )
 
 type userActionsMapper interface {
-	TagsSpaceGetByIDInFromChi(in TagsSpaceGetByIDIn) (createUA.TagsSpaceGetByIDIn, error)
-	TagsSpaceGetByIDOutToChi(out createUA.TagsSpaceGetByIDOut) TagsSpaceGetByIDOut
+	TagsSpaceGetByIDInFromChi(in TagsSpaceGetByIDIn) (tagsSpaceUA.TagsSpaceGetByIDIn, error)
+	TagsSpaceGetByIDOutToChi(out tagsSpaceUA.TagsSpaceGetByIDOut) TagsSpaceGetByIDOut
 
-	TagsSpaceListByUserInFromChi(in TagsSpaceListByUserIn) (createUA.TagsSpaceListByUserIn, error)
-	TagsSpaceListByUserOutToChi(out createUA.TagsSpaceListByUserOut) TagsSpaceListByUserOut
+	TagsSpaceListByUserInFromChi(in TagsSpaceListByUserIn) (tagsSpaceUA.TagsSpaceListByUserIn, error)
+	TagsSpaceListByUserOutToChi(out tagsSpaceUA.TagsSpaceListByUserOut) TagsSpaceListByUserOut
 
-	TagsSpaceCreateInFromChi(in TagsSpaceCreateIn) (createUA.TagsSpaceCreateIn, error)
-	TagsSpaceCreateOutToChi(out createUA.TagsSpaceCreateOut) TagsSpaceCreateOut
+	TagsSpaceCreateInFromChi(in TagsSpaceCreateIn) (tagsSpaceUA.TagsSpaceCreateIn, error)
+	TagsSpaceCreateOutToChi(out tagsSpaceUA.TagsSpaceCreateOut) TagsSpaceCreateOut
 }
 
-type createTagsSpaceUserAction interface {
-	Act(ctx context.Context, user userModels.User, in createUA.TagsSpaceCreateIn) (createUA.TagsSpaceCreateOut, error)
+type tagsSpaceCreateUserAction interface {
+	Act(ctx context.Context, user userModels.User, in tagsSpaceUA.TagsSpaceCreateIn) (tagsSpaceUA.TagsSpaceCreateOut, error)
 }
 
 type tagsSpaceListByUserUserAction interface {
 	Act(
 		ctx context.Context,
 		user userModels.User,
-		in createUA.TagsSpaceListByUserIn,
-	) (createUA.TagsSpaceListByUserOut, error)
+		in tagsSpaceUA.TagsSpaceListByUserIn,
+	) (tagsSpaceUA.TagsSpaceListByUserOut, error)
 }
 
 type tagsSpaceGetByIDUserAction interface {
-	Act(ctx context.Context, user userModels.User, in createUA.TagsSpaceGetByIDIn) (createUA.TagsSpaceGetByIDOut, error)
+	Act(ctx context.Context, user userModels.User, in tagsSpaceUA.TagsSpaceGetByIDIn) (tagsSpaceUA.TagsSpaceGetByIDOut, error)
 }

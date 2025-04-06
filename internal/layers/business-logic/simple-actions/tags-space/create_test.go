@@ -3,8 +3,8 @@ package tags_space_test
 import (
 	tagModels "medicine/internal/layers/business-logic/models/tag"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
+	customIdentifiers "medicine/internal/layers/business-logic/models/tags-space/identifiers"
 	tagsSpaceSA "medicine/internal/layers/business-logic/simple-actions/tags-space"
-	customIdentifiers "medicine/internal/tooling/identifiers/custom-identifiers"
 	"medicine/internal/tooling/tests/generators"
 	tags_space "medicine/mocks/internal_/layers/business-logic/simple-actions/tags-space"
 	entityID "medicine/pkg/entity-id"
