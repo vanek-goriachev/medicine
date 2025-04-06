@@ -13,22 +13,34 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateTagsSpaceUA(t *testing.T) {
+func TestTagsSpaceGetByIDUA(t *testing.T) {
 	t.Parallel()
 
 	// Test data
+	tagsSpaceID := tests.GenerateEntityID()
 	user := tests.TestUser()
-	in := tagsSpaceUA.CreateTagsSpaceIn{
-		Name: "test",
+	in := tagsSpaceUA.GetByIDTagsSpaceIn{
+		ID: tagsSpaceID,
 	}
-	createdTagsSpace := tagsSpaceModels.TagsSpace{
-		Name:   in.Name,
-		Tags:   []tagModels.Tag{},
-		ID:     tests.GenerateEntityID(),
+	expectedTagsSpace := tagsSpaceModels.TagsSpace{
+		Name: "some name",
+		Tags: []tagModels.Tag{
+			{
+				Name:        "tag1",
+				ID:          tests.GenerateEntityID(),
+				TagsSpaceID: tagsSpaceID,
+			},
+			{
+				Name:        "tag2",
+				ID:          tests.GenerateEntityID(),
+				TagsSpaceID: tagsSpaceID,
+			},
+		},
+		ID:     tagsSpaceID,
 		UserID: user.ID,
 	}
-	expectedOut := tagsSpaceUA.CreateTagsSpaceOut{
-		TagsSpace: createdTagsSpace,
+	expectedOut := tagsSpaceUA.GetByIDTagsSpaceOut{
+		TagsSpace: expectedTagsSpace,
 	}
 
 	t.Run(
@@ -38,20 +50,19 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 
 			authorizer := authorizationMocks.NewAuthorizer(t)
 			simpleActions := tagsSpaceSAMock.NewSimpleActions(t)
-			ua := tagsSpaceUA.NewCreateUA(authorizer, simpleActions)
+			ua := tagsSpaceUA.NewGetByIDUA(authorizer, simpleActions)
 
+			simpleActions.EXPECT().GetByID(
+				t.Context(),
+				in.ID,
+			).Return(expectedTagsSpace, nil)
 			authorizer.EXPECT().Authorize(
 				t.Context(),
 				user,
-				authorization.CreateTagsSpacePermission,
+				authorization.GetTagsSpacePermission,
 				authorization.TagsSpaceResource,
-				"",
+				tagsSpaceID.String(),
 			).Return(nil)
-			simpleActions.EXPECT().Create(
-				t.Context(),
-				user,
-				in.Name,
-			).Return(createdTagsSpace, nil)
 
 			out, err := ua.Act(t.Context(), user, in)
 
@@ -61,26 +72,25 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 	)
 
 	t.Run(
-		"simple action create failed",
+		"authorization fail",
 		func(t *testing.T) {
 			t.Parallel()
 
 			authorizer := authorizationMocks.NewAuthorizer(t)
 			simpleActions := tagsSpaceSAMock.NewSimpleActions(t)
-			ua := tagsSpaceUA.NewCreateUA(authorizer, simpleActions)
+			ua := tagsSpaceUA.NewGetByIDUA(authorizer, simpleActions)
 
+			simpleActions.EXPECT().GetByID(
+				t.Context(),
+				in.ID,
+			).Return(expectedTagsSpace, nil)
 			authorizer.EXPECT().Authorize(
 				t.Context(),
 				user,
-				authorization.CreateTagsSpacePermission,
+				authorization.GetTagsSpacePermission,
 				authorization.TagsSpaceResource,
-				"",
-			).Return(nil)
-			simpleActions.EXPECT().Create(
-				t.Context(),
-				user,
-				in.Name,
-			).Return(tagsSpaceModels.TagsSpace{}, assert.AnError)
+				tagsSpaceID.String(),
+			).Return(assert.AnError)
 
 			out, err := ua.Act(t.Context(), user, in)
 
@@ -90,21 +100,18 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 	)
 
 	t.Run(
-		"authorization failed",
+		"get fail",
 		func(t *testing.T) {
 			t.Parallel()
 
 			authorizer := authorizationMocks.NewAuthorizer(t)
 			simpleActions := tagsSpaceSAMock.NewSimpleActions(t)
-			ua := tagsSpaceUA.NewCreateUA(authorizer, simpleActions)
+			ua := tagsSpaceUA.NewGetByIDUA(authorizer, simpleActions)
 
-			authorizer.EXPECT().Authorize(
+			simpleActions.EXPECT().GetByID(
 				t.Context(),
-				user,
-				authorization.CreateTagsSpacePermission,
-				authorization.TagsSpaceResource,
-				"",
-			).Return(assert.AnError)
+				in.ID,
+			).Return(tagsSpaceModels.TagsSpace{}, assert.AnError)
 
 			out, err := ua.Act(t.Context(), user, in)
 
@@ -112,4 +119,5 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 			assert.Zero(t, out)
 		},
 	)
+
 }
