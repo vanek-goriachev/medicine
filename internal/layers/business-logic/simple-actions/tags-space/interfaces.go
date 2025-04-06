@@ -9,6 +9,10 @@ import (
 	entityID "medicine/pkg/entity-id"
 )
 
+type EntityIDGenerator interface {
+	Generate() (entityID.EntityID, error)
+}
+
 type AtomicActions interface {
 	GetByUserIDAndName(
 		ctx context.Context,
@@ -18,5 +22,10 @@ type AtomicActions interface {
 }
 
 type TagsSpaceFactory interface {
-	New(id entityID.EntityID, userID entityID.EntityID, name string, tags []tagModels.Tag) tagsSpaceModels.TagsSpace
+	New(
+		id entityID.EntityID,
+		userID entityID.EntityID,
+		name string,
+		tags []tagModels.Tag,
+	) (tagsSpaceModels.TagsSpace, error)
 }

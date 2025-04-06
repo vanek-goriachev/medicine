@@ -10,11 +10,14 @@ run:
   # Default: cfg
   relative-path-mode: gomod
 
+  tests: false
+
 # Output configuration options
 output:
   # Show statistics per linter.
   # Default: false
   show-stats: true
+
 
 linters:
   default: all

@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 
-	businessLogicErrors "medicine/internal/layers/business-logic/errors"
 	tagModels "medicine/internal/layers/business-logic/models/tag"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
 	customIdentifiers "medicine/internal/tooling/identifiers/custom-identifiers"
@@ -38,13 +37,13 @@ func (sa *SimpleActions) Create(
 
 func (sa *SimpleActions) checkExistence(ctx context.Context, user userModels.User, name string) error {
 	identifier := customIdentifiers.UserIDAndNameIdentifier{UserID: user.ID, Name: name}
-	spaceNotFoundErr := pkgErrors.NewDoesNotExistError(identifier)
 
 	_, err := sa.atomicActions.GetByUserIDAndName(ctx, identifier)
 	if err == nil {
-		return businessLogicErrors.NewTagsSpaceAlreadyExistError(identifier)
+		return tagsSpaceModels.NewTagsSpaceAlreadyExistError(identifier)
 	}
 
+	spaceNotFoundErr := pkgErrors.NewDoesNotExistError(identifier)
 	if !errors.Is(err, spaceNotFoundErr) {
 		return fmt.Errorf("can't check tagsSpace existence: %w", err)
 	}
@@ -58,7 +57,10 @@ func (sa *SimpleActions) build(user userModels.User, name string) (tagsSpaceMode
 		return tagsSpaceModels.TagsSpace{}, fmt.Errorf("can't generate an id: %w", err)
 	}
 
-	tagsSpace := sa.tagsSpaceFactory.New(id, user.ID, name, []tagModels.Tag{})
+	tagsSpace, err := sa.tagsSpaceFactory.New(id, user.ID, name, []tagModels.Tag{})
+	if err != nil {
+		return tagsSpaceModels.TagsSpace{}, fmt.Errorf("can't build tagsSpace: %w", err)
+	}
 
 	return tagsSpace, nil
 }

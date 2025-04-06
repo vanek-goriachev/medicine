@@ -1,15 +1,13 @@
 package tags_space
 
-import entityID "medicine/pkg/entity-id"
-
 type SimpleActions struct {
-	idGenerator      entityID.Generator
+	idGenerator      EntityIDGenerator
 	tagsSpaceFactory TagsSpaceFactory
 	atomicActions    AtomicActions
 }
 
 func NewSimpleActions(
-	idGenerator entityID.Generator,
+	idGenerator EntityIDGenerator,
 	tagsSpaceFactory TagsSpaceFactory,
 	atomicActions AtomicActions,
 ) *SimpleActions {

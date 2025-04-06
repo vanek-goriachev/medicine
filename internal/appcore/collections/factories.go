@@ -8,10 +8,10 @@ type Factories struct {
 	tagsSpace *tagsSpaceModels.Factory
 }
 
-func NewFactories() *Factories {
+func NewFactories(validators *Validators) *Factories {
 	var c Factories
 
-	c.tagsSpace = tagsSpaceModels.NewFactory()
+	c.tagsSpace = tagsSpaceModels.NewFactory(validators.tagsSpace)
 
 	return &c
 }

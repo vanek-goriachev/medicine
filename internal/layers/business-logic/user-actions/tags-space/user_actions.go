@@ -1,6 +1,8 @@
 package tags_space
 
-import "medicine/internal/layers/business-logic/authorization"
+import (
+	"medicine/internal/layers/business-logic/authorization"
+)
 
 type UserActions struct {
 	Create *CreateUA
