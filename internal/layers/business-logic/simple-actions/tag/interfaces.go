@@ -5,7 +5,6 @@ import (
 	customIdentifiers "medicine/internal/layers/business-logic/models/tag/identifiers"
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
-	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
 	entityID "medicine/pkg/entity-id"
 )
 
@@ -17,14 +16,14 @@ type AtomicActions interface {
 	GetByTagsSpaceIDAndName(
 		ctx context.Context,
 		identifier customIdentifiers.TagsSpaceIDAndNameIdentifier,
-	) (tagsSpaceModels.TagsSpace, error)
+	) (tagModels.Tag, error)
 	Create(ctx context.Context, tag tagModels.Tag) error
 }
 
 type TagFactory interface {
 	New(
 		id entityID.EntityID,
-		name string,
 		tagsSpaceID entityID.EntityID,
+		name string,
 	) (tagModels.Tag, error)
 }

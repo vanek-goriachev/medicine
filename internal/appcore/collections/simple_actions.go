@@ -1,10 +1,12 @@
 package collections
 
 import (
+	tagSA "medicine/internal/layers/business-logic/simple-actions/tag"
 	tagsSpaceSA "medicine/internal/layers/business-logic/simple-actions/tags-space"
 )
 
 type SimpleActions struct {
+	tag       *tagSA.SimpleActions
 	tagsSpace *tagsSpaceSA.SimpleActions
 }
 
@@ -15,6 +17,11 @@ func NewSimpleActions(
 ) *SimpleActions {
 	var c SimpleActions
 
+	c.tag = tagSA.NewSimpleActions(
+		others.entityIDGenerator,
+		factories.tag,
+		gateways.tag,
+	)
 	c.tagsSpace = tagsSpaceSA.NewSimpleActions(
 		others.entityIDGenerator,
 		factories.tagsSpace,
