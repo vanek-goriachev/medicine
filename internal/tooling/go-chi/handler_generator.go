@@ -20,7 +20,7 @@ func Handler[dtoInT, domainInT, domainOutT, outT any](
 		jsEnc := json.NewEncoder(w)
 		jsDec := json.NewDecoder(r.Body)
 
-		defer r.Body.Close()
+		defer r.Body.Close() //nolint:errcheck // Can't really do anything with error here
 
 		w.Header().Set("Content-Type", "application/json")
 

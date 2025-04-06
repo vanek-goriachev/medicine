@@ -6,7 +6,10 @@ import (
 	userModels "medicine/pkg/user"
 )
 
-// idk.
+// I am not sure if i have to go to iam in this middleware
+// Maybe i should use jwt tokens
+// Maybe sessions
+
 func Authentification() func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
