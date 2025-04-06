@@ -9,7 +9,7 @@ import (
 )
 
 //nolint:revive // This function is pretty transparent so its length is not a problem
-func HandlerWithBody[dtoInT, domainInT, domainOutT, outT any](
+func Handler[dtoInT, domainInT, domainOutT, outT any](
 	parse func(r *http.Request) (dtoInT, error),
 	inputMapper func(dto dtoInT) (domainInT, error),
 	userAction userActionPkg.UserAction[domainInT, domainOutT],

@@ -1,7 +1,9 @@
+//nolint:unparam // Required signatures for handlers generation
 package tags_space
 
 import (
 	"fmt"
+
 	createUA "medicine/internal/layers/business-logic/user-actions/tags-space"
 	dto "medicine/internal/layers/transport/rest/go-chi/tags-space"
 	entityID "medicine/pkg/entity-id"
@@ -24,7 +26,7 @@ func NewUserActionsChiMapper(
 
 func (*UserActionsChiMapper) TagsSpaceCreateInFromChi(
 	in dto.TagsSpaceCreateIn,
-) (createUA.TagsSpaceCreateIn, error) { //nolint:unparam // Required signature for handlers generation
+) (createUA.TagsSpaceCreateIn, error) {
 	return createUA.TagsSpaceCreateIn{
 		Name: in.Name,
 	}, nil
@@ -33,6 +35,20 @@ func (*UserActionsChiMapper) TagsSpaceCreateInFromChi(
 func (m *UserActionsChiMapper) TagsSpaceCreateOutToChi(out createUA.TagsSpaceCreateOut) dto.TagsSpaceCreateOut {
 	return dto.TagsSpaceCreateOut{
 		TagsSpace: m.tagsSpaceChiMapper.ToChi(out.TagsSpace),
+	}
+}
+
+func (*UserActionsChiMapper) TagsSpaceListByUserInFromChi(
+	_ dto.TagsSpaceListByUserIn,
+) (createUA.TagsSpaceListByUserIn, error) {
+	return createUA.TagsSpaceListByUserIn{}, nil
+}
+
+func (m *UserActionsChiMapper) TagsSpaceListByUserOutToChi(
+	out createUA.TagsSpaceListByUserOut,
+) dto.TagsSpaceListByUserOut {
+	return dto.TagsSpaceListByUserOut{
+		TagsSpaces: m.tagsSpaceChiMapper.MultipleToChi(out.TagsSpaces),
 	}
 }
 

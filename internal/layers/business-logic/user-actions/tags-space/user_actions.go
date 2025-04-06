@@ -5,8 +5,9 @@ import (
 )
 
 type UserActions struct {
-	GetByID *GetByIDUA
-	Create  *CreateUA
+	GetByID    *GetByIDUA
+	ListByUser *ListByUserUA
+	Create     *CreateUA
 }
 
 func NewUserActions(
@@ -14,10 +15,12 @@ func NewUserActions(
 	simpleActions SimpleActions,
 ) *UserActions {
 	getByID := NewGetByIDUA(authorizer, simpleActions)
+	listByUser := NewListByUserUA(authorizer, simpleActions)
 	create := NewCreateUA(authorizer, simpleActions)
 
 	return &UserActions{
-		GetByID: getByID,
-		Create:  create,
+		GetByID:    getByID,
+		ListByUser: listByUser,
+		Create:     create,
 	}
 }

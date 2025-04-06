@@ -5,7 +5,7 @@ import (
 )
 
 type TagsSpaceGetByIDIn struct {
-	ID string `json:"id"`
+	ID string `schema:"id"`
 }
 
 var TagsSpaceGetByIDInOpenApiDefinition = chioas.QueryParams{

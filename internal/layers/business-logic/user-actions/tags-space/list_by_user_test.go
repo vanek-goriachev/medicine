@@ -2,7 +2,6 @@ package tags_space_test
 
 import (
 	"medicine/internal/layers/business-logic/authorization"
-	tagModels "medicine/internal/layers/business-logic/models/tag"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
 	tagsSpaceUA "medicine/internal/layers/business-logic/user-actions/tags-space"
 	"medicine/internal/tooling/tests/generators"
@@ -13,40 +12,26 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTagsSpaceGetByIDUA(t *testing.T) {
+func TestTagsSpaceListByUserUA(t *testing.T) {
 	t.Parallel()
 
 	// Test data
-	tagsSpaceID := generators.GenerateEntityID()
 	user := generators.TestUser()
-	in := tagsSpaceUA.TagsSpaceGetByIDIn{
-		ID: tagsSpaceID,
+
+	in := tagsSpaceUA.TagsSpaceListByUserIn{}
+	expectedTagsSpaces := []tagsSpaceModels.TagsSpace{
+		generators.GenerateTagsSpace(user.ID),
+		generators.GenerateTagsSpace(user.ID),
+		generators.GenerateTagsSpace(user.ID),
 	}
-	expectedTagsSpace := tagsSpaceModels.TagsSpace{
-		Name: "some name",
-		Tags: []tagModels.Tag{
-			{
-				Name:        "tag1",
-				ID:          generators.GenerateEntityID(),
-				TagsSpaceID: tagsSpaceID,
-			},
-			{
-				Name:        "tag2",
-				ID:          generators.GenerateEntityID(),
-				TagsSpaceID: tagsSpaceID,
-			},
-		},
-		ID:     tagsSpaceID,
-		UserID: user.ID,
+	expectedOut := tagsSpaceUA.TagsSpaceListByUserOut{
+		TagsSpaces: expectedTagsSpaces,
 	}
-	expectedOut := tagsSpaceUA.TagsSpaceGetByIDOut{
-		TagsSpace: expectedTagsSpace,
+	authActions := []authorization.Action{
+		authorization.NewAction(authorization.ReadTagsSpacePermission, authorization.TagsSpaceResource, expectedTagsSpaces[0].ID.String()),
+		authorization.NewAction(authorization.ReadTagsSpacePermission, authorization.TagsSpaceResource, expectedTagsSpaces[1].ID.String()),
+		authorization.NewAction(authorization.ReadTagsSpacePermission, authorization.TagsSpaceResource, expectedTagsSpaces[2].ID.String()),
 	}
-	authAction := authorization.NewAction(
-		authorization.ReadTagsSpacePermission,
-		authorization.TagsSpaceResource,
-		tagsSpaceID.String(),
-	)
 
 	t.Run(
 		"greenpath",
@@ -55,13 +40,13 @@ func TestTagsSpaceGetByIDUA(t *testing.T) {
 
 			authorizer := authorizationMocks.NewAuthorizer(t)
 			simpleActions := tagsSpaceSAMock.NewSimpleActions(t)
-			ua := tagsSpaceUA.NewGetByIDUA(authorizer, simpleActions)
+			ua := tagsSpaceUA.NewListByUserUA(authorizer, simpleActions)
 
-			simpleActions.EXPECT().GetByID(
+			simpleActions.EXPECT().ListByUser(
 				t.Context(),
-				in.ID,
-			).Return(expectedTagsSpace, nil)
-			authorizer.EXPECT().Authorize(t.Context(), user, authAction).Return(nil)
+				user,
+			).Return(expectedTagsSpaces, nil)
+			authorizer.EXPECT().BatchAuthorize(t.Context(), user, authActions).Return(nil)
 
 			out, err := ua.Act(t.Context(), user, in)
 
@@ -77,13 +62,13 @@ func TestTagsSpaceGetByIDUA(t *testing.T) {
 
 			authorizer := authorizationMocks.NewAuthorizer(t)
 			simpleActions := tagsSpaceSAMock.NewSimpleActions(t)
-			ua := tagsSpaceUA.NewGetByIDUA(authorizer, simpleActions)
+			ua := tagsSpaceUA.NewListByUserUA(authorizer, simpleActions)
 
-			simpleActions.EXPECT().GetByID(
+			simpleActions.EXPECT().ListByUser(
 				t.Context(),
-				in.ID,
-			).Return(expectedTagsSpace, nil)
-			authorizer.EXPECT().Authorize(t.Context(), user, authAction).Return(assert.AnError)
+				user,
+			).Return(expectedTagsSpaces, nil)
+			authorizer.EXPECT().BatchAuthorize(t.Context(), user, authActions).Return(assert.AnError)
 
 			out, err := ua.Act(t.Context(), user, in)
 
@@ -93,18 +78,18 @@ func TestTagsSpaceGetByIDUA(t *testing.T) {
 	)
 
 	t.Run(
-		"get fail",
+		"list by user fail",
 		func(t *testing.T) {
 			t.Parallel()
 
 			authorizer := authorizationMocks.NewAuthorizer(t)
 			simpleActions := tagsSpaceSAMock.NewSimpleActions(t)
-			ua := tagsSpaceUA.NewGetByIDUA(authorizer, simpleActions)
+			ua := tagsSpaceUA.NewListByUserUA(authorizer, simpleActions)
 
-			simpleActions.EXPECT().GetByID(
+			simpleActions.EXPECT().ListByUser(
 				t.Context(),
-				in.ID,
-			).Return(tagsSpaceModels.TagsSpace{}, assert.AnError)
+				user,
+			).Return([]tagsSpaceModels.TagsSpace{}, assert.AnError)
 
 			out, err := ua.Act(t.Context(), user, in)
 

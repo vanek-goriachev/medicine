@@ -10,12 +10,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTagsSpaceGetByIDSA(t *testing.T) {
+func TestTagsSpaceListByUserSA(t *testing.T) {
 	t.Parallel()
 
 	user := generators.TestUser()
-	tagsSpaceID := generators.GenerateEntityID()
-	expectedTagsSpace := generators.GenerateTagsSpace(user.ID)
+	expectedTagsSpaces := []tagsSpaceModels.TagsSpace{
+		generators.GenerateTagsSpace(user.ID),
+		generators.GenerateTagsSpace(user.ID),
+		generators.GenerateTagsSpace(user.ID),
+	}
 
 	t.Run(
 		"greenpath",
@@ -28,18 +31,18 @@ func TestTagsSpaceGetByIDSA(t *testing.T) {
 			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, atomicActions)
 
 			atomicActions.EXPECT().
-				GetByID(t.Context(), tagsSpaceID).
-				Return(expectedTagsSpace, nil)
+				ListByUserID(t.Context(), user.ID).
+				Return(expectedTagsSpaces, nil)
 
-			tagsSpace, err := sa.GetByID(t.Context(), tagsSpaceID)
+			tagsSpaces, err := sa.ListByUser(t.Context(), user)
 
 			assert.NoError(t, err)
-			assert.Equal(t, expectedTagsSpace, tagsSpace)
+			assert.Equal(t, expectedTagsSpaces, tagsSpaces)
 		},
 	)
 
 	t.Run(
-		"get by id fail",
+		"list by user id fail",
 		func(t *testing.T) {
 			t.Parallel()
 
@@ -49,13 +52,13 @@ func TestTagsSpaceGetByIDSA(t *testing.T) {
 			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, atomicActions)
 
 			atomicActions.EXPECT().
-				GetByID(t.Context(), tagsSpaceID).
-				Return(tagsSpaceModels.TagsSpace{}, assert.AnError)
+				ListByUserID(t.Context(), user.ID).
+				Return(nil, assert.AnError)
 
-			tagsSpace, err := sa.GetByID(t.Context(), tagsSpaceID)
+			tagsSpaces, err := sa.ListByUser(t.Context(), user)
 
 			assert.ErrorIs(t, err, assert.AnError)
-			assert.Zero(t, tagsSpace)
+			assert.Zero(t, tagsSpaces)
 		},
 	)
 }

@@ -1,7 +1,7 @@
 package authorization
 
 const (
-	GetTagsSpacePermission    Permission = "medicine.GetTagsSpacePermission"
+	ReadTagsSpacePermission   Permission = "medicine.ReadTagsSpacePermission"
 	CreateTagsSpacePermission Permission = "medicine.CreateTagsSpacePermission"
 )
 

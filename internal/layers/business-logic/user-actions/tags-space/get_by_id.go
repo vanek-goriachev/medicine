@@ -40,15 +40,17 @@ func (ua *GetByIDUA) Act(
 ) (TagsSpaceGetByIDOut, error) {
 	tagsSpace, err := ua.simpleActions.GetByID(ctx, in.ID)
 	if err != nil {
-		return TagsSpaceGetByIDOut{}, fmt.Errorf("can't GetByID tags space: %w", err)
+		return TagsSpaceGetByIDOut{}, fmt.Errorf("can't get tags space by id (ua): %w", err)
 	}
 
 	err = ua.authorizer.Authorize(
 		ctx,
 		user,
-		authorization.GetTagsSpacePermission,
-		authorization.TagsSpaceResource,
-		tagsSpace.ID.String(),
+		authorization.NewAction(
+			authorization.ReadTagsSpacePermission,
+			authorization.TagsSpaceResource,
+			tagsSpace.ID.String(),
+		),
 	)
 	if err != nil {
 		return TagsSpaceGetByIDOut{}, authorization.NewUnauthorizedError(err)

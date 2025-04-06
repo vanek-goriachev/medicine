@@ -36,9 +36,11 @@ func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in TagsSpaceC
 	err := ua.authorizer.Authorize(
 		ctx,
 		user,
-		authorization.CreateTagsSpacePermission,
-		authorization.TagsSpaceResource,
-		"",
+		authorization.NewAction(
+			authorization.CreateTagsSpacePermission,
+			authorization.TagsSpaceResource,
+			"",
+		),
 	)
 	if err != nil {
 		return TagsSpaceCreateOut{}, authorization.NewUnauthorizedError(err)
@@ -46,7 +48,7 @@ func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in TagsSpaceC
 
 	tagsSpace, err := ua.simpleActions.Create(ctx, user, in.Name)
 	if err != nil {
-		return TagsSpaceCreateOut{}, fmt.Errorf("can't create tags space: %w", err)
+		return TagsSpaceCreateOut{}, fmt.Errorf("can't create tags space (ua): %w", err)
 	}
 
 	return TagsSpaceCreateOut{

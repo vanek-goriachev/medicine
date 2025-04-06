@@ -30,6 +30,8 @@ linters:
     - gochecknoglobals # I am fine with global variables
     - decorder # No profit of checkoing declarations order
     - importas # enforces consistent import aliases (have to hardcode aliases mapping) - too hard to use
+    - funlen # Checks that the length of the function body is not too big. Generates false positives as for me.
+    - interfacebloat # checks that the number of methods in an interface is not too big. Generates false positives as for me.
 
   exclusions:
     rules:
@@ -63,6 +65,7 @@ linters:
             - $gostd
             - medicine # Name of the root package
             - "github.com/google/uuid"
+            - "github.com/gorilla/schema"
             - "github.com/go-andiamo/chioas"
             - "github.com/go-chi/chi/v5"
             - "gorm.io"
@@ -112,11 +115,6 @@ linters:
       forbid:
         - pattern: "^(fmt\\.Print(|f|ln)|print|println)$"
           msg: Should not use default print functions - use pkg.Terminal.Stdout().Write() instead
-
-    funlen:
-      # Ignore comments when counting lines.
-      # Default false
-      ignore-comments: true
 
     ginkgolinter:
       # Trigger warning for ginkgo focus containers like `FDescribe`, `FContext`, `FWhen` or `FIt`

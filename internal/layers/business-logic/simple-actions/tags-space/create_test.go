@@ -5,7 +5,7 @@ import (
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
 	tagsSpaceSA "medicine/internal/layers/business-logic/simple-actions/tags-space"
 	customIdentifiers "medicine/internal/tooling/identifiers/custom-identifiers"
-	"medicine/internal/tooling/tests"
+	"medicine/internal/tooling/tests/generators"
 	tags_space "medicine/mocks/internal_/layers/business-logic/simple-actions/tags-space"
 	entityID "medicine/pkg/entity-id"
 	pkgErrors "medicine/pkg/errors/db"
@@ -17,14 +17,14 @@ import (
 func TestTagsSpaceCreateSA(t *testing.T) {
 	t.Parallel()
 
-	user := tests.TestUser()
+	user := generators.TestUser()
 	name := "tags-space"
 	identifier := customIdentifiers.UserIDAndNameIdentifier{
 		UserID: user.ID,
 		Name:   name,
 	}
 	spaceNotFoundErr := pkgErrors.NewDoesNotExistError(identifier)
-	tagsSpaceID := tests.GenerateEntityID()
+	tagsSpaceID := generators.GenerateEntityID()
 	expectedTagsSpace := tagsSpaceModels.TagsSpace{
 		ID:     tagsSpaceID,
 		UserID: user.ID,

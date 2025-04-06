@@ -10,25 +10,28 @@ import (
 )
 
 type Service struct {
-	mapper    userActionsMapper
-	getByIDUA tagsSpaceGetByIDUserAction
-	createUA  createTagsSpaceUserAction
+	mapper       userActionsMapper
+	getByIDUA    tagsSpaceGetByIDUserAction
+	listByUserUA tagsSpaceListByUserUserAction
+	createUA     createTagsSpaceUserAction
 }
 
 func NewService(
 	mapper userActionsMapper,
 	getByIDUA tagsSpaceGetByIDUserAction,
+	listByUserUA tagsSpaceListByUserUserAction,
 	createUA createTagsSpaceUserAction,
 ) *Service {
 	return &Service{
-		mapper:    mapper,
-		getByIDUA: getByIDUA,
-		createUA:  createUA,
+		mapper:       mapper,
+		getByIDUA:    getByIDUA,
+		listByUserUA: listByUserUA,
+		createUA:     createUA,
 	}
 }
 
 func (s *Service) GenerateOpenApiDefinition() chioas.Path {
-	getByIDHandler := goChiTooling.HandlerWithBody[
+	getByIDHandler := goChiTooling.Handler[
 		TagsSpaceGetByIDIn,
 		tagsSpaceUA.TagsSpaceGetByIDIn,
 		tagsSpaceUA.TagsSpaceGetByIDOut,
@@ -40,7 +43,19 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 		s.mapper.TagsSpaceGetByIDOutToChi,
 	)
 
-	createHandler := goChiTooling.HandlerWithBody[
+	listByUserHandler := goChiTooling.Handler[
+		TagsSpaceListByUserIn,
+		tagsSpaceUA.TagsSpaceListByUserIn,
+		tagsSpaceUA.TagsSpaceListByUserOut,
+		TagsSpaceListByUserOut,
+	](
+		goChiTooling.NoParser,
+		s.mapper.TagsSpaceListByUserInFromChi,
+		s.listByUserUA,
+		s.mapper.TagsSpaceListByUserOutToChi,
+	)
+
+	createHandler := goChiTooling.Handler[
 		TagsSpaceCreateIn,
 		tagsSpaceUA.TagsSpaceCreateIn,
 		tagsSpaceUA.TagsSpaceCreateOut,
@@ -53,21 +68,40 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 	)
 
 	return chioas.Path{
-		Methods: chioas.Methods{
-			http.MethodGet: {
-				Description: "Эндпоинт для получения TagsSpace",
-				Handler:     getByIDHandler,
-				QueryParams: TagsSpaceGetByIDInOpenApiDefinition,
-				Responses: chioas.Responses{
-					http.StatusOK: {Schema: TagsSpaceGetByIDOutOpenApiDefinition},
+		Paths: chioas.Paths{
+			"/get-by-id": {
+				Methods: chioas.Methods{
+					http.MethodGet: {
+						Description: "Эндпоинт для получения TagsSpace",
+						Handler:     getByIDHandler,
+						QueryParams: TagsSpaceGetByIDInOpenApiDefinition,
+						Responses: chioas.Responses{
+							http.StatusOK: {Schema: TagsSpaceGetByIDOutOpenApiDefinition},
+						},
+					},
 				},
 			},
-			http.MethodPost: {
-				Description: "Эндпоинт для создания TagsSpace",
-				Handler:     createHandler,
-				Request:     &chioas.Request{Schema: TagsSpaceCreateInOpenApiDefinition},
-				Responses: chioas.Responses{
-					http.StatusCreated: {Schema: TagsSpaceCreateOutOpenApiDefinition},
+			"/create": {
+				Methods: chioas.Methods{
+					http.MethodPost: {
+						Description: "Эндпоинт для создания TagsSpace",
+						Handler:     createHandler,
+						Request:     &chioas.Request{Schema: TagsSpaceCreateInOpenApiDefinition},
+						Responses: chioas.Responses{
+							http.StatusCreated: {Schema: TagsSpaceCreateOutOpenApiDefinition},
+						},
+					},
+				},
+			},
+			"/list-by-user": {
+				Methods: chioas.Methods{
+					http.MethodGet: {
+						Description: "Эндпоинт для получения списка TagsSpace текущего пользователя",
+						Handler:     listByUserHandler,
+						Responses: chioas.Responses{
+							http.StatusOK: {Schema: TagsSpaceListByUserOutOpenApiDefinition},
+						},
+					},
 				},
 			},
 		},
