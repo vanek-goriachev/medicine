@@ -12,7 +12,11 @@ type chiServices struct {
 func newChiServices(chiMappers *mappers, userActions *collections.UserActions) *chiServices {
 	var s chiServices
 
-	s.tagsSpace = chiTagsSpace.NewService(chiMappers.tagsSpaceUA, userActions.TagsSpace.Create)
+	s.tagsSpace = chiTagsSpace.NewService(
+		chiMappers.tagsSpaceUA,
+		userActions.TagsSpace.GetByID,
+		userActions.TagsSpace.Create,
+	)
 
 	return &s
 }

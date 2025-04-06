@@ -8,14 +8,10 @@ type TagsSpaceGetByIDIn struct {
 	ID string `json:"id"`
 }
 
-var TagsSpaceGetByIDInOpenApiDefinition = chioas.Schema{
-	Name: "TagsSpaceGetByIDIn",
-	Properties: chioas.Properties{
-		{
-			Name:    "id",
-			Type:    "string",
-			Example: "00000000-0000-0000-0000-000000000001",
-		},
+var TagsSpaceGetByIDInOpenApiDefinition = chioas.QueryParams{
+	{
+		Name:    "id",
+		Example: "00000000-0000-0000-0000-000000000001",
 	},
 }
 

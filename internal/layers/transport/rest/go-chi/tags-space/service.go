@@ -11,43 +11,53 @@ import (
 
 type Service struct {
 	mapper    userActionsMapper
-	createUA  createTagsSpaceUserAction
 	getByIDUA tagsSpaceGetByIDUserAction
+	createUA  createTagsSpaceUserAction
 }
 
 func NewService(
 	mapper userActionsMapper,
-	createUA createTagsSpaceUserAction,
 	getByIDUA tagsSpaceGetByIDUserAction,
+	createUA createTagsSpaceUserAction,
 ) *Service {
 	return &Service{
 		mapper:    mapper,
-		createUA:  createUA,
 		getByIDUA: getByIDUA,
+		createUA:  createUA,
 	}
 }
 
 func (s *Service) GenerateOpenApiDefinition() chioas.Path {
-	getByIDHandler := goChiTooling.Handler[
+	getByIDHandler := goChiTooling.HandlerWithBody[
 		TagsSpaceGetByIDIn,
 		tagsSpaceUA.TagsSpaceGetByIDIn,
 		tagsSpaceUA.TagsSpaceGetByIDOut,
 		TagsSpaceGetByIDOut,
-	](s.mapper.TagsSpaceGetByIDInFromChi, s.getByIDUA, s.mapper.TagsSpaceGetByIDOutToChi)
+	](
+		goChiTooling.ProcessRequestQueryArgs,
+		s.mapper.TagsSpaceGetByIDInFromChi,
+		s.getByIDUA,
+		s.mapper.TagsSpaceGetByIDOutToChi,
+	)
 
-	createHandler := goChiTooling.Handler[
+	createHandler := goChiTooling.HandlerWithBody[
 		TagsSpaceCreateIn,
 		tagsSpaceUA.TagsSpaceCreateIn,
 		tagsSpaceUA.TagsSpaceCreateOut,
 		TagsSpaceCreateOut,
-	](s.mapper.TagsSpaceCreateInFromChi, s.createUA, s.mapper.TagsSpaceCreateOutToChi)
+	](
+		goChiTooling.ProcessRequestBody,
+		s.mapper.TagsSpaceCreateInFromChi,
+		s.createUA,
+		s.mapper.TagsSpaceCreateOutToChi,
+	)
 
 	return chioas.Path{
 		Methods: chioas.Methods{
 			http.MethodGet: {
 				Description: "Эндпоинт для получения TagsSpace",
 				Handler:     getByIDHandler,
-				Request:     &chioas.Request{Schema: TagsSpaceGetByIDInOpenApiDefinition},
+				QueryParams: TagsSpaceGetByIDInOpenApiDefinition,
 				Responses: chioas.Responses{
 					http.StatusOK: {Schema: TagsSpaceGetByIDOutOpenApiDefinition},
 				},
