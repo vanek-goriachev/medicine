@@ -14,6 +14,7 @@ type EntityIDGenerator interface {
 }
 
 type AtomicActions interface {
+	GetByID(ctx context.Context, id entityID.EntityID) (tagsSpaceModels.TagsSpace, error)
 	GetByUserIDAndName(
 		ctx context.Context,
 		identifier customIdentifiers.UserIDAndNameIdentifier,

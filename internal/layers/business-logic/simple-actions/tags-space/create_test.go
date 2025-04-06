@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateTagsSpaceSA(t *testing.T) {
+func TestTagsSpaceCreateSA(t *testing.T) {
 	t.Parallel()
 
 	user := tests.TestUser()
