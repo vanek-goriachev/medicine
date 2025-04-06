@@ -1,6 +1,8 @@
 package entity_id
 
 import (
+	"fmt"
+
 	"github.com/google/uuid"
 )
 
@@ -17,7 +19,7 @@ func NewMapper() *MapperImpl {
 func (*MapperImpl) FromString(rawID string) (EntityID, error) {
 	id, err := uuid.Parse(rawID)
 	if err != nil {
-		return EntityID{}, NewCantParsedEntityIDError(rawID)
+		return EntityID{}, fmt.Errorf("cant parse entityID from string: %w", NewInvalidEntityIDError(rawID))
 	}
 
 	return EntityID(id), nil

@@ -32,13 +32,8 @@ func NewCreateUA(
 	}
 }
 
-func (ua *CreateUA) Act(ctx context.Context, in CreateTagsSpaceIn) (CreateTagsSpaceOut, error) {
-	user, err := userModels.GetFromContext(ctx)
-	if err != nil {
-		return CreateTagsSpaceOut{}, fmt.Errorf("can't get user from context: %w", err)
-	}
-
-	err = ua.authorizer.Authorize(
+func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in CreateTagsSpaceIn) (CreateTagsSpaceOut, error) {
+	err := ua.authorizer.Authorize(
 		ctx,
 		user,
 		authorization.CreateTagsSpacePermission,

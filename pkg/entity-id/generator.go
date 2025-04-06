@@ -9,6 +9,7 @@ import (
 type Generator interface {
 	Generate() (EntityID, error)
 }
+
 type GeneratorImpl struct{}
 
 func NewGenerator() *GeneratorImpl {

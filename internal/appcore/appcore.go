@@ -21,7 +21,8 @@ type Core struct {
 
 	gateways *collections.Gateways
 
-	factories *collections.Factories
+	validators *collections.Validators
+	factories  *collections.Factories
 
 	// AtomicActions are implemented by gateways now
 	simpleActions *collections.SimpleActions
@@ -42,7 +43,8 @@ func (c *Core) Initialize(
 
 	c.gateways = collections.NewGateways(c.ApplicationDependencies.DB.GormDB, c.gormMappers)
 
-	c.factories = collections.NewFactories()
+	c.validators = collections.NewValidators()
+	c.factories = collections.NewFactories(c.validators)
 
 	c.simpleActions = collections.NewSimpleActions(c.others, c.gateways, c.factories)
 	c.UserActions = collections.NewUserActions(

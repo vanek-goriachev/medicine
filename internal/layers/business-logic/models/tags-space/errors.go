@@ -1,4 +1,4 @@
-package errors
+package tags_space
 
 import (
 	"errors"
