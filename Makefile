@@ -47,16 +47,18 @@ local_go_all_tests:
 tools:
 	go generate tools/tools.go
 
+
+DIRECTORIES_TO_LINT := ./internal/... ./pkg/... ./cmd/... ./tests/...
 # Команда запускающая линтеры
 .PHONY: lint
 lint:
 	bin/goimports -w cmd internal pkg tests tools
-	bin/golangci-lint run --config $(GOLANGCI_LINT_CONFIG) --max-issues-per-linter=0 --max-same-issues=0 --show-stats
+	bin/golangci-lint run --config $(GOLANGCI_LINT_CONFIG) $(DIRECTORIES_TO_LINT)
 
 .PHONY: lint_with_fix
-lint_with_fix:
+lint_fix:
 	bin/goimports -w cmd internal pkg tests tools
-	bin/golangci-lint run --config $(GOLANGCI_LINT_CONFIG) --max-issues-per-linter=0 --max-same-issues=0 --show-stats --fix
+	bin/golangci-lint run --config $(GOLANGCI_LINT_CONFIG) $(DIRECTORIES_TO_LINT) --fix
 
 .PHONY: local_run
 local_run:

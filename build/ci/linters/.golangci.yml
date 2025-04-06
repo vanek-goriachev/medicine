@@ -487,7 +487,6 @@ linters:
       # Default: false
       allow-cuddle-declarations: true
 
-
 formatters:
   enable:
     - gci
@@ -512,3 +511,13 @@ formatters:
       - third_party$
       - builtin$
       - examples$
+
+issues:
+  # Maximum issues count per one linter.
+  # Set to 0 to disable.
+  # Default: 50
+  max-issues-per-linter: 0
+  # Maximum count of issues with the same text.
+  # Set to 0 to disable.
+  # Default: 3
+  max-same-issues: 0

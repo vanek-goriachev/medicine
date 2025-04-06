@@ -2,10 +2,8 @@ repos:
   - repo: https://github.com/golangci/golangci-lint
     rev: v2.0.2
     hooks:
-      - id: golangci-lint
+      - id: golangci-lint-full
         args: ["--config=build/ci/linters/.golangci.yml"]
-#      - id: golangci-lint-full
-#        args: ["--config=build/ci/linters/.golangci.yml"]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
