@@ -9,7 +9,8 @@ run:
   # - `wd` (NOT recommended): the paths will be relative to the place where golangci-lint is run.
   # Default: cfg
   relative-path-mode: gomod
-
+  # TODO enable linting tests - for now its impossible, because linting tests requires linting mocks
+  # and linting mocks always fails
   tests: false
 
 # Output configuration options
@@ -17,7 +18,6 @@ output:
   # Show statistics per linter.
   # Default: false
   show-stats: true
-
 
 linters:
   default: all
@@ -66,6 +66,9 @@ linters:
             - "github.com/go-andiamo/chioas"
             - "github.com/go-chi/chi/v5"
             - "gorm.io"
+          deny:
+            - pkg: medicine/internal/tooling/tests
+              desc: "its a special tooling for tests but not for production code"
         tests:
           list-mode: strict
           files:
@@ -494,9 +497,9 @@ formatters:
   enable:
     - gci
     - goimports
-#  disabled: # No such setting, but I am going to keep it here
-#    - gofmt # [replaced by goimports] checks whether code was gofmt-ed
-#    - gofumpt # [replaced by goimports, gofumports is not available yet] checks whether code was gofumpt-ed
+  #  disabled: # No such setting, but I am going to keep it here
+  #    - gofmt # [replaced by goimports] checks whether code was gofmt-ed
+  #    - gofumpt # [replaced by goimports, gofumports is not available yet] checks whether code was gofumpt-ed
   settings:
     gci:
       sections:
