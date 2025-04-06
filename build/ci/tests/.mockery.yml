@@ -1,0 +1,12 @@
+disable-version-string: true
+with-expecter: true
+keeptree: true
+quiet: false
+exported: true
+inpackage: true
+all: true
+case: underscore
+log-level: debug
+exclude:
+  - tools
+  - mocks

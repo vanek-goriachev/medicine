@@ -38,3 +38,4 @@ venv.bak/
 
 # Local development files
 bin/
+mocks

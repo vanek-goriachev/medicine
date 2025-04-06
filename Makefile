@@ -61,3 +61,8 @@ lint_with_fix:
 .PHONY: local_run
 local_run:
 	docker-compose -f ./build/local_development/service.yml up --build -d
+
+.PHONY: mocks
+mocks:
+	bin/mockery --config="./build/ci/tests/.mockery.yml"
+	touch mocks/.coverignore
