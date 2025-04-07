@@ -7,7 +7,9 @@ import (
 )
 
 type mappers struct {
-	tag         *chiTagMapper.ChiMapper
+	tag   *chiTagMapper.ChiMapper
+	tagUA *chiTagMapper.UserActionsChiMapper
+
 	tagsSpace   *chiTagsSpaceMapper.ChiMapper
 	tagsSpaceUA *chiTagsSpaceMapper.UserActionsChiMapper
 }
@@ -16,9 +18,10 @@ func newChiMappers(commonMappers *collections.CommonMappers) *mappers {
 	var m mappers
 
 	m.tag = chiTagMapper.NewChiMapper(commonMappers.EntityIDMapper)
+	m.tagUA = chiTagMapper.NewUserActionsChiMapper(commonMappers.EntityIDMapper, m.tag)
 
 	m.tagsSpace = chiTagsSpaceMapper.NewChiMapper(commonMappers.EntityIDMapper, m.tag)
-	m.tagsSpaceUA = chiTagsSpaceMapper.NewUserActionsChiMapper(m.tagsSpace)
+	m.tagsSpaceUA = chiTagsSpaceMapper.NewUserActionsChiMapper(commonMappers.EntityIDMapper, m.tagsSpace)
 
 	return &m
 }

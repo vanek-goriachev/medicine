@@ -47,6 +47,20 @@ func (m *ChiMapper) FromChi(chiTagsSpace tagsSpaceChi.TagsSpace) (tagsSpaceModel
 	}, nil
 }
 
+func (m *ChiMapper) MultipleFromChi(chiTagsSpaces []tagsSpaceChi.TagsSpace) ([]tagsSpaceModels.TagsSpace, error) {
+	var err error
+	tagsSpaces := make([]tagsSpaceModels.TagsSpace, len(chiTagsSpaces))
+
+	for i, chiTagsSpace := range chiTagsSpaces {
+		tagsSpaces[i], err = m.FromChi(chiTagsSpace)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return tagsSpaces, nil
+}
+
 func (m *ChiMapper) ToChi(tagsSpace tagsSpaceModels.TagsSpace) tagsSpaceChi.TagsSpace {
 	return tagsSpaceChi.TagsSpace{
 		ID:     tagsSpace.ID.String(),
@@ -54,4 +68,14 @@ func (m *ChiMapper) ToChi(tagsSpace tagsSpaceModels.TagsSpace) tagsSpaceChi.Tags
 		Name:   tagsSpace.Name,
 		Tags:   m.tagChiMapper.MultipleToChi(tagsSpace.Tags),
 	}
+}
+
+func (m *ChiMapper) MultipleToChi(tagsSpaces []tagsSpaceModels.TagsSpace) []tagsSpaceChi.TagsSpace {
+	chiTagsSpaces := make([]tagsSpaceChi.TagsSpace, len(tagsSpaces))
+
+	for i, tagsSpace := range tagsSpaces {
+		chiTagsSpaces[i] = m.ToChi(tagsSpace)
+	}
+
+	return chiTagsSpaces
 }

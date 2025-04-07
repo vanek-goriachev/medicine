@@ -1,12 +1,12 @@
 package tags_space_test
 
 import (
-	authorization2 "medicine/internal/layers/business-logic/authorization"
+	"medicine/internal/layers/business-logic/authorization"
 	tagModels "medicine/internal/layers/business-logic/models/tag"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
 	tagsSpaceUA "medicine/internal/layers/business-logic/user-actions/tags-space"
-	"medicine/internal/tooling/tests"
-	"medicine/mocks/internal_/layers/business-logic/authorization"
+	"medicine/internal/tooling/tests/generators"
+	authorizationMocks "medicine/mocks/internal_/layers/business-logic/authorization"
 	tagsSpaceSAMock "medicine/mocks/internal_/layers/business-logic/user-actions/tags-space"
 	"testing"
 
@@ -17,36 +17,35 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 	t.Parallel()
 
 	// Test data
-	user := tests.TestUser()
-	in := tagsSpaceUA.CreateTagsSpaceIn{
+	user := generators.TestUser()
+	in := tagsSpaceUA.TagsSpaceCreateIn{
 		Name: "test",
 	}
 	createdTagsSpace := tagsSpaceModels.TagsSpace{
 		Name:   in.Name,
 		Tags:   []tagModels.Tag{},
-		ID:     tests.GenerateEntityID(),
+		ID:     generators.GenerateEntityID(),
 		UserID: user.ID,
 	}
-	expectedOut := tagsSpaceUA.CreateTagsSpaceOut{
+	expectedOut := tagsSpaceUA.TagsSpaceCreateOut{
 		TagsSpace: createdTagsSpace,
 	}
+	authAction := authorization.NewAction(
+		authorization.CreateTagsSpacePermission,
+		authorization.TagsSpaceResource,
+		"",
+	)
 
 	t.Run(
 		"greenpath",
 		func(t *testing.T) {
 			t.Parallel()
 
-			authorizer := authorization.NewAuthorizer(t)
+			authorizer := authorizationMocks.NewAuthorizer(t)
 			simpleActions := tagsSpaceSAMock.NewSimpleActions(t)
 			ua := tagsSpaceUA.NewCreateUA(authorizer, simpleActions)
 
-			authorizer.EXPECT().Authorize(
-				t.Context(),
-				user,
-				authorization2.CreateTagsSpacePermission,
-				authorization2.TagsSpaceResource,
-				"",
-			).Return(nil)
+			authorizer.EXPECT().Authorize(t.Context(), user, authAction).Return(nil)
 			simpleActions.EXPECT().Create(
 				t.Context(),
 				user,
@@ -65,17 +64,11 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 		func(t *testing.T) {
 			t.Parallel()
 
-			authorizer := authorization.NewAuthorizer(t)
+			authorizer := authorizationMocks.NewAuthorizer(t)
 			simpleActions := tagsSpaceSAMock.NewSimpleActions(t)
 			ua := tagsSpaceUA.NewCreateUA(authorizer, simpleActions)
 
-			authorizer.EXPECT().Authorize(
-				t.Context(),
-				user,
-				authorization2.CreateTagsSpacePermission,
-				authorization2.TagsSpaceResource,
-				"",
-			).Return(nil)
+			authorizer.EXPECT().Authorize(t.Context(), user, authAction).Return(nil)
 			simpleActions.EXPECT().Create(
 				t.Context(),
 				user,
@@ -94,17 +87,11 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 		func(t *testing.T) {
 			t.Parallel()
 
-			authorizer := authorization.NewAuthorizer(t)
+			authorizer := authorizationMocks.NewAuthorizer(t)
 			simpleActions := tagsSpaceSAMock.NewSimpleActions(t)
 			ua := tagsSpaceUA.NewCreateUA(authorizer, simpleActions)
 
-			authorizer.EXPECT().Authorize(
-				t.Context(),
-				user,
-				authorization2.CreateTagsSpacePermission,
-				authorization2.TagsSpaceResource,
-				"",
-			).Return(assert.AnError)
+			authorizer.EXPECT().Authorize(t.Context(), user, authAction).Return(assert.AnError)
 
 			out, err := ua.Act(t.Context(), user, in)
 

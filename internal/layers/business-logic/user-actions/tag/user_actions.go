@@ -1,13 +1,18 @@
 package tag
 
+import "medicine/internal/layers/business-logic/authorization"
+
 type UserActions struct {
-	simpleActions SimpleActions
+	ForceCreate *ForceCreateUA
 }
 
 func NewUserActions(
+	authorizer authorization.Authorizer,
 	simpleActions SimpleActions,
 ) *UserActions {
+	forceCreateUA := NewForceCreateUA(authorizer, simpleActions)
+
 	return &UserActions{
-		simpleActions: simpleActions,
+		ForceCreate: forceCreateUA,
 	}
 }

@@ -5,7 +5,7 @@ import (
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
-	customIdentifiers "medicine/internal/tooling/identifiers/custom-identifiers"
+	customIdentifiers "medicine/internal/layers/business-logic/models/tags-space/identifiers"
 	entityID "medicine/pkg/entity-id"
 )
 
@@ -14,6 +14,8 @@ type EntityIDGenerator interface {
 }
 
 type AtomicActions interface {
+	GetByID(ctx context.Context, id entityID.EntityID) (tagsSpaceModels.TagsSpace, error)
+	ListByUserID(ctx context.Context, userID entityID.EntityID) ([]tagsSpaceModels.TagsSpace, error)
 	GetByUserIDAndName(
 		ctx context.Context,
 		identifier customIdentifiers.UserIDAndNameIdentifier,

@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
-	tagGORM "medicine/internal/layers/storage/gorm/tag"
+	gormModels "medicine/internal/layers/storage/gorm/models"
 	entityID "medicine/pkg/entity-id"
 )
 
@@ -14,7 +14,7 @@ func NewGORMMapper() *GORMMapper {
 	return &GORMMapper{}
 }
 
-func (*GORMMapper) FromGORM(dbTag tagGORM.Tag) tagModels.Tag {
+func (*GORMMapper) FromGORM(dbTag gormModels.Tag) tagModels.Tag {
 	return tagModels.Tag{
 		ID:          entityID.EntityID(dbTag.ID),
 		TagsSpaceID: entityID.EntityID(dbTag.TagsSpaceID),
@@ -22,7 +22,7 @@ func (*GORMMapper) FromGORM(dbTag tagGORM.Tag) tagModels.Tag {
 	}
 }
 
-func (t *GORMMapper) MultipleFromGORM(dbTags []tagGORM.Tag) []tagModels.Tag {
+func (t *GORMMapper) MultipleFromGORM(dbTags []gormModels.Tag) []tagModels.Tag {
 	tags := make([]tagModels.Tag, len(dbTags))
 	for i, dbTag := range dbTags {
 		tags[i] = t.FromGORM(dbTag)
@@ -31,16 +31,16 @@ func (t *GORMMapper) MultipleFromGORM(dbTags []tagGORM.Tag) []tagModels.Tag {
 	return tags
 }
 
-func (*GORMMapper) ToGORM(tag tagModels.Tag) tagGORM.Tag {
-	return tagGORM.Tag{
+func (*GORMMapper) ToGORM(tag tagModels.Tag) gormModels.Tag {
+	return gormModels.Tag{
 		ID:          uuid.UUID(tag.ID),
 		TagsSpaceID: uuid.UUID(tag.TagsSpaceID),
 		Name:        tag.Name,
 	}
 }
 
-func (t *GORMMapper) MultipleToGORM(tags []tagModels.Tag) []tagGORM.Tag {
-	dbTags := make([]tagGORM.Tag, len(tags))
+func (t *GORMMapper) MultipleToGORM(tags []tagModels.Tag) []gormModels.Tag {
+	dbTags := make([]gormModels.Tag, len(tags))
 	for i, tag := range tags {
 		dbTags[i] = t.ToGORM(tag)
 	}

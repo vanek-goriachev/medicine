@@ -1,8 +1,10 @@
-package tag
+package models
 
 import (
 	"github.com/google/uuid"
 )
+
+var TagModel = &Tag{} //nolint:exhaustruct // Used for ORM
 
 type Tag struct {
 	Name        string    `gorm:"type:varchar(255)"`

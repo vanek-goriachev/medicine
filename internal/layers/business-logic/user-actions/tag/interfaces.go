@@ -3,16 +3,10 @@ package tag
 import (
 	"context"
 
-	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
+	tagModels "medicine/internal/layers/business-logic/models/tag"
 	entityID "medicine/pkg/entity-id"
-	userModels "medicine/pkg/user"
 )
 
 type SimpleActions interface {
-	Create(ctx context.Context, user userModels.User, name string) (tagsSpaceModels.TagsSpace, error)
-	FindSimilarWithinTagsSpace(
-		ctx context.Context,
-		tagsSpaceID entityID.EntityID,
-		name string,
-	) ([]tagsSpaceModels.TagsSpace, error)
+	Create(ctx context.Context, name string, tagsSpaceID entityID.EntityID) (tagModels.Tag, error)
 }

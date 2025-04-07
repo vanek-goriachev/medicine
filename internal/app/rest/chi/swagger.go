@@ -19,6 +19,7 @@ func generateApiSpec(services *chiServices) chioas.Definition {
 			"/api/v1": {
 				Paths: chioas.Paths{
 					"/tags-space": services.tagsSpace.GenerateOpenApiDefinition(),
+					"/tag":        services.tag.GenerateOpenApiDefinition(),
 				},
 			},
 		},

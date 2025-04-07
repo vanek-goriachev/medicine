@@ -20,7 +20,6 @@ init_githooks:
 		$(PYTHON_INTERPRETER) -m venv venv; \
 		$(PYTHON_VENV_ACTIVATION_COMMAND); \
 		pip install pre-commit; \
-		pre-commit install --config $(PRE_COMMIT_CONFIG); \
 		pre-commit install -t pre-push --config $(PRE_COMMIT_CONFIG); \
 	)
 

@@ -1,4 +1,4 @@
-package tests
+package generators
 
 import (
 	entityID "medicine/pkg/entity-id"

@@ -4,19 +4,26 @@ import (
 	"context"
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
-	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
-	customIdentifiers "medicine/internal/tooling/identifiers/custom-identifiers"
+	customIdentifiers "medicine/internal/layers/business-logic/models/tag/identifiers"
 	entityID "medicine/pkg/entity-id"
 )
 
-type AtomicActions interface {
-	Create(ctx context.Context, tagsSpace tagsSpaceModels.TagsSpace) error
-	GetByUserIDAndName(
-		ctx context.Context,
-		identifier customIdentifiers.UserIDAndNameIdentifier,
-	) (tagsSpaceModels.TagsSpace, error)
+type EntityIDGenerator interface {
+	Generate() (entityID.EntityID, error)
 }
 
-type TagsSpaceFactory interface {
-	New(id entityID.EntityID, userID entityID.EntityID, name string, tags []tagModels.Tag) tagsSpaceModels.TagsSpace
+type AtomicActions interface {
+	GetByTagsSpaceIDAndName(
+		ctx context.Context,
+		identifier customIdentifiers.TagsSpaceIDAndNameIdentifier,
+	) (tagModels.Tag, error)
+	Create(ctx context.Context, tag tagModels.Tag) error
+}
+
+type TagFactory interface {
+	New(
+		id entityID.EntityID,
+		tagsSpaceID entityID.EntityID,
+		name string,
+	) (tagModels.Tag, error)
 }

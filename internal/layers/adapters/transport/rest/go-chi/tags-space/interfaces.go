@@ -17,5 +17,7 @@ type tagChiMapper interface {
 // tagsSpaceChiMapper implemented by ChiMapper.
 type tagsSpaceChiMapper interface {
 	ToChi(tagsSpace tagsSpaceModels.TagsSpace) tagsSpaceChi.TagsSpace
+	MultipleToChi(tagsSpaces []tagsSpaceModels.TagsSpace) []tagsSpaceChi.TagsSpace
 	FromChi(chiTagsSpace tagsSpaceChi.TagsSpace) (tagsSpaceModels.TagsSpace, error)
+	MultipleFromChi(chiTagsSpaces []tagsSpaceChi.TagsSpace) ([]tagsSpaceModels.TagsSpace, error)
 }

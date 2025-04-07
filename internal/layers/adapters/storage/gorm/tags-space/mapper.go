@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
-	tagsSpaceGORM "medicine/internal/layers/storage/gorm/tags-space"
+	gormModels "medicine/internal/layers/storage/gorm/models"
 	entityID "medicine/pkg/entity-id"
 )
 
@@ -16,7 +16,7 @@ func NewGORMMapper(tagMapper tagGORMMapper) *GORMMapper {
 	return &GORMMapper{tagMapper: tagMapper}
 }
 
-func (m *GORMMapper) FromGORM(dbTagsSpace tagsSpaceGORM.TagsSpace) tagsSpaceModels.TagsSpace {
+func (m *GORMMapper) FromGORM(dbTagsSpace gormModels.TagsSpace) tagsSpaceModels.TagsSpace {
 	return tagsSpaceModels.TagsSpace{
 		ID:     entityID.EntityID(dbTagsSpace.ID),
 		UserID: entityID.EntityID(dbTagsSpace.UserID),
@@ -25,7 +25,7 @@ func (m *GORMMapper) FromGORM(dbTagsSpace tagsSpaceGORM.TagsSpace) tagsSpaceMode
 	}
 }
 
-func (m *GORMMapper) MultipleFromGORM(dbTagsSpaces []tagsSpaceGORM.TagsSpace) []tagsSpaceModels.TagsSpace {
+func (m *GORMMapper) MultipleFromGORM(dbTagsSpaces []gormModels.TagsSpace) []tagsSpaceModels.TagsSpace {
 	tagSpaces := make([]tagsSpaceModels.TagsSpace, len(dbTagsSpaces))
 	for i, dbTagsSpace := range dbTagsSpaces {
 		tagSpaces[i] = m.FromGORM(dbTagsSpace)
@@ -34,8 +34,8 @@ func (m *GORMMapper) MultipleFromGORM(dbTagsSpaces []tagsSpaceGORM.TagsSpace) []
 	return tagSpaces
 }
 
-func (m *GORMMapper) ToGORM(tagsSpace tagsSpaceModels.TagsSpace) tagsSpaceGORM.TagsSpace {
-	return tagsSpaceGORM.TagsSpace{
+func (m *GORMMapper) ToGORM(tagsSpace tagsSpaceModels.TagsSpace) gormModels.TagsSpace {
+	return gormModels.TagsSpace{
 		ID:     uuid.UUID(tagsSpace.ID),
 		UserID: uuid.UUID(tagsSpace.UserID),
 		Name:   tagsSpace.Name,
@@ -43,8 +43,8 @@ func (m *GORMMapper) ToGORM(tagsSpace tagsSpaceModels.TagsSpace) tagsSpaceGORM.T
 	}
 }
 
-func (m *GORMMapper) MultipleToGORM(tagsSpaces []tagsSpaceModels.TagsSpace) []tagsSpaceGORM.TagsSpace {
-	tagSpaces := make([]tagsSpaceGORM.TagsSpace, len(tagsSpaces))
+func (m *GORMMapper) MultipleToGORM(tagsSpaces []tagsSpaceModels.TagsSpace) []gormModels.TagsSpace {
+	tagSpaces := make([]gormModels.TagsSpace, len(tagsSpaces))
 	for i, tagsSpace := range tagsSpaces {
 		tagSpaces[i] = m.ToGORM(tagsSpace)
 	}

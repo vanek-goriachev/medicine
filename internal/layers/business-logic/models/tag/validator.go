@@ -33,9 +33,12 @@ func (v *Validator) Validate(tag Tag) error {
 
 	nameErr := v.validateName(tag.Name)
 
-	return validation.NewValidationError(
-		errors.Join(idErr, tagsSpaceIDErr, nameErr),
-	)
+	validationErrors := errors.Join(idErr, tagsSpaceIDErr, nameErr)
+	if validationErrors != nil {
+		return validation.NewValidationError(validationErrors)
+	}
+
+	return nil
 }
 
 func (*Validator) validateName(name string) error {
