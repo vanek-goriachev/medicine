@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	customIdentifiers "medicine/internal/layers/business-logic/models/tags-space/identifiers"
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
+	customIdentifiers "medicine/internal/layers/business-logic/models/tags-space/identifiers"
 	pkgErrors "medicine/pkg/errors/db"
 	userModels "medicine/pkg/user"
 )

@@ -8,9 +8,6 @@ import (
 )
 
 type userActionsMapper interface {
-	//TagGetByIDInFromChi(in TagGetByIDIn) (tagUA.TagGetByIDIn, error)
-	//TagGetByIDOutToChi(out tagUA.TagGetByIDOut) TagGetByIDOut
-
 	TagForceCreateInFromChi(in TagForceCreateIn) (tagUA.TagForceCreateIn, error)
 	TagForceCreateOutToChi(out tagUA.TagForceCreateOut) TagForceCreateOut
 }
@@ -18,7 +15,3 @@ type userActionsMapper interface {
 type tagCreateUserAction interface {
 	Act(ctx context.Context, user userModels.User, in tagUA.TagForceCreateIn) (tagUA.TagForceCreateOut, error)
 }
-
-//type TagGetByIDUserAction interface {
-//	Act(ctx context.Context, user userModels.User, in tagUA.TagGetByIDIn) (tagUA.TagGetByIDOut, error)
-//}

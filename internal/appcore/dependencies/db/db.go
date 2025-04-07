@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	gormModels "medicine/internal/layers/storage/gorm/models"
 	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
+	gormModels "medicine/internal/layers/storage/gorm/models"
 	"medicine/pkg/retry"
 	logAttrs "medicine/pkg/telemetry/logging/logging-attributes"
 )

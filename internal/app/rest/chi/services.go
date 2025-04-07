@@ -16,7 +16,6 @@ func newChiServices(chiMappers *mappers, userActions *collections.UserActions) *
 
 	s.tag = chiTag.NewService(
 		chiMappers.tagUA,
-		//userActions.Tag.GetByID,
 		userActions.Tag.ForceCreate,
 	)
 

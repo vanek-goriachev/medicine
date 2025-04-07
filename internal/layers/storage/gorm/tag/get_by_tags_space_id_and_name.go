@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"gorm.io/gorm"
+
+	tagModels "medicine/internal/layers/business-logic/models/tag"
 	"medicine/internal/layers/business-logic/models/tag/identifiers"
 	gormModels "medicine/internal/layers/storage/gorm/models"
 	pkgErrors "medicine/pkg/errors/db"
-
-	tagModels "medicine/internal/layers/business-logic/models/tag"
 )
 
 func (g *GORMGateway) GetByTagsSpaceIDAndName(

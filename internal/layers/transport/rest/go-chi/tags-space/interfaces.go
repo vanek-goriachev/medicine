@@ -19,7 +19,11 @@ type userActionsMapper interface {
 }
 
 type tagsSpaceCreateUserAction interface {
-	Act(ctx context.Context, user userModels.User, in tagsSpaceUA.TagsSpaceCreateIn) (tagsSpaceUA.TagsSpaceCreateOut, error)
+	Act(
+		ctx context.Context,
+		user userModels.User,
+		in tagsSpaceUA.TagsSpaceCreateIn,
+	) (tagsSpaceUA.TagsSpaceCreateOut, error)
 }
 
 type tagsSpaceListByUserUserAction interface {
@@ -31,5 +35,9 @@ type tagsSpaceListByUserUserAction interface {
 }
 
 type tagsSpaceGetByIDUserAction interface {
-	Act(ctx context.Context, user userModels.User, in tagsSpaceUA.TagsSpaceGetByIDIn) (tagsSpaceUA.TagsSpaceGetByIDOut, error)
+	Act(
+		ctx context.Context,
+		user userModels.User,
+		in tagsSpaceUA.TagsSpaceGetByIDIn,
+	) (tagsSpaceUA.TagsSpaceGetByIDOut, error)
 }

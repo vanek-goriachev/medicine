@@ -3,6 +3,7 @@ package tag
 import (
 	"context"
 	"fmt"
+
 	"medicine/internal/layers/business-logic/authorization"
 	tagModels "medicine/internal/layers/business-logic/models/tag"
 	entityID "medicine/pkg/entity-id"
@@ -33,7 +34,11 @@ func NewForceCreateUA(
 	}
 }
 
-func (ua *ForceCreateUA) Act(ctx context.Context, user userModels.User, in TagForceCreateIn) (TagForceCreateOut, error) {
+func (ua *ForceCreateUA) Act(
+	ctx context.Context,
+	user userModels.User,
+	in TagForceCreateIn,
+) (TagForceCreateOut, error) {
 	err := ua.authorizer.Authorize(
 		ctx,
 		user,

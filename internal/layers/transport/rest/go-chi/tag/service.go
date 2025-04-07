@@ -10,36 +10,21 @@ import (
 )
 
 type Service struct {
-	mapper userActionsMapper
-	//getByIDUA    tagGetByIDUserAction
+	mapper        userActionsMapper
 	forceCreateUA tagCreateUserAction
 }
 
 func NewService(
 	mapper userActionsMapper,
-	//getByIDUA tagGetByIDUserAction,
 	forceCreateUA tagCreateUserAction,
 ) *Service {
 	return &Service{
-		mapper: mapper,
-		//getByIDUA:    getByIDUA,
+		mapper:        mapper,
 		forceCreateUA: forceCreateUA,
 	}
 }
 
 func (s *Service) GenerateOpenApiDefinition() chioas.Path {
-	//getByIDHandler := goChiTooling.Handler[
-	//	TagGetByIDIn,
-	//	tagUA.TagGetByIDIn,
-	//	tagUA.TagGetByIDOut,
-	//	TagGetByIDOut,
-	//](
-	//	goChiTooling.ProcessRequestQueryArgs,
-	//	s.mapper.TagGetByIDInFromChi,
-	//	s.getByIDUA,
-	//	s.mapper.TagGetByIDOutToChi,
-	//)
-
 	forceCreateHandler := goChiTooling.Handler[
 		TagForceCreateIn,
 		tagUA.TagForceCreateIn,
@@ -54,18 +39,6 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 
 	return chioas.Path{
 		Paths: chioas.Paths{
-			//"/get-by-id": {
-			//	Methods: chioas.Methods{
-			//		http.MethodGet: {
-			//			Description: "Эндпоинт для получения Tag",
-			//			Handler:     getByIDHandler,
-			//			QueryParams: TagGetByIDInOpenApiDefinition,
-			//			Responses: chioas.Responses{
-			//				http.StatusOK: {Schema: TagGetByIDOutOpenApiDefinition},
-			//			},
-			//		},
-			//	},
-			//},
 			"/force-create": {
 				Methods: chioas.Methods{
 					http.MethodPost: {

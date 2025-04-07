@@ -2,9 +2,9 @@ package tag
 
 import (
 	"github.com/google/uuid"
-	gormModels "medicine/internal/layers/storage/gorm/models"
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
+	gormModels "medicine/internal/layers/storage/gorm/models"
 	entityID "medicine/pkg/entity-id"
 )
 

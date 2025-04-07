@@ -12,7 +12,6 @@ import (
 
 var _ customIdentifiers.Identifier
 
-//nolint:ireturn // Return type is not an interface
 func ProcessRequestBody[dtoInType any](r *http.Request) (dtoInType, error) {
 	var inDTO dtoInType
 	var zero dtoInType
@@ -25,7 +24,6 @@ func ProcessRequestBody[dtoInType any](r *http.Request) (dtoInType, error) {
 	return inDTO, nil
 }
 
-//nolint:ireturn // Return type is not an interface
 func ProcessRequestQueryArgs[dtoInType any](r *http.Request) (dtoInType, error) {
 	var inDTO dtoInType
 	var zero dtoInType
@@ -38,7 +36,6 @@ func ProcessRequestQueryArgs[dtoInType any](r *http.Request) (dtoInType, error) 
 	return inDTO, nil
 }
 
-//nolint:ireturn // Return type is not an interface
 func NoParser[dtoInType any](_ *http.Request) (dtoInType, error) {
 	var inDTO dtoInType
 	return inDTO, nil

@@ -2,9 +2,9 @@ package tags_space
 
 import (
 	"github.com/google/uuid"
-	gormModels "medicine/internal/layers/storage/gorm/models"
 
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
+	gormModels "medicine/internal/layers/storage/gorm/models"
 	entityID "medicine/pkg/entity-id"
 )
 

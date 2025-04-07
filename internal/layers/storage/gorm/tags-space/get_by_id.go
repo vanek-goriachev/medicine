@@ -4,11 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	gormModels "medicine/internal/layers/storage/gorm/models"
 
 	"gorm.io/gorm"
 
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
+	gormModels "medicine/internal/layers/storage/gorm/models"
 	entityID "medicine/pkg/entity-id"
 	pkgErrors "medicine/pkg/errors/db"
 )
@@ -19,7 +19,7 @@ func (g *GORMGateway) GetByID(
 ) (tagsSpaceModels.TagsSpace, error) {
 	var tagsSpace gormModels.TagsSpace
 
-	result := g.db.Model(gormModels.TagsSpace{}).Preload("Tags").First(&tagsSpace, "id = ?", id)
+	result := g.db.Model(gormModels.TagsSpaceModel).Preload(gormModels.TagsField).First(&tagsSpace, "id = ?", id)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return tagsSpaceModels.TagsSpace{}, pkgErrors.NewDoesNotExistError(id)
 	} else if result.Error != nil {

@@ -2,9 +2,9 @@ package tag
 
 import (
 	"context"
-	customIdentifiers "medicine/internal/layers/business-logic/models/tag/identifiers"
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
+	customIdentifiers "medicine/internal/layers/business-logic/models/tag/identifiers"
 	entityID "medicine/pkg/entity-id"
 )
 
