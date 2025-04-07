@@ -44,6 +44,9 @@ linters:
       - text: "only one cuddle assignment allowed before if statement"
         linters:
           - wsl
+      - text: ".+ returns generic interface (.+) of type param any"
+        linters:
+          - ireturn
 
   settings:
     copyloopvar:
