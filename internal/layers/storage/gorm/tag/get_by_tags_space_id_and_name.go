@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"gorm.io/gorm"
 	"medicine/internal/layers/business-logic/models/tag/identifiers"
+	gormModels "medicine/internal/layers/storage/gorm/models"
 	pkgErrors "medicine/pkg/errors/db"
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
@@ -15,7 +16,7 @@ func (g *GORMGateway) GetByTagsSpaceIDAndName(
 	_ context.Context,
 	identifier identifiers.TagsSpaceIDAndNameIdentifier,
 ) (tagModels.Tag, error) {
-	var dbTag Tag
+	var dbTag gormModels.Tag
 
 	result := g.db.First(&dbTag, "tags_space_id = ? and name = ?", identifier.TagsSpaceID, identifier.Name)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {

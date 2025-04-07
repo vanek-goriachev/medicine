@@ -4,13 +4,12 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	gormModels "medicine/internal/layers/storage/gorm/models"
 	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	tagGORM "medicine/internal/layers/storage/gorm/tag"
-	tagsSpaceGORM "medicine/internal/layers/storage/gorm/tags-space"
 	"medicine/pkg/retry"
 	logAttrs "medicine/pkg/telemetry/logging/logging-attributes"
 )
@@ -91,8 +90,8 @@ func (db *DB) migrateDB(ctx context.Context) error {
 	db.logger.DebugContext(ctx, "migrating DB")
 
 	err := db.GormDB.AutoMigrate(
-		tagGORM.Tag{},             //nolint:exhaustruct // DB Migration
-		tagsSpaceGORM.TagsSpace{}, //nolint:exhaustruct // DB Migration
+		gormModels.Tag{},       //nolint:exhaustruct // DB Migration
+		gormModels.TagsSpace{}, //nolint:exhaustruct // DB Migration
 	)
 	if err != nil {
 		return fmt.Errorf("failed to migrate DB: %w", err)

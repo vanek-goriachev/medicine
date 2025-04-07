@@ -2,6 +2,7 @@
 package tag
 
 import (
+	"fmt"
 	tagUA "medicine/internal/layers/business-logic/user-actions/tag"
 	dto "medicine/internal/layers/transport/rest/go-chi/tag"
 	entityID "medicine/pkg/entity-id"
@@ -22,11 +23,17 @@ func NewUserActionsChiMapper(
 	}
 }
 
-func (*UserActionsChiMapper) TagForceCreateInFromChi(
+func (m *UserActionsChiMapper) TagForceCreateInFromChi(
 	in dto.TagForceCreateIn,
 ) (tagUA.TagForceCreateIn, error) {
+	tagsSpaceID, err := m.entityIDMapper.FromString(in.TagsSpaceID)
+	if err != nil {
+		return tagUA.TagForceCreateIn{}, fmt.Errorf("can't convert tags space id: %w", err)
+	}
+
 	return tagUA.TagForceCreateIn{
-		Name: in.Name,
+		Name:        in.Name,
+		TagsSpaceID: tagsSpaceID,
 	}, nil
 }
 

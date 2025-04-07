@@ -2,12 +2,12 @@ package tags_space
 
 import (
 	tagModels "medicine/internal/layers/business-logic/models/tag"
-	tagGORM "medicine/internal/layers/storage/gorm/tag"
+	gormModels "medicine/internal/layers/storage/gorm/models"
 )
 
 type tagGORMMapper interface {
-	FromGORM(dbTag tagGORM.Tag) tagModels.Tag
-	MultipleFromGORM(dbTags []tagGORM.Tag) []tagModels.Tag
-	ToGORM(tag tagModels.Tag) tagGORM.Tag
-	MultipleToGORM(tags []tagModels.Tag) []tagGORM.Tag
+	FromGORM(dbTag gormModels.Tag) tagModels.Tag
+	MultipleFromGORM(dbTags []gormModels.Tag) []tagModels.Tag
+	ToGORM(tag tagModels.Tag) gormModels.Tag
+	MultipleToGORM(tags []tagModels.Tag) []gormModels.Tag
 }

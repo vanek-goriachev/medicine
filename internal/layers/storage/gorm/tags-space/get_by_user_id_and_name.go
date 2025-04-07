@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	customIdentifiers "medicine/internal/layers/business-logic/models/tags-space/identifiers"
+	gormModels "medicine/internal/layers/storage/gorm/models"
 
 	"gorm.io/gorm"
 
@@ -16,9 +17,9 @@ func (g *GORMGateway) GetByUserIDAndName(
 	_ context.Context,
 	identifier customIdentifiers.UserIDAndNameIdentifier,
 ) (tagsSpaceModels.TagsSpace, error) {
-	var tagsSpace TagsSpace
+	var tagsSpace gormModels.TagsSpace
 
-	result := g.db.First(&tagsSpace, "user_id = ? and name = ?", identifier.UserID, identifier.Name)
+	result := g.db.Model(gormModels.TagsSpace{}).Preload("Tags").First(&tagsSpace, "user_id = ? and name = ?", identifier.UserID, identifier.Name)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return tagsSpaceModels.TagsSpace{}, pkgErrors.NewDoesNotExistError(identifier)
 	} else if result.Error != nil {

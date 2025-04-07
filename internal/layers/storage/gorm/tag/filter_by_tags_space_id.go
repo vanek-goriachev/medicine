@@ -3,13 +3,14 @@ package tag
 import (
 	"context"
 	"fmt"
+	gormModels "medicine/internal/layers/storage/gorm/models"
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
 	entityID "medicine/pkg/entity-id"
 )
 
 func (g *GORMGateway) FilterByTagsSpaceID(_ context.Context, tagsSpaceID entityID.EntityID) ([]tagModels.Tag, error) {
-	var dbTags []Tag
+	var dbTags []gormModels.Tag
 
 	result := g.db.Find(&dbTags, "tags_space_id = ?", tagsSpaceID)
 	if result.Error != nil {
