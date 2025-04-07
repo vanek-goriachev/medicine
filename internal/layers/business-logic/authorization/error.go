@@ -15,3 +15,7 @@ func NewUnauthorizedError(
 func (e *UnauthorizedError) Error() string {
 	return "unauthorized " + e.err.Error()
 }
+
+func (e *UnauthorizedError) Unwrap() error {
+	return e.err
+}
