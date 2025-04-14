@@ -13,7 +13,7 @@ type EntityIDGenerator interface {
 	Generate() (entityID.EntityID, error)
 }
 
-type AtomicActions interface {
+type TagsSpaceAtomicActions interface {
 	GetByID(ctx context.Context, id entityID.EntityID) (tagsSpaceModels.TagsSpace, error)
 	ListByUserID(ctx context.Context, userID entityID.EntityID) ([]tagsSpaceModels.TagsSpace, error)
 	GetByUserIDAndName(
@@ -21,6 +21,11 @@ type AtomicActions interface {
 		identifier customIdentifiers.UserIDAndNameIdentifier,
 	) (tagsSpaceModels.TagsSpace, error)
 	Create(ctx context.Context, tagsSpace tagsSpaceModels.TagsSpace) error
+	DeleteByID(ctx context.Context, tagsSpaceID entityID.EntityID) error
+}
+
+type TagAtomicActions interface {
+	FilterByTagsSpaceID(_ context.Context, tagsSpaceID entityID.EntityID) ([]tagModels.Tag, error)
 }
 
 type TagsSpaceFactory interface {

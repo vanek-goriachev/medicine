@@ -42,3 +42,20 @@ func (m *UserActionsChiMapper) TagForceCreateOutToChi(out tagUA.TagForceCreateOu
 		Tag: m.tagChiMapper.ToChi(out.Tag),
 	}
 }
+
+func (m *UserActionsChiMapper) TagUntagAllAndDeleteInFromChi(
+	in dto.TagUntagAllAndDeleteIn,
+) (tagUA.TagUntagAllAndDeleteIn, error) {
+	id, err := m.entityIDMapper.FromString(in.ID)
+	if err != nil {
+		return tagUA.TagUntagAllAndDeleteIn{}, fmt.Errorf("can't convert tag id: %w", err)
+	}
+
+	return tagUA.TagUntagAllAndDeleteIn{
+		ID: id,
+	}, nil
+}
+
+func (*UserActionsChiMapper) TagUntagAllAndDeleteOutToChi(_ tagUA.TagUntagAllAndDeleteOut) dto.TagUntagAllAndDeleteOut {
+	return dto.TagUntagAllAndDeleteOut{}
+}

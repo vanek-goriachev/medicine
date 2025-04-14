@@ -13,7 +13,8 @@ type TagsSpaceListByUserOut struct {
 }
 
 var TagsSpaceListByUserOutOpenApiDefinition = chioas.Schema{
-	Name: "TagsSpaceListByUserOut",
+	Name:               "TagsSpaceListByUserOut",
+	RequiredProperties: []string{"tags_spaces"},
 	Properties: chioas.Properties{
 		{
 			Name:      "tags_spaces",

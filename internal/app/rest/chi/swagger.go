@@ -8,7 +8,7 @@ import (
 )
 
 func generateApiSpec(services *chiServices) chioas.Definition {
-	return chioas.Definition{
+	apiDefinition := chioas.Definition{
 		AutoHeadMethods: true,
 		DocOptions: chioas.DocOptions{
 			UIStyle:         chioas.Swagger,
@@ -30,4 +30,6 @@ func generateApiSpec(services *chiServices) chioas.Definition {
 			},
 		},
 	}
+
+	return apiDefinition
 }

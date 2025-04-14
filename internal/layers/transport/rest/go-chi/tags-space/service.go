@@ -14,6 +14,7 @@ type Service struct {
 	getByIDUA    tagsSpaceGetByIDUserAction
 	listByUserUA tagsSpaceListByUserUserAction
 	createUA     tagsSpaceCreateUserAction
+	deleteUA     tagsSpaceDeleteUserAction
 }
 
 func NewService(
@@ -21,12 +22,14 @@ func NewService(
 	getByIDUA tagsSpaceGetByIDUserAction,
 	listByUserUA tagsSpaceListByUserUserAction,
 	createUA tagsSpaceCreateUserAction,
+	deleteUA tagsSpaceDeleteUserAction,
 ) *Service {
 	return &Service{
 		mapper:       mapper,
 		getByIDUA:    getByIDUA,
 		listByUserUA: listByUserUA,
 		createUA:     createUA,
+		deleteUA:     deleteUA,
 	}
 }
 
@@ -67,6 +70,18 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 		s.mapper.TagsSpaceCreateOutToChi,
 	)
 
+	deleteHandler := goChiTooling.Handler[
+		TagsSpaceDeleteIn,
+		tagsSpaceUA.TagsSpaceDeleteIn,
+		tagsSpaceUA.TagsSpaceDeleteOut,
+		TagsSpaceDeleteOut,
+	](
+		goChiTooling.ProcessRequestBody,
+		s.mapper.TagsSpaceDeleteInFromChi,
+		s.deleteUA,
+		s.mapper.TagsSpaceDeleteOutToChi,
+	)
+
 	return chioas.Path{
 		Paths: chioas.Paths{
 			"/get-by-id": {
@@ -77,6 +92,18 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 						QueryParams: TagsSpaceGetByIDInOpenApiDefinition,
 						Responses: chioas.Responses{
 							http.StatusOK: {Schema: TagsSpaceGetByIDOutOpenApiDefinition},
+						},
+					},
+				},
+			},
+			"/delete": {
+				Methods: chioas.Methods{
+					http.MethodDelete: {
+						Description: "Эндпоинт для удаления TagsSpace",
+						Handler:     deleteHandler,
+						Request:     &chioas.Request{Schema: TagsSpaceDeleteInOpenApiDefinition},
+						Responses: chioas.Responses{
+							http.StatusOK: {Schema: TagsSpaceDeleteOutOpenApiDefinition},
 						},
 					},
 				},

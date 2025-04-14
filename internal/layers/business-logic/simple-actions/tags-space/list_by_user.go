@@ -12,7 +12,7 @@ func (sa *SimpleActions) ListByUser(
 	ctx context.Context,
 	user userModels.User,
 ) ([]tagsSpaceModels.TagsSpace, error) {
-	tagsSpace, err := sa.atomicActions.ListByUserID(ctx, user.ID)
+	tagsSpace, err := sa.tagsSpaceAtomicActions.ListByUserID(ctx, user.ID)
 	if err != nil {
 		return nil, fmt.Errorf("can't get list tags spaces by user: %w", err)
 	}

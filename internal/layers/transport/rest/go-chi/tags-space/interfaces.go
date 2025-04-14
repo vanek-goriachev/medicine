@@ -16,6 +16,9 @@ type userActionsMapper interface {
 
 	TagsSpaceCreateInFromChi(in TagsSpaceCreateIn) (tagsSpaceUA.TagsSpaceCreateIn, error)
 	TagsSpaceCreateOutToChi(out tagsSpaceUA.TagsSpaceCreateOut) TagsSpaceCreateOut
+
+	TagsSpaceDeleteInFromChi(in TagsSpaceDeleteIn) (tagsSpaceUA.TagsSpaceDeleteIn, error)
+	TagsSpaceDeleteOutToChi(_ tagsSpaceUA.TagsSpaceDeleteOut) TagsSpaceDeleteOut
 }
 
 type tagsSpaceCreateUserAction interface {
@@ -40,4 +43,12 @@ type tagsSpaceGetByIDUserAction interface {
 		user userModels.User,
 		in tagsSpaceUA.TagsSpaceGetByIDIn,
 	) (tagsSpaceUA.TagsSpaceGetByIDOut, error)
+}
+
+type tagsSpaceDeleteUserAction interface {
+	Act(
+		ctx context.Context,
+		user userModels.User,
+		in tagsSpaceUA.TagsSpaceDeleteIn,
+	) (tagsSpaceUA.TagsSpaceDeleteOut, error)
 }

@@ -13,11 +13,13 @@ type EntityIDGenerator interface {
 }
 
 type AtomicActions interface {
+	GetByID(ctx context.Context, tagID entityID.EntityID) (tagModels.Tag, error)
 	GetByTagsSpaceIDAndName(
 		ctx context.Context,
 		identifier customIdentifiers.TagsSpaceIDAndNameIdentifier,
 	) (tagModels.Tag, error)
 	Create(ctx context.Context, tag tagModels.Tag) error
+	DeleteByID(ctx context.Context, tagID entityID.EntityID) error
 }
 
 type TagFactory interface {

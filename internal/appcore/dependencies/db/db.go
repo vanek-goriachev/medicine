@@ -90,8 +90,8 @@ func (db *DB) migrateDB(ctx context.Context) error {
 	db.logger.DebugContext(ctx, "migrating DB")
 
 	err := db.GormDB.AutoMigrate(
-		gormModels.Tag{},       //nolint:exhaustruct // DB Migration
 		gormModels.TagsSpace{}, //nolint:exhaustruct // DB Migration
+		gormModels.Tag{},       //nolint:exhaustruct // DB Migration
 	)
 	if err != nil {
 		return fmt.Errorf("failed to migrate DB: %w", err)

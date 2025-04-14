@@ -40,6 +40,11 @@ linters:
         linters:
           - forbidigo
           - revive
+      # It's fine to have long functions in those files (func GenerateOpenApiDefinition)
+      - path: "internal/layers/transport/rest/go-chi/.*/service.go"
+        text: "function-length:"
+        linters:
+          - revive
       # This text is always false positive for me - this is a way I want to format my code
       - text: "only one cuddle assignment allowed before if statement"
         linters:
@@ -156,6 +161,8 @@ linters:
       include-shared-interfaces: true
 
     goconst:
+      ignore-string-values:
+        - 'id = ?'
       # Minimal length of string constant.
       # Default: 3
       min-len: 2

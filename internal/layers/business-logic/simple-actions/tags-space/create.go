@@ -27,7 +27,7 @@ func (sa *SimpleActions) Create(
 		return tagsSpaceModels.TagsSpace{}, err
 	}
 
-	err = sa.atomicActions.Create(ctx, tagsSpace)
+	err = sa.tagsSpaceAtomicActions.Create(ctx, tagsSpace)
 	if err != nil {
 		return tagsSpaceModels.TagsSpace{}, fmt.Errorf("can't create tagsSpace: %w", err)
 	}
@@ -38,7 +38,7 @@ func (sa *SimpleActions) Create(
 func (sa *SimpleActions) checkExistence(ctx context.Context, user userModels.User, name string) error {
 	identifier := customIdentifiers.UserIDAndNameIdentifier{UserID: user.ID, Name: name}
 
-	_, err := sa.atomicActions.GetByUserIDAndName(ctx, identifier)
+	_, err := sa.tagsSpaceAtomicActions.GetByUserIDAndName(ctx, identifier)
 	if err == nil {
 		return tagsSpaceModels.NewTagsSpaceAlreadyExistError(identifier)
 	}

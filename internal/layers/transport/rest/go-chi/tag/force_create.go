@@ -10,7 +10,8 @@ type TagForceCreateIn struct {
 }
 
 var TagForceCreateInOpenApiDefinition = chioas.Schema{
-	Name: "TagForceCreateIn",
+	Name:               "TagForceCreateIn",
+	RequiredProperties: []string{"name", "tags_space_id"},
 	Properties: chioas.Properties{
 		{
 			Name: "name",
@@ -29,7 +30,8 @@ type TagForceCreateOut struct {
 }
 
 var TagForceCreateOutOpenApiDefinition = chioas.Schema{
-	Name: "TagForceCreateOut",
+	Name:               "TagForceCreateOut",
+	RequiredProperties: []string{"tag"},
 	Properties: chioas.Properties{
 		{
 			Name:      "tag",

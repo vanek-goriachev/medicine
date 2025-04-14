@@ -10,8 +10,9 @@ type TagsSpaceGetByIDIn struct {
 
 var TagsSpaceGetByIDInOpenApiDefinition = chioas.QueryParams{
 	{
-		Name:    "id",
-		Example: "00000000-0000-0000-0000-000000000001",
+		Required: true,
+		Name:     "id",
+		Example:  "00000000-0000-0000-0000-000000000001",
 	},
 }
 
@@ -20,7 +21,8 @@ type TagsSpaceGetByIDOut struct {
 }
 
 var TagsSpaceGetByIDOutOpenApiDefinition = chioas.Schema{
-	Name: "TagsSpaceGetByIDOut",
+	Name:               "TagsSpaceGetByIDOut",
+	RequiredProperties: []string{"tags_space"},
 	Properties: chioas.Properties{
 		{
 			Name:      "tags_space",

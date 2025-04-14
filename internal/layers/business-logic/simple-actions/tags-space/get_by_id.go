@@ -12,7 +12,7 @@ func (sa *SimpleActions) GetByID(
 	ctx context.Context,
 	id entityID.EntityID,
 ) (tagsSpaceModels.TagsSpace, error) {
-	tagsSpace, err := sa.atomicActions.GetByID(ctx, id)
+	tagsSpace, err := sa.tagsSpaceAtomicActions.GetByID(ctx, id)
 	if err != nil {
 		return tagsSpaceModels.TagsSpace{}, fmt.Errorf("can't get tagsSpace by ID: %w", err)
 	}
