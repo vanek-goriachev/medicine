@@ -3,7 +3,8 @@ package tag
 import "medicine/internal/layers/business-logic/authorization"
 
 type UserActions struct {
-	ForceCreate *ForceCreateUA
+	ForceCreate       *ForceCreateUA
+	UntagAllAndDelete *UntagAllAndDeleteUA
 }
 
 func NewUserActions(
@@ -11,8 +12,10 @@ func NewUserActions(
 	simpleActions SimpleActions,
 ) *UserActions {
 	forceCreateUA := NewForceCreateUA(authorizer, simpleActions)
+	untagAllAndDelete := NewUntagAllAndDeleteUA(authorizer, simpleActions)
 
 	return &UserActions{
-		ForceCreate: forceCreateUA,
+		ForceCreate:       forceCreateUA,
+		UntagAllAndDelete: untagAllAndDelete,
 	}
 }

@@ -9,7 +9,8 @@ type TagsSpaceCreateIn struct {
 }
 
 var TagsSpaceCreateInOpenApiDefinition = chioas.Schema{
-	Name: "TagsSpaceCreateIn",
+	Name:               "TagsSpaceCreateIn",
+	RequiredProperties: []string{"name"},
 	Properties: chioas.Properties{
 		{
 			Name: "name",
@@ -23,7 +24,8 @@ type TagsSpaceCreateOut struct {
 }
 
 var TagsSpaceCreateOutOpenApiDefinition = chioas.Schema{
-	Name: "TagsSpaceCreateOut",
+	Name:               "TagsSpaceCreateOut",
+	RequiredProperties: []string{"tags_space"},
 	Properties: chioas.Properties{
 		{
 			Name:      "tags_space",

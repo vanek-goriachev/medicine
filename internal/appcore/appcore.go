@@ -47,8 +47,10 @@ func (c *Core) Initialize(
 	c.factories = collections.NewFactories(c.validators)
 
 	c.simpleActions = collections.NewSimpleActions(c.others, c.gateways, c.factories)
+
+	authorizer := authorization.NewAuthorizer(c.ApplicationDependencies.IAM)
 	c.UserActions = collections.NewUserActions(
-		authorization.NewAuthorizer(c.ApplicationDependencies.IAM),
+		authorizer,
 		c.simpleActions,
 	)
 }

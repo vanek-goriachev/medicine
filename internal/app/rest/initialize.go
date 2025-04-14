@@ -16,12 +16,14 @@ import (
 const writeFail = "failed to write to stdout: %w"
 
 func (a *App) initialize(ctx context.Context) error {
-	_, err := a.toStdout("Initializing application\n") // No logger here since it is not initialized yet
+	// No logger here since it is not initialized yet
+	_, err := a.toStdout("Initializing application\n")
 	if err != nil {
 		return fmt.Errorf(writeFail, err)
 	}
 
-	_, err = a.toStdout("Loading filesystem data\n") // No logger here since it is not initialized yet
+	// No logger here since it is not initialized yet
+	_, err = a.toStdout("Loading filesystem data\n")
 	if err != nil {
 		return fmt.Errorf(writeFail, err)
 	}
@@ -38,6 +40,7 @@ func (a *App) initialize(ctx context.Context) error {
 		return fmt.Errorf("failed to initialize dependencies: %w", err)
 	}
 
+	// Don't use a.logger() here because it refers to appcore which is not initialized yet
 	applicationDependencies.Telemetry.Logging.Logger.DebugContext(ctx, "Initializing appcore (business logic)")
 	a.appCore.Initialize(a.systemDependencies, &applicationDependencies)
 

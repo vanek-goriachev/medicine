@@ -70,3 +70,20 @@ func (m *UserActionsChiMapper) TagsSpaceGetByIDOutToChi(out tagsSpaceUA.TagsSpac
 		TagsSpace: m.tagsSpaceChiMapper.ToChi(out.TagsSpace),
 	}
 }
+
+func (m *UserActionsChiMapper) TagsSpaceDeleteInFromChi(
+	in dto.TagsSpaceDeleteIn,
+) (tagsSpaceUA.TagsSpaceDeleteIn, error) {
+	id, err := m.entityIDMapper.FromString(in.ID)
+	if err != nil {
+		return tagsSpaceUA.TagsSpaceDeleteIn{}, fmt.Errorf("can't convert tags space id: %w", err)
+	}
+
+	return tagsSpaceUA.TagsSpaceDeleteIn{
+		ID: id,
+	}, nil
+}
+
+func (m *UserActionsChiMapper) TagsSpaceDeleteOutToChi(_ tagsSpaceUA.TagsSpaceDeleteOut) dto.TagsSpaceDeleteOut {
+	return dto.TagsSpaceDeleteOut{}
+}

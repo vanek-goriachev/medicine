@@ -9,4 +9,5 @@ import (
 
 type SimpleActions interface {
 	Create(ctx context.Context, name string, tagsSpaceID entityID.EntityID) (tagModels.Tag, error)
+	UntagAllAndDelete(ctx context.Context, tagID entityID.EntityID) error
 }

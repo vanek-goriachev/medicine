@@ -17,6 +17,7 @@ func newChiServices(chiMappers *mappers, userActions *collections.UserActions) *
 	s.tag = chiTag.NewService(
 		chiMappers.tagUA,
 		userActions.Tag.ForceCreate,
+		userActions.Tag.UntagAllAndDelete,
 	)
 
 	s.tagsSpace = chiTagsSpace.NewService(
@@ -24,6 +25,7 @@ func newChiServices(chiMappers *mappers, userActions *collections.UserActions) *
 		userActions.TagsSpace.GetByID,
 		userActions.TagsSpace.ListByUser,
 		userActions.TagsSpace.Create,
+		userActions.TagsSpace.Delete,
 	)
 
 	return &s
