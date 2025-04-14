@@ -3,7 +3,7 @@ package tags_space
 import (
 	"errors"
 	"fmt"
-	
+
 	customIdentifiers "medicine/internal/tooling/identifiers/custom-identifiers"
 	entityID "medicine/pkg/entity-id"
 )

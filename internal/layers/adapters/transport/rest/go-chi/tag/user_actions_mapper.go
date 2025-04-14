@@ -56,6 +56,6 @@ func (m *UserActionsChiMapper) TagUntagAllAndDeleteInFromChi(
 	}, nil
 }
 
-func (m *UserActionsChiMapper) TagUntagAllAndDeleteOutToChi(_ tagUA.TagUntagAllAndDeleteOut) dto.TagUntagAllAndDeleteOut {
+func (*UserActionsChiMapper) TagUntagAllAndDeleteOutToChi(_ tagUA.TagUntagAllAndDeleteOut) dto.TagUntagAllAndDeleteOut {
 	return dto.TagUntagAllAndDeleteOut{}
 }

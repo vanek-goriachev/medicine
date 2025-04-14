@@ -3,8 +3,8 @@ package tags_space
 import (
 	"context"
 	"fmt"
-	tags_space "medicine/internal/layers/business-logic/models/tags-space"
 
+	tags_space "medicine/internal/layers/business-logic/models/tags-space"
 	entityID "medicine/pkg/entity-id"
 )
 

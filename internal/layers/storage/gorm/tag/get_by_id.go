@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	tagModels "medicine/internal/layers/business-logic/models/tag"
 
 	"gorm.io/gorm"
 
+	tagModels "medicine/internal/layers/business-logic/models/tag"
 	gormModels "medicine/internal/layers/storage/gorm/models"
 	entityID "medicine/pkg/entity-id"
 	pkgErrors "medicine/pkg/errors/db"

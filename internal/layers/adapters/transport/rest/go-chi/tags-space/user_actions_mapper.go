@@ -57,7 +57,7 @@ func (m *UserActionsChiMapper) TagsSpaceGetByIDInFromChi(
 ) (tagsSpaceUA.TagsSpaceGetByIDIn, error) {
 	id, err := m.entityIDMapper.FromString(in.ID)
 	if err != nil {
-		return tagsSpaceUA.TagsSpaceGetByIDIn{}, fmt.Errorf("can't convert tags space id: %w", err)
+		return tagsSpaceUA.TagsSpaceGetByIDIn{}, fmt.Errorf(CantConvertTagsSpaceIDMsg, err)
 	}
 
 	return tagsSpaceUA.TagsSpaceGetByIDIn{
@@ -76,7 +76,7 @@ func (m *UserActionsChiMapper) TagsSpaceDeleteInFromChi(
 ) (tagsSpaceUA.TagsSpaceDeleteIn, error) {
 	id, err := m.entityIDMapper.FromString(in.ID)
 	if err != nil {
-		return tagsSpaceUA.TagsSpaceDeleteIn{}, fmt.Errorf("can't convert tags space id: %w", err)
+		return tagsSpaceUA.TagsSpaceDeleteIn{}, fmt.Errorf(CantConvertTagsSpaceIDMsg, err)
 	}
 
 	return tagsSpaceUA.TagsSpaceDeleteIn{
@@ -84,6 +84,6 @@ func (m *UserActionsChiMapper) TagsSpaceDeleteInFromChi(
 	}, nil
 }
 
-func (m *UserActionsChiMapper) TagsSpaceDeleteOutToChi(_ tagsSpaceUA.TagsSpaceDeleteOut) dto.TagsSpaceDeleteOut {
+func (*UserActionsChiMapper) TagsSpaceDeleteOutToChi(_ tagsSpaceUA.TagsSpaceDeleteOut) dto.TagsSpaceDeleteOut {
 	return dto.TagsSpaceDeleteOut{}
 }

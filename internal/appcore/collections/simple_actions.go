@@ -25,7 +25,8 @@ func NewSimpleActions(
 	c.tagsSpace = tagsSpaceSA.NewSimpleActions(
 		others.entityIDGenerator,
 		factories.tagsSpace,
-		gateways.tagsSpace, // Using gateway instead of AtomicAction because of the same interface
+		gateways.tag,
+		gateways.tagsSpace,
 	)
 
 	return &c

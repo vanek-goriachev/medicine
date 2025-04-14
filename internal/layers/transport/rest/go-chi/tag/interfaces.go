@@ -20,5 +20,9 @@ type tagCreateUserAction interface {
 }
 
 type tagUntagAllAndDeleteUserAction interface {
-	Act(ctx context.Context, user userModels.User, in tagUA.TagUntagAllAndDeleteIn) (tagUA.TagUntagAllAndDeleteOut, error)
+	Act(
+		ctx context.Context,
+		user userModels.User,
+		in tagUA.TagUntagAllAndDeleteIn,
+	) (tagUA.TagUntagAllAndDeleteOut, error)
 }

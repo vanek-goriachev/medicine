@@ -2,12 +2,13 @@ package tag
 
 import (
 	"context"
+
 	entityID "medicine/pkg/entity-id"
 )
 
-func (sa *SimpleActions) UntagAll(
-	ctx context.Context,
-	id entityID.EntityID,
+func (*SimpleActions) UntagAll(
+	_ context.Context,
+	_ entityID.EntityID,
 ) error {
 	return nil
 }
