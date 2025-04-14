@@ -24,10 +24,11 @@ func TestTagsSpaceGetByIDSA(t *testing.T) {
 
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
-			atomicActions := tags_space.NewAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, atomicActions)
+			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
+			tagAtomicActions := tags_space.NewTagAtomicActions(t)
+			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
 
-			atomicActions.EXPECT().
+			tagsSpaceAtomicActions.EXPECT().
 				GetByID(t.Context(), tagsSpaceID).
 				Return(expectedTagsSpace, nil)
 
@@ -45,10 +46,11 @@ func TestTagsSpaceGetByIDSA(t *testing.T) {
 
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
-			atomicActions := tags_space.NewAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, atomicActions)
+			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
+			tagAtomicActions := tags_space.NewTagAtomicActions(t)
+			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
 
-			atomicActions.EXPECT().
+			tagsSpaceAtomicActions.EXPECT().
 				GetByID(t.Context(), tagsSpaceID).
 				Return(tagsSpaceModels.TagsSpace{}, assert.AnError)
 

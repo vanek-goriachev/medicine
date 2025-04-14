@@ -39,17 +39,18 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
-			atomicActions := tags_space.NewAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, atomicActions)
+			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
+			tagAtomicActions := tags_space.NewTagAtomicActions(t)
+			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
 
-			atomicActions.EXPECT().
+			tagsSpaceAtomicActions.EXPECT().
 				GetByUserIDAndName(t.Context(), identifier).
 				Return(tagsSpaceModels.TagsSpace{}, spaceNotFoundErr)
 			idGenerator.EXPECT().Generate().Return(tagsSpaceID, nil)
 			tagsSpaceFactory.EXPECT().
 				New(tagsSpaceID, user.ID, name, []tagModels.Tag{}).
 				Return(expectedTagsSpace, nil)
-			atomicActions.EXPECT().Create(t.Context(), expectedTagsSpace).Return(nil)
+			tagsSpaceAtomicActions.EXPECT().Create(t.Context(), expectedTagsSpace).Return(nil)
 
 			tagsSpace, err := sa.Create(t.Context(), user, name)
 
@@ -65,17 +66,18 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
-			atomicActions := tags_space.NewAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, atomicActions)
+			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
+			tagAtomicActions := tags_space.NewTagAtomicActions(t)
+			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
 
-			atomicActions.EXPECT().
+			tagsSpaceAtomicActions.EXPECT().
 				GetByUserIDAndName(t.Context(), identifier).
 				Return(tagsSpaceModels.TagsSpace{}, spaceNotFoundErr)
 			idGenerator.EXPECT().Generate().Return(tagsSpaceID, nil)
 			tagsSpaceFactory.EXPECT().
 				New(tagsSpaceID, user.ID, name, []tagModels.Tag{}).
 				Return(expectedTagsSpace, nil)
-			atomicActions.EXPECT().Create(t.Context(), expectedTagsSpace).Return(assert.AnError)
+			tagsSpaceAtomicActions.EXPECT().Create(t.Context(), expectedTagsSpace).Return(assert.AnError)
 
 			tagsSpace, err := sa.Create(t.Context(), user, name)
 
@@ -91,10 +93,11 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
-			atomicActions := tags_space.NewAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, atomicActions)
+			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
+			tagAtomicActions := tags_space.NewTagAtomicActions(t)
+			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
 
-			atomicActions.EXPECT().
+			tagsSpaceAtomicActions.EXPECT().
 				GetByUserIDAndName(t.Context(), identifier).
 				Return(tagsSpaceModels.TagsSpace{}, spaceNotFoundErr)
 			idGenerator.EXPECT().Generate().Return(tagsSpaceID, nil)
@@ -116,10 +119,11 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
-			atomicActions := tags_space.NewAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, atomicActions)
+			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
+			tagAtomicActions := tags_space.NewTagAtomicActions(t)
+			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
 
-			atomicActions.EXPECT().
+			tagsSpaceAtomicActions.EXPECT().
 				GetByUserIDAndName(t.Context(), identifier).
 				Return(tagsSpaceModels.TagsSpace{}, spaceNotFoundErr)
 			idGenerator.EXPECT().Generate().Return(entityID.EntityID{}, assert.AnError)
@@ -138,10 +142,11 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
-			atomicActions := tags_space.NewAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, atomicActions)
+			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
+			tagAtomicActions := tags_space.NewTagAtomicActions(t)
+			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
 
-			atomicActions.EXPECT().
+			tagsSpaceAtomicActions.EXPECT().
 				GetByUserIDAndName(t.Context(), identifier).
 				Return(tagsSpaceModels.TagsSpace{}, assert.AnError)
 
@@ -159,10 +164,11 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
-			atomicActions := tags_space.NewAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, atomicActions)
+			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
+			tagAtomicActions := tags_space.NewTagAtomicActions(t)
+			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
 
-			atomicActions.EXPECT().
+			tagsSpaceAtomicActions.EXPECT().
 				GetByUserIDAndName(t.Context(), identifier).
 				Return(expectedTagsSpace, nil)
 
