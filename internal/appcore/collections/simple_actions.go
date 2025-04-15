@@ -12,7 +12,7 @@ type SimpleActions struct {
 
 func NewSimpleActions(
 	others *Others,
-	gateways *Gateways, // Using gateway instead of AtomicAction because of the same interface
+	gateways *DBGateways, // Using gateway instead of AtomicAction because of the same interface
 	factories *Factories,
 ) *SimpleActions {
 	var c SimpleActions

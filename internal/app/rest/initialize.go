@@ -8,6 +8,7 @@ import (
 	"medicine/internal/app/rest/chi"
 	"medicine/internal/appcore/dependencies"
 	"medicine/internal/appcore/dependencies/db"
+	file_storage "medicine/internal/appcore/dependencies/file-storage"
 	"medicine/internal/tooling/iam"
 	"medicine/pkg/telemetry"
 	"medicine/pkg/telemetry/logging"
@@ -71,6 +72,15 @@ func (*App) loadFileSystemData() (chi.Config, dependencies.DepsConfig, error) {
 	coreDepsCfg := dependencies.DepsConfig{
 		DB: db.Config{
 			Host:     "db",
+			Port:     5432,
+			User:     "postgres",
+			Password: "postgres",
+			DBName:   "postgres",
+			SslMode:  "disable",
+			Timezone: "UTC",
+		},
+		FileStorage: file_storage.Config{
+			Host:     "file-storage",
 			Port:     5432,
 			User:     "postgres",
 			Password: "postgres",

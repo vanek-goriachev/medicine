@@ -19,7 +19,8 @@ type Core struct {
 	CommonMappers *collections.CommonMappers
 	gormMappers   *collections.GORMMappers
 
-	gateways *collections.Gateways
+	dbGateways          *collections.DBGateways
+	fileStorageGateways *collections.FileStorageGateways
 
 	validators *collections.Validators
 	factories  *collections.Factories
@@ -41,12 +42,13 @@ func (c *Core) Initialize(
 	c.CommonMappers = collections.NewCommonMappers()
 	c.gormMappers = collections.NewGORMMappers()
 
-	c.gateways = collections.NewGateways(c.ApplicationDependencies.DB.GormDB, c.gormMappers)
+	c.dbGateways = collections.NewDBGateways(c.ApplicationDependencies.DB, c.gormMappers)
+	c.fileStorageGateways = collections.NewFileStorageGateways(c.ApplicationDependencies.FileStorage)
 
 	c.validators = collections.NewValidators()
 	c.factories = collections.NewFactories(c.validators)
 
-	c.simpleActions = collections.NewSimpleActions(c.others, c.gateways, c.factories)
+	c.simpleActions = collections.NewSimpleActions(c.others, c.dbGateways, c.factories)
 
 	authorizer := authorization.NewAuthorizer(c.ApplicationDependencies.IAM)
 	c.UserActions = collections.NewUserActions(

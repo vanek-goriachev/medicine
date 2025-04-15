@@ -8,15 +8,15 @@ import (
 	"medicine/pkg/telemetry/logging"
 )
 
-func InitInfrastructure(ctx context.Context, cfg Config) (Infrastructure, error) {
+func InitInfrastructure(ctx context.Context, cfg Config) (*Infrastructure, error) {
 	loggingInfrastructure, err := logging.InitInfrastructure(cfg.Logging)
 	if err != nil {
-		return Infrastructure{}, fmt.Errorf("error on logging initialization: %w", err)
+		return nil, fmt.Errorf("error on logging initialization: %w", err)
 	}
 
 	loggingInfrastructure.Logger.DebugContext(ctx, "Started logging")
 
-	return Infrastructure{
+	return &Infrastructure{
 		Logging: loggingInfrastructure,
 	}, nil
 }
