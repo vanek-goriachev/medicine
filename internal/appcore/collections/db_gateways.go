@@ -12,7 +12,7 @@ type DBGateways struct {
 	tagsSpace *tagsSpaceGORM.GORMGateway
 }
 
-func NewDBGateways(db *db.DB, gormMappers *GORMMappers) *DBGateways {
+func NewDBGateways(db *db.DB, gormMappers *DBMappers) *DBGateways {
 	var c DBGateways
 
 	c.tag = tagGORM.NewGORMGateway(db.GormDB, gormMappers.tag)
