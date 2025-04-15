@@ -9,7 +9,7 @@ import (
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
 	"medicine/internal/layers/business-logic/models/tag/identifiers"
-	gormModels "medicine/internal/layers/storage/gorm/models"
+	gormModels "medicine/internal/layers/storage/db/gorm/models"
 	pkgErrors "medicine/pkg/errors/db"
 )
 

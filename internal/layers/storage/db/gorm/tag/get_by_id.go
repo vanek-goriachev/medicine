@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 
 	tagModels "medicine/internal/layers/business-logic/models/tag"
-	gormModels "medicine/internal/layers/storage/gorm/models"
+	gormModels "medicine/internal/layers/storage/db/gorm/models"
 	entityID "medicine/pkg/entity-id"
 	pkgErrors "medicine/pkg/errors/db"
 )

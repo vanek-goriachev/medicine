@@ -9,7 +9,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	gormModels "medicine/internal/layers/storage/gorm/models"
+	gormModels "medicine/internal/layers/storage/db/gorm/models"
 	"medicine/pkg/retry"
 	logAttrs "medicine/pkg/telemetry/logging/logging-attributes"
 )

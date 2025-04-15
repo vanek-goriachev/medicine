@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	gormModels "medicine/internal/layers/storage/gorm/models"
+	gormModels "medicine/internal/layers/storage/db/gorm/models"
 	entityID "medicine/pkg/entity-id"
 )
 
