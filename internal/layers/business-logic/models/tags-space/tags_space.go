@@ -6,8 +6,7 @@ import (
 )
 
 type TagsSpace struct {
-	Name   string
-	Tags   []tagModels.Tag
-	ID     entityID.EntityID
-	UserID entityID.EntityID
+	Name string
+	Tags []tagModels.Tag
+	ID   entityID.EntityID
 }

@@ -20,15 +20,13 @@ func NewFactory(validator validation.Validator[TagsSpace]) *Factory {
 
 func (f *Factory) New(
 	id entityID.EntityID,
-	userID entityID.EntityID,
 	name string,
 	tags []tagModels.Tag,
 ) (TagsSpace, error) {
 	tagsSpace := TagsSpace{
-		ID:     id,
-		UserID: userID,
-		Name:   name,
-		Tags:   tags,
+		ID:   id,
+		Name: name,
+		Tags: tags,
 	}
 
 	validationError := f.validator.Validate(tagsSpace)

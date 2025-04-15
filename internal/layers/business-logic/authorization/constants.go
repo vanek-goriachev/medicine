@@ -12,4 +12,6 @@ const (
 const (
 	TagResource       Resource = "medicine.tag"
 	TagsSpaceResource Resource = "medicine.tagsSpace"
+
+	FileResource Resource = "medicine.file"
 )

@@ -11,8 +11,8 @@ type userActionsMapper interface {
 	TagsSpaceGetByIDInFromChi(in TagsSpaceGetByIDIn) (tagsSpaceUA.TagsSpaceGetByIDIn, error)
 	TagsSpaceGetByIDOutToChi(out tagsSpaceUA.TagsSpaceGetByIDOut) TagsSpaceGetByIDOut
 
-	TagsSpaceListByUserInFromChi(in TagsSpaceListByUserIn) (tagsSpaceUA.TagsSpaceListByUserIn, error)
-	TagsSpaceListByUserOutToChi(out tagsSpaceUA.TagsSpaceListByUserOut) TagsSpaceListByUserOut
+	TagsSpaceListAllAvailableInFromChi(in TagsSpaceListAllAvailableIn) (tagsSpaceUA.TagsSpaceListAllAvailableIn, error)
+	TagsSpaceListAllAvailableOutToChi(out tagsSpaceUA.TagsSpaceListAllAvailableOut) TagsSpaceListAllAvailableOut
 
 	TagsSpaceCreateInFromChi(in TagsSpaceCreateIn) (tagsSpaceUA.TagsSpaceCreateIn, error)
 	TagsSpaceCreateOutToChi(out tagsSpaceUA.TagsSpaceCreateOut) TagsSpaceCreateOut
@@ -29,12 +29,12 @@ type tagsSpaceCreateUserAction interface {
 	) (tagsSpaceUA.TagsSpaceCreateOut, error)
 }
 
-type tagsSpaceListByUserUserAction interface {
+type tagsSpaceListAllAvailableUserAction interface {
 	Act(
 		ctx context.Context,
 		user userModels.User,
-		in tagsSpaceUA.TagsSpaceListByUserIn,
-	) (tagsSpaceUA.TagsSpaceListByUserOut, error)
+		in tagsSpaceUA.TagsSpaceListAllAvailableIn,
+	) (tagsSpaceUA.TagsSpaceListAllAvailableOut, error)
 }
 
 type tagsSpaceGetByIDUserAction interface {

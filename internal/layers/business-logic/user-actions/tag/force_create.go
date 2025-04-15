@@ -45,7 +45,7 @@ func (ua *ForceCreateUA) Act(
 		authorization.NewAction(
 			authorization.CreateTagPermission,
 			authorization.TagResource,
-			"",
+			entityID.EntityID{},
 		),
 	)
 	if err != nil {

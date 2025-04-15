@@ -20,6 +20,8 @@ type IAM interface {
 	) error
 }
 
+// TODO remove inteface from here
+
 type Impl struct{}
 
 func NewIAM(

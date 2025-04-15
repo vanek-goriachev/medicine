@@ -10,26 +10,26 @@ import (
 )
 
 type Service struct {
-	mapper       userActionsMapper
-	getByIDUA    tagsSpaceGetByIDUserAction
-	listByUserUA tagsSpaceListByUserUserAction
-	createUA     tagsSpaceCreateUserAction
-	deleteUA     tagsSpaceDeleteUserAction
+	mapper             userActionsMapper
+	getByIDUA          tagsSpaceGetByIDUserAction
+	listAllAvailableUA tagsSpaceListAllAvailableUserAction
+	createUA           tagsSpaceCreateUserAction
+	deleteUA           tagsSpaceDeleteUserAction
 }
 
 func NewService(
 	mapper userActionsMapper,
 	getByIDUA tagsSpaceGetByIDUserAction,
-	listByUserUA tagsSpaceListByUserUserAction,
+	listByUserUA tagsSpaceListAllAvailableUserAction,
 	createUA tagsSpaceCreateUserAction,
 	deleteUA tagsSpaceDeleteUserAction,
 ) *Service {
 	return &Service{
-		mapper:       mapper,
-		getByIDUA:    getByIDUA,
-		listByUserUA: listByUserUA,
-		createUA:     createUA,
-		deleteUA:     deleteUA,
+		mapper:             mapper,
+		getByIDUA:          getByIDUA,
+		listAllAvailableUA: listByUserUA,
+		createUA:           createUA,
+		deleteUA:           deleteUA,
 	}
 }
 
@@ -46,16 +46,16 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 		s.mapper.TagsSpaceGetByIDOutToChi,
 	)
 
-	listByUserHandler := goChiTooling.Handler[
-		TagsSpaceListByUserIn,
-		tagsSpaceUA.TagsSpaceListByUserIn,
-		tagsSpaceUA.TagsSpaceListByUserOut,
-		TagsSpaceListByUserOut,
+	listAllAvailableHandler := goChiTooling.Handler[
+		TagsSpaceListAllAvailableIn,
+		tagsSpaceUA.TagsSpaceListAllAvailableIn,
+		tagsSpaceUA.TagsSpaceListAllAvailableOut,
+		TagsSpaceListAllAvailableOut,
 	](
 		goChiTooling.NoParser,
-		s.mapper.TagsSpaceListByUserInFromChi,
-		s.listByUserUA,
-		s.mapper.TagsSpaceListByUserOutToChi,
+		s.mapper.TagsSpaceListAllAvailableInFromChi,
+		s.listAllAvailableUA,
+		s.mapper.TagsSpaceListAllAvailableOutToChi,
 	)
 
 	createHandler := goChiTooling.Handler[
@@ -120,13 +120,13 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 					},
 				},
 			},
-			"/list-by-user": {
+			"/list-all-available": {
 				Methods: chioas.Methods{
 					http.MethodGet: {
 						Description: "Эндпоинт для получения списка TagsSpace текущего пользователя",
-						Handler:     listByUserHandler,
+						Handler:     listAllAvailableHandler,
 						Responses: chioas.Responses{
-							http.StatusOK: {Schema: TagsSpaceListByUserOutOpenApiDefinition},
+							http.StatusOK: {Schema: TagsSpaceListAllAvailableOutOpenApiDefinition},
 						},
 					},
 				},

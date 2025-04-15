@@ -36,8 +36,7 @@ func TestTagsSpaceGetByIDUA(t *testing.T) {
 				TagsSpaceID: tagsSpaceID,
 			},
 		},
-		ID:     tagsSpaceID,
-		UserID: user.ID,
+		ID: tagsSpaceID,
 	}
 	expectedOut := tagsSpaceUA.TagsSpaceGetByIDOut{
 		TagsSpace: expectedTagsSpace,
@@ -45,7 +44,7 @@ func TestTagsSpaceGetByIDUA(t *testing.T) {
 	authAction := authorization.NewAction(
 		authorization.ReadTagsSpacePermission,
 		authorization.TagsSpaceResource,
-		tagsSpaceID.String(),
+		tagsSpaceID,
 	)
 
 	t.Run(

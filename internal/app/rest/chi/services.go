@@ -23,7 +23,7 @@ func newChiServices(chiMappers *mappers, userActions *collections.UserActions) *
 	s.tagsSpace = chiTagsSpace.NewService(
 		chiMappers.tagsSpaceUA,
 		userActions.TagsSpace.GetByID,
-		userActions.TagsSpace.ListByUser,
+		userActions.TagsSpace.ListAllAvailable,
 		userActions.TagsSpace.Create,
 		userActions.TagsSpace.Delete,
 	)

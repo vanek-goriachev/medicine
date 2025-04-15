@@ -34,14 +34,14 @@ func (ua *UntagAllAndDeleteUA) Act(
 	ctx context.Context,
 	user userModels.User,
 	in TagUntagAllAndDeleteIn,
-) (TagUntagAllAndDeleteOut, error) { //nolint:unparam // UserAction signature requires required parameter
+) (TagUntagAllAndDeleteOut, error) { //nolint:unparam // UserAction signature requires returned parameter
 	err := ua.authorizer.Authorize(
 		ctx,
 		user,
 		authorization.NewAction(
 			authorization.DeleteTagPermission,
 			authorization.TagResource,
-			in.ID.String(),
+			in.ID,
 		),
 	)
 	if err != nil {

@@ -38,16 +38,16 @@ func (m *UserActionsChiMapper) TagsSpaceCreateOutToChi(out tagsSpaceUA.TagsSpace
 	}
 }
 
-func (*UserActionsChiMapper) TagsSpaceListByUserInFromChi(
-	_ dto.TagsSpaceListByUserIn,
-) (tagsSpaceUA.TagsSpaceListByUserIn, error) {
-	return tagsSpaceUA.TagsSpaceListByUserIn{}, nil
+func (*UserActionsChiMapper) TagsSpaceListAllAvailableInFromChi(
+	_ dto.TagsSpaceListAllAvailableIn,
+) (tagsSpaceUA.TagsSpaceListAllAvailableIn, error) {
+	return tagsSpaceUA.TagsSpaceListAllAvailableIn{}, nil
 }
 
-func (m *UserActionsChiMapper) TagsSpaceListByUserOutToChi(
-	out tagsSpaceUA.TagsSpaceListByUserOut,
-) dto.TagsSpaceListByUserOut {
-	return dto.TagsSpaceListByUserOut{
+func (m *UserActionsChiMapper) TagsSpaceListAllAvailableOutToChi(
+	out tagsSpaceUA.TagsSpaceListAllAvailableOut,
+) dto.TagsSpaceListAllAvailableOut {
+	return dto.TagsSpaceListAllAvailableOut{
 		TagsSpaces: m.tagsSpaceChiMapper.MultipleToChi(out.TagsSpaces),
 	}
 }

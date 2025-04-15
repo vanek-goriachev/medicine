@@ -4,6 +4,7 @@ import (
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
 	tagsSpaceSA "medicine/internal/layers/business-logic/simple-actions/tags-space"
 	"medicine/internal/tooling/tests/generators"
+	"medicine/mocks/internal_/layers/business-logic/authorization"
 	tags_space "medicine/mocks/internal_/layers/business-logic/simple-actions/tags-space"
 	"testing"
 
@@ -13,20 +14,26 @@ import (
 func TestTagsSpaceGetByIDSA(t *testing.T) {
 	t.Parallel()
 
-	user := generators.TestUser()
 	tagsSpaceID := generators.GenerateEntityID()
-	expectedTagsSpace := generators.GenerateTagsSpace(user.ID)
+	expectedTagsSpace := generators.GenerateTagsSpace()
 
 	t.Run(
 		"greenpath",
 		func(t *testing.T) {
 			t.Parallel()
 
+			authorizer := authorization.NewAuthorizer(t)
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
 			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
 			tagAtomicActions := tags_space.NewTagAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
+			sa := tagsSpaceSA.NewSimpleActions(
+				authorizer,
+				idGenerator,
+				tagsSpaceFactory,
+				tagAtomicActions,
+				tagsSpaceAtomicActions,
+			)
 
 			tagsSpaceAtomicActions.EXPECT().
 				GetByID(t.Context(), tagsSpaceID).
@@ -44,11 +51,18 @@ func TestTagsSpaceGetByIDSA(t *testing.T) {
 		func(t *testing.T) {
 			t.Parallel()
 
+			authorizer := authorization.NewAuthorizer(t)
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
 			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
 			tagAtomicActions := tags_space.NewTagAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
+			sa := tagsSpaceSA.NewSimpleActions(
+				authorizer,
+				idGenerator,
+				tagsSpaceFactory,
+				tagAtomicActions,
+				tagsSpaceAtomicActions,
+			)
 
 			tagsSpaceAtomicActions.EXPECT().
 				GetByID(t.Context(), tagsSpaceID).

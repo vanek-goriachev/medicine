@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	noop_authorizer "medicine/internal/layers/business-logic/authorization/noop-authorizer"
 
 	"medicine/internal/appcore/collections"
 	"medicine/internal/appcore/dependencies"
-	"medicine/internal/layers/business-logic/authorization"
 )
 
 type Core struct {
@@ -55,9 +55,12 @@ func (c *Core) Initialize(
 	c.validators = collections.NewValidators()
 	c.factories = collections.NewFactories(c.validators)
 
-	c.simpleActions = collections.NewSimpleActions(c.others, c.dbGateways, c.factories)
+	authorizer := noop_authorizer.NewNoopAuthorizer(
+		c.ApplicationDependencies.DB.GormDB,
+		c.ApplicationDependencies.FileStorage.GormFileStorage,
+	)
+	c.simpleActions = collections.NewSimpleActions(authorizer, c.others, c.dbGateways, c.factories)
 
-	authorizer := authorization.NewAuthorizer(c.ApplicationDependencies.IAM)
 	c.UserActions = collections.NewUserActions(
 		authorizer,
 		c.simpleActions,

@@ -3,6 +3,7 @@ package tags_space
 import (
 	"context"
 	"fmt"
+	entityID "medicine/pkg/entity-id"
 
 	"medicine/internal/layers/business-logic/authorization"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
@@ -39,7 +40,7 @@ func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in TagsSpaceC
 		authorization.NewAction(
 			authorization.CreateTagsSpacePermission,
 			authorization.TagsSpaceResource,
-			"",
+			entityID.EntityID{},
 		),
 	)
 	if err != nil {

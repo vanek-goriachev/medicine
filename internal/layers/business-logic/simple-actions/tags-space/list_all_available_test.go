@@ -1,11 +1,12 @@
 package tags_space_test
 
 import (
-	tagModels "medicine/internal/layers/business-logic/models/tag"
+	"context"
+	"medicine/internal/layers/business-logic/authorization"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
 	tagsSpaceSA "medicine/internal/layers/business-logic/simple-actions/tags-space"
 	"medicine/internal/tooling/tests/generators"
-	"medicine/mocks/internal_/layers/business-logic/authorization"
+	authorizationMocks "medicine/mocks/internal_/layers/business-logic/authorization"
 	tags_space "medicine/mocks/internal_/layers/business-logic/simple-actions/tags-space"
 	entityID "medicine/pkg/entity-id"
 	"testing"
@@ -13,16 +14,19 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTagsSpaceCreateSA(t *testing.T) {
+func TestTagsSpaceListAllAvailableSA(t *testing.T) {
 	t.Parallel()
 
 	user := generators.TestUser()
-	name := "tags-space"
-	tagsSpaceID := generators.GenerateEntityID()
-	expectedTagsSpace := tagsSpaceModels.TagsSpace{
-		ID:   tagsSpaceID,
-		Name: name,
-		Tags: []tagModels.Tag{},
+	expectedTagsSpaces := []tagsSpaceModels.TagsSpace{
+		generators.GenerateTagsSpace(),
+		generators.GenerateTagsSpace(),
+		generators.GenerateTagsSpace(),
+	}
+	tagsSpacesIDs := []entityID.EntityID{
+		expectedTagsSpaces[0].ID,
+		expectedTagsSpaces[1].ID,
+		expectedTagsSpaces[2].ID,
 	}
 
 	t.Run(
@@ -30,7 +34,9 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 		func(t *testing.T) {
 			t.Parallel()
 
-			authorizer := authorization.NewAuthorizer(t)
+			ctx := context.Background()
+
+			authorizer := authorizationMocks.NewAuthorizer(t)
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
 			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
@@ -43,25 +49,28 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 				tagsSpaceAtomicActions,
 			)
 
-			idGenerator.EXPECT().Generate().Return(tagsSpaceID, nil)
-			tagsSpaceFactory.EXPECT().
-				New(tagsSpaceID, name, []tagModels.Tag{}).
-				Return(expectedTagsSpace, nil)
-			tagsSpaceAtomicActions.EXPECT().Create(t.Context(), expectedTagsSpace).Return(nil)
+			authorizer.EXPECT().
+				AvailableResources(ctx, user, authorization.TagsSpaceResource, authorization.ReadTagsSpacePermission).
+				Return(tagsSpacesIDs, nil)
+			tagsSpaceAtomicActions.EXPECT().
+				ListByIDs(ctx, tagsSpacesIDs).
+				Return(expectedTagsSpaces, nil)
 
-			tagsSpace, err := sa.Create(t.Context(), user, name)
+			tagsSpaces, err := sa.ListAllAvailable(ctx, user)
 
 			assert.NoError(t, err)
-			assert.Equal(t, expectedTagsSpace, tagsSpace)
+			assert.Equal(t, expectedTagsSpaces, tagsSpaces)
 		},
 	)
 
 	t.Run(
-		"create fail",
+		"list by ids fail",
 		func(t *testing.T) {
 			t.Parallel()
 
-			authorizer := authorization.NewAuthorizer(t)
+			ctx := context.Background()
+
+			authorizer := authorizationMocks.NewAuthorizer(t)
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
 			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
@@ -74,25 +83,28 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 				tagsSpaceAtomicActions,
 			)
 
-			idGenerator.EXPECT().Generate().Return(tagsSpaceID, nil)
-			tagsSpaceFactory.EXPECT().
-				New(tagsSpaceID, name, []tagModels.Tag{}).
-				Return(expectedTagsSpace, nil)
-			tagsSpaceAtomicActions.EXPECT().Create(t.Context(), expectedTagsSpace).Return(assert.AnError)
+			authorizer.EXPECT().
+				AvailableResources(ctx, user, authorization.TagsSpaceResource, authorization.ReadTagsSpacePermission).
+				Return(tagsSpacesIDs, nil)
+			tagsSpaceAtomicActions.EXPECT().
+				ListByIDs(ctx, tagsSpacesIDs).
+				Return(nil, assert.AnError)
 
-			tagsSpace, err := sa.Create(t.Context(), user, name)
+			tagsSpaces, err := sa.ListAllAvailable(ctx, user)
 
 			assert.ErrorIs(t, err, assert.AnError)
-			assert.Zero(t, tagsSpace)
+			assert.Zero(t, tagsSpaces)
 		},
 	)
 
 	t.Run(
-		"factory fail",
+		"authorizer returns empty list",
 		func(t *testing.T) {
 			t.Parallel()
 
-			authorizer := authorization.NewAuthorizer(t)
+			ctx := context.Background()
+
+			authorizer := authorizationMocks.NewAuthorizer(t)
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
 			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
@@ -105,24 +117,25 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 				tagsSpaceAtomicActions,
 			)
 
-			idGenerator.EXPECT().Generate().Return(tagsSpaceID, nil)
-			tagsSpaceFactory.EXPECT().
-				New(tagsSpaceID, name, []tagModels.Tag{}).
-				Return(tagsSpaceModels.TagsSpace{}, assert.AnError)
+			authorizer.EXPECT().
+				AvailableResources(ctx, user, authorization.TagsSpaceResource, authorization.ReadTagsSpacePermission).
+				Return([]entityID.EntityID{}, nil)
 
-			tagsSpace, err := sa.Create(t.Context(), user, name)
+			tagsSpaces, err := sa.ListAllAvailable(ctx, user)
 
-			assert.ErrorIs(t, err, assert.AnError)
-			assert.Zero(t, tagsSpace)
+			assert.NoError(t, err)
+			assert.Equal(t, tagsSpaces, []tagsSpaceModels.TagsSpace{})
 		},
 	)
 
 	t.Run(
-		"id generator fail",
+		"authorizer returns error",
 		func(t *testing.T) {
 			t.Parallel()
 
-			authorizer := authorization.NewAuthorizer(t)
+			ctx := context.Background()
+
+			authorizer := authorizationMocks.NewAuthorizer(t)
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
 			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
@@ -135,12 +148,14 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 				tagsSpaceAtomicActions,
 			)
 
-			idGenerator.EXPECT().Generate().Return(entityID.EntityID{}, assert.AnError)
+			authorizer.EXPECT().
+				AvailableResources(ctx, user, authorization.TagsSpaceResource, authorization.ReadTagsSpacePermission).
+				Return(nil, assert.AnError)
 
-			tagsSpace, err := sa.Create(t.Context(), user, name)
+			tagsSpaces, err := sa.ListAllAvailable(ctx, user)
 
 			assert.ErrorIs(t, err, assert.AnError)
-			assert.Zero(t, tagsSpace)
+			assert.Zero(t, tagsSpaces)
 		},
 	)
 }

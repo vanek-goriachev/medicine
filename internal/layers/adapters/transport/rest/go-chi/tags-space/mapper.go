@@ -29,21 +29,15 @@ func (m *ChiMapper) FromChi(chiTagsSpace tagsSpaceChi.TagsSpace) (tagsSpaceModel
 		return tagsSpaceModels.TagsSpace{}, fmt.Errorf("can't convert tagsSpace id: %w", err)
 	}
 
-	userID, err := m.entityIDMapper.FromString(chiTagsSpace.UserID)
-	if err != nil {
-		return tagsSpaceModels.TagsSpace{}, fmt.Errorf("can't convert user id: %w", err)
-	}
-
 	tags, err := m.tagChiMapper.MultipleFromChi(chiTagsSpace.Tags)
 	if err != nil {
 		return tagsSpaceModels.TagsSpace{}, fmt.Errorf("can't convert tags: %w", err)
 	}
 
 	return tagsSpaceModels.TagsSpace{
-		ID:     id,
-		UserID: userID,
-		Name:   chiTagsSpace.Name,
-		Tags:   tags,
+		ID:   id,
+		Name: chiTagsSpace.Name,
+		Tags: tags,
 	}, nil
 }
 
@@ -63,10 +57,9 @@ func (m *ChiMapper) MultipleFromChi(chiTagsSpaces []tagsSpaceChi.TagsSpace) ([]t
 
 func (m *ChiMapper) ToChi(tagsSpace tagsSpaceModels.TagsSpace) tagsSpaceChi.TagsSpace {
 	return tagsSpaceChi.TagsSpace{
-		ID:     tagsSpace.ID.String(),
-		UserID: tagsSpace.UserID.String(),
-		Name:   tagsSpace.Name,
-		Tags:   m.tagChiMapper.MultipleToChi(tagsSpace.Tags),
+		ID:   tagsSpace.ID.String(),
+		Name: tagsSpace.Name,
+		Tags: m.tagChiMapper.MultipleToChi(tagsSpace.Tags),
 	}
 }
 

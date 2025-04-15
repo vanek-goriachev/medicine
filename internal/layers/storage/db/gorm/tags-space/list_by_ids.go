@@ -9,17 +9,17 @@ import (
 	entityID "medicine/pkg/entity-id"
 )
 
-func (g *GORMGateway) ListByUserID(
+func (g *GORMGateway) ListByIDs(
 	_ context.Context,
-	userID entityID.EntityID,
+	ids []entityID.EntityID,
 ) ([]tagsSpaceModels.TagsSpace, error) {
 	var tagsSpaces []gormModels.TagsSpace
 
 	result := g.db.Model(gormModels.TagsSpaceModel).
 		Preload(gormModels.TagsField).
-		Find(&tagsSpaces, "user_id = ?", userID)
+		Find(&tagsSpaces, "id IN ?", ids)
 	if result.Error != nil {
-		return nil, fmt.Errorf("error filtering tagsSpaces by user_id: %w", result.Error)
+		return nil, fmt.Errorf("error filtering tagsSpaces by ids: %w", result.Error)
 	}
 
 	return g.mapper.MultipleFromGORM(tagsSpaces), nil

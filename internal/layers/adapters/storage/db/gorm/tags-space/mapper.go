@@ -18,10 +18,9 @@ func NewGORMMapper(tagMapper tagGORMMapper) *GORMMapper {
 
 func (m *GORMMapper) FromGORM(dbTagsSpace gormModels.TagsSpace) tagsSpaceModels.TagsSpace {
 	return tagsSpaceModels.TagsSpace{
-		ID:     entityID.EntityID(dbTagsSpace.ID),
-		UserID: entityID.EntityID(dbTagsSpace.UserID),
-		Name:   dbTagsSpace.Name,
-		Tags:   m.tagMapper.MultipleFromGORM(dbTagsSpace.Tags),
+		ID:   entityID.EntityID(dbTagsSpace.ID),
+		Name: dbTagsSpace.Name,
+		Tags: m.tagMapper.MultipleFromGORM(dbTagsSpace.Tags),
 	}
 }
 
@@ -36,10 +35,9 @@ func (m *GORMMapper) MultipleFromGORM(dbTagsSpaces []gormModels.TagsSpace) []tag
 
 func (m *GORMMapper) ToGORM(tagsSpace tagsSpaceModels.TagsSpace) gormModels.TagsSpace {
 	return gormModels.TagsSpace{
-		ID:     uuid.UUID(tagsSpace.ID),
-		UserID: uuid.UUID(tagsSpace.UserID),
-		Name:   tagsSpace.Name,
-		Tags:   m.tagMapper.MultipleToGORM(tagsSpace.Tags),
+		ID:   uuid.UUID(tagsSpace.ID),
+		Name: tagsSpace.Name,
+		Tags: m.tagMapper.MultipleToGORM(tagsSpace.Tags),
 	}
 }
 
