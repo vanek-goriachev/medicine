@@ -3,8 +3,8 @@ package collections
 import (
 	"gorm.io/gorm"
 
-	tagGORM "medicine/internal/layers/storage/gorm/tag"
-	tagsSpaceGORM "medicine/internal/layers/storage/gorm/tags-space"
+	tagGORM "medicine/internal/layers/storage/db/gorm/tag"
+	tagsSpaceGORM "medicine/internal/layers/storage/db/gorm/tags-space"
 )
 
 type Gateways struct {

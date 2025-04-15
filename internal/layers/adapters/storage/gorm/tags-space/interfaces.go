@@ -2,7 +2,7 @@ package tags_space
 
 import (
 	tagModels "medicine/internal/layers/business-logic/models/tag"
-	gormModels "medicine/internal/layers/storage/gorm/models"
+	gormModels "medicine/internal/layers/storage/db/gorm/models"
 )
 
 type tagGORMMapper interface {

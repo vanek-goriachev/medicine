@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
-	gormModels "medicine/internal/layers/storage/gorm/models"
+	gormModels "medicine/internal/layers/storage/db/gorm/models"
 	entityID "medicine/pkg/entity-id"
 )
 
