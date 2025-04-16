@@ -92,6 +92,13 @@ func (db *DB) migrateDB(ctx context.Context) error {
 	err := db.GormDB.AutoMigrate(
 		gormModels.TagsSpaceModel,
 		gormModels.TagModel,
+		
+		gormModels.MedicalFileInfoModel,
+		gormModels.MedicalFileDataModel,
+
+		gormModels.VisitRecordModel,
+		gormModels.VisitRecordMedicalFileModel,
+		gormModels.VisitRecordTagModel,
 	)
 	if err != nil {
 		return fmt.Errorf("failed to migrate DB: %w", err)

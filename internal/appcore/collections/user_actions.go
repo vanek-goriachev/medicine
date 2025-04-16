@@ -4,6 +4,7 @@ import (
 	"medicine/internal/layers/business-logic/authorization"
 	tagUA "medicine/internal/layers/business-logic/user-actions/tag"
 	tagsSpaceUA "medicine/internal/layers/business-logic/user-actions/tags-space"
+	visitRecordUA "medicine/internal/layers/business-logic/user-actions/visit-record"
 )
 
 type UserActions struct {
@@ -11,6 +12,8 @@ type UserActions struct {
 
 	Tag       *tagUA.UserActions
 	TagsSpace *tagsSpaceUA.UserActions
+
+	VisitRecord *visitRecordUA.UserActions
 }
 
 func NewUserActions(
@@ -27,6 +30,11 @@ func NewUserActions(
 	c.TagsSpace = tagsSpaceUA.NewUserActions(
 		c.authorizer,
 		simpleActions.tagsSpace,
+	)
+
+	c.VisitRecord = visitRecordUA.NewUserActions(
+		c.authorizer,
+		simpleActions.visitRecord,
 	)
 
 	return &c

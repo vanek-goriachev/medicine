@@ -2,6 +2,8 @@ package collections
 
 import (
 	"medicine/internal/appcore/dependencies/db"
+	medicalFileGORM "medicine/internal/layers/storage/db/gorm/medical-file"
+	visitRecordGORM "medicine/internal/layers/storage/db/gorm/visit-record"
 
 	tagGORM "medicine/internal/layers/storage/db/gorm/tag"
 	tagsSpaceGORM "medicine/internal/layers/storage/db/gorm/tags-space"
@@ -10,6 +12,10 @@ import (
 type DBGateways struct {
 	tag       *tagGORM.GORMGateway
 	tagsSpace *tagsSpaceGORM.GORMGateway
+
+	medicalFile *medicalFileGORM.GORMGateway
+
+	visitRecord *visitRecordGORM.GORMGateway
 }
 
 func NewDBGateways(db *db.DB, gormMappers *DBMappers) *DBGateways {
@@ -17,6 +23,10 @@ func NewDBGateways(db *db.DB, gormMappers *DBMappers) *DBGateways {
 
 	c.tag = tagGORM.NewGORMGateway(db.GormDB, gormMappers.tag)
 	c.tagsSpace = tagsSpaceGORM.NewGORMGateway(db.GormDB, gormMappers.tagsSpace)
+
+	c.medicalFile = medicalFileGORM.NewGORMGateway(db.GormDB, gormMappers.medicalFile)
+
+	c.visitRecord = visitRecordGORM.NewGORMGateway(db.GormDB, gormMappers.visitRecord)
 
 	return &c
 }

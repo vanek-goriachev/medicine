@@ -36,6 +36,23 @@ func ProcessRequestQueryArgs[dtoInType any](r *http.Request) (dtoInType, error) 
 	return inDTO, nil
 }
 
+func ProcessRequestMultipartFormData[dtoInType any](r *http.Request) (dtoInType, error) {
+	var inDTO dtoInType
+	var zero dtoInType
+
+	err := r.ParseMultipartForm(1024 * 1024 * 1024) // 1GB
+	if err != nil {
+		return zero, fmt.Errorf("error parsing multipart form data: %w", err)
+	}
+
+	err = schema.NewDecoder().Decode(&inDTO, r.Form)
+	if err != nil {
+		return zero, fmt.Errorf("error decoding request multipart form data: %w", err)
+	}
+
+	return inDTO, nil
+}
+
 func NoParser[dtoInType any](_ *http.Request) (dtoInType, error) {
 	var inDTO dtoInType
 	return inDTO, nil

@@ -37,7 +37,7 @@ func (sa *SimpleActions) Create(
 func (sa *SimpleActions) checkExistence(ctx context.Context, name string, tagsSpaceID entityID.EntityID) error {
 	identifier := customIdentifiers.TagsSpaceIDAndNameIdentifier{TagsSpaceID: tagsSpaceID, Name: name}
 
-	_, err := sa.atomicActions.GetByTagsSpaceIDAndName(ctx, identifier)
+	_, err := sa.atomicActions.GetByTagsSpaceIDAndName(ctx, identifier) // TODO: do i need this check?
 	if err == nil {
 		return tagModels.NewTagAlreadyExistError(identifier)
 	}

@@ -21,9 +21,6 @@ type Core struct {
 	dbMappers  *collections.DBMappers
 	dbGateways *collections.DBGateways
 
-	fileStorageMappers  *collections.FileStorageMappers
-	fileStorageGateways *collections.FileStorageGateways
-
 	validators *collections.Validators
 	factories  *collections.Factories
 
@@ -46,18 +43,11 @@ func (c *Core) Initialize(
 	c.dbMappers = collections.NewDBMappers()
 	c.dbGateways = collections.NewDBGateways(c.ApplicationDependencies.DB, c.dbMappers)
 
-	c.fileStorageMappers = collections.NewFileStorageMappers()
-	c.fileStorageGateways = collections.NewFileStorageGateways(
-		c.ApplicationDependencies.FileStorage,
-		c.fileStorageMappers,
-	)
-
 	c.validators = collections.NewValidators()
 	c.factories = collections.NewFactories(c.validators)
 
 	authorizer := noop_authorizer.NewNoopAuthorizer(
 		c.ApplicationDependencies.DB.GormDB,
-		c.ApplicationDependencies.FileStorage.GormFileStorage,
 	)
 	c.simpleActions = collections.NewSimpleActions(authorizer, c.others, c.dbGateways, c.factories)
 
