@@ -36,7 +36,7 @@ func NewGetByIDUA(
 func (ua *GetByIDUA) Act(
 	ctx context.Context,
 	user userModels.User,
-	in TagsSpaceGetByIDIn,
+	in *TagsSpaceGetByIDIn,
 ) (TagsSpaceGetByIDOut, error) {
 	tagsSpace, err := ua.simpleActions.GetByID(ctx, in.ID)
 	if err != nil {
@@ -49,7 +49,7 @@ func (ua *GetByIDUA) Act(
 		authorization.NewAction(
 			authorization.ReadTagsSpacePermission,
 			authorization.TagsSpaceResource,
-			tagsSpace.ID.String(),
+			tagsSpace.ID,
 		),
 	)
 	if err != nil {

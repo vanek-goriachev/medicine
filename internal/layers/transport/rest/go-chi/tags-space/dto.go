@@ -7,25 +7,21 @@ import (
 )
 
 type TagsSpace struct {
-	ID     string       `json:"id"`
-	UserID string       `json:"user_id"`
-	Name   string       `json:"name"`
-	Tags   []tagChi.Tag `json:"tags"`
+	ID   string       `json:"id"`
+	Name string       `json:"name"`
+	Tags []tagChi.Tag `json:"tags"`
 }
 
 var TagsSpaceOpenApiDefinition = chioas.Schema{
 	Name:               "tags-space",
-	RequiredProperties: []string{"id", "user_id", "name", "tags"},
+	RequiredProperties: []string{"id", "name", "tags"},
 	Properties: chioas.Properties{
 		{
-			Name:    "id",
-			Type:    "string",
-			Example: "00000000-0000-0000-0000-000000000001",
-		},
-		{
-			Name:    "user_id",
-			Type:    "string",
-			Example: "00000000-0000-0000-0000-000000000001",
+			Name:     "id",
+			Type:     "string",
+			Format:   "uuid",
+			Required: true,
+			Example:  "00000000-0000-0000-0000-000000000001",
 		},
 		{
 			Name:    "name",

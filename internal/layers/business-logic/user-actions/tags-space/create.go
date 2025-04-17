@@ -6,6 +6,7 @@ import (
 
 	"medicine/internal/layers/business-logic/authorization"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
+	entityID "medicine/pkg/entity-id"
 	userModels "medicine/pkg/user"
 )
 
@@ -32,14 +33,14 @@ func NewCreateUA(
 	}
 }
 
-func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in TagsSpaceCreateIn) (TagsSpaceCreateOut, error) {
+func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in *TagsSpaceCreateIn) (TagsSpaceCreateOut, error) {
 	err := ua.authorizer.Authorize(
 		ctx,
 		user,
 		authorization.NewAction(
 			authorization.CreateTagsSpacePermission,
 			authorization.TagsSpaceResource,
-			"",
+			entityID.EntityID{},
 		),
 	)
 	if err != nil {

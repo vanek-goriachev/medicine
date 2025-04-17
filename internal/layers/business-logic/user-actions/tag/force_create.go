@@ -37,7 +37,7 @@ func NewForceCreateUA(
 func (ua *ForceCreateUA) Act(
 	ctx context.Context,
 	user userModels.User,
-	in TagForceCreateIn,
+	in *TagForceCreateIn,
 ) (TagForceCreateOut, error) {
 	err := ua.authorizer.Authorize(
 		ctx,
@@ -45,7 +45,7 @@ func (ua *ForceCreateUA) Act(
 		authorization.NewAction(
 			authorization.CreateTagPermission,
 			authorization.TagResource,
-			"",
+			entityID.EntityID{},
 		),
 	)
 	if err != nil {

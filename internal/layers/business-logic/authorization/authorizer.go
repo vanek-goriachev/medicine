@@ -4,16 +4,17 @@ import (
 	"context"
 
 	"medicine/internal/tooling/iam"
+	entityID "medicine/pkg/entity-id"
 	userModels "medicine/pkg/user"
 )
 
 type Action struct {
 	permission   Permission
 	resourceType Resource
-	identifier   string
+	identifier   entityID.EntityID
 }
 
-func NewAction(permission Permission, resourceType Resource, identifier string) Action {
+func NewAction(permission Permission, resourceType Resource, identifier entityID.EntityID) Action {
 	return Action{
 		permission:   permission,
 		resourceType: resourceType,
@@ -33,6 +34,14 @@ type Authorizer interface {
 		user userModels.User,
 		actions []Action,
 	) error
+
+	// AvailableResources returns the list of available resources for the given user and permission
+	AvailableResources(
+		ctx context.Context,
+		user userModels.User,
+		resourceType Resource,
+		permission Permission,
+	) ([]entityID.EntityID, error)
 }
 
 type AuthorizerImpl struct {
@@ -61,4 +70,13 @@ func (*AuthorizerImpl) BatchAuthorize(
 	_ []Action,
 ) error {
 	return nil
+}
+
+func (*AuthorizerImpl) AvailableResources(
+	_ context.Context,
+	_ userModels.User,
+	_ Resource,
+	_ Permission,
+) ([]entityID.EntityID, error) {
+	return nil, nil
 }

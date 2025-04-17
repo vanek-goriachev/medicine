@@ -10,7 +10,7 @@ import (
 
 type SimpleActions interface {
 	GetByID(ctx context.Context, id entityID.EntityID) (tagsSpaceModels.TagsSpace, error)
-	ListByUser(ctx context.Context, user userModels.User) ([]tagsSpaceModels.TagsSpace, error)
+	ListAllAvailable(ctx context.Context, user userModels.User) ([]tagsSpaceModels.TagsSpace, error)
 	Create(ctx context.Context, user userModels.User, name string) (tagsSpaceModels.TagsSpace, error)
 	Delete(ctx context.Context, tagsSpaceID entityID.EntityID) error
 }

@@ -4,16 +4,16 @@ import (
 	"github.com/go-andiamo/chioas"
 )
 
-type TagsSpaceListByUserIn struct{}
+type TagsSpaceListAllAvailableIn struct{}
 
-// No TagsSpaceListByUserInOpenApiDefinition needed
+// No TagsSpaceListAllAvailableInOpenApiDefinition needed
 
-type TagsSpaceListByUserOut struct {
+type TagsSpaceListAllAvailableOut struct {
 	TagsSpaces []TagsSpace `json:"tags_spaces"`
 }
 
-var TagsSpaceListByUserOutOpenApiDefinition = chioas.Schema{
-	Name:               "TagsSpaceListByUserOut",
+var TagsSpaceListAllAvailableOutOpenApiDefinition = chioas.Schema{
+	Name:               "TagsSpaceListAllAvailableOut",
 	RequiredProperties: []string{"tags_spaces"},
 	Properties: chioas.Properties{
 		{

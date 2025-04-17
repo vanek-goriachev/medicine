@@ -77,6 +77,7 @@ linters:
             - "github.com/go-andiamo/chioas"
             - "github.com/go-chi/chi/v5"
             - "gorm.io"
+            - "golang.org/x/sync/errgroup"
           deny:
             - pkg: medicine/internal/tooling/tests
               desc: "its a special tooling for tests but not for production code"
@@ -325,6 +326,8 @@ linters:
         - name: exported
           disabled: true
         - name: package-comments
+          disabled: true
+        - name: max-public-structs
           disabled: true
 
     sloglint:

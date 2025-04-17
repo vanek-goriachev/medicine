@@ -8,6 +8,7 @@ import (
 	"medicine/internal/tooling/tests/generators"
 	authorizationMocks "medicine/mocks/internal_/layers/business-logic/authorization"
 	tagsSpaceSAMock "medicine/mocks/internal_/layers/business-logic/user-actions/tags-space"
+	entityID "medicine/pkg/entity-id"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -18,14 +19,13 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 
 	// Test data
 	user := generators.TestUser()
-	in := tagsSpaceUA.TagsSpaceCreateIn{
+	in := &tagsSpaceUA.TagsSpaceCreateIn{
 		Name: "test",
 	}
 	createdTagsSpace := tagsSpaceModels.TagsSpace{
-		Name:   in.Name,
-		Tags:   []tagModels.Tag{},
-		ID:     generators.GenerateEntityID(),
-		UserID: user.ID,
+		Name: in.Name,
+		Tags: []tagModels.Tag{},
+		ID:   generators.GenerateEntityID(),
 	}
 	expectedOut := tagsSpaceUA.TagsSpaceCreateOut{
 		TagsSpace: createdTagsSpace,
@@ -33,7 +33,7 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 	authAction := authorization.NewAction(
 		authorization.CreateTagsSpacePermission,
 		authorization.TagsSpaceResource,
-		"",
+		entityID.EntityID{},
 	)
 
 	t.Run(

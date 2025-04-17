@@ -3,12 +3,11 @@ package tags_space_test
 import (
 	tagModels "medicine/internal/layers/business-logic/models/tag"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
-	customIdentifiers "medicine/internal/layers/business-logic/models/tags-space/identifiers"
 	tagsSpaceSA "medicine/internal/layers/business-logic/simple-actions/tags-space"
 	"medicine/internal/tooling/tests/generators"
+	"medicine/mocks/internal_/layers/business-logic/authorization"
 	tags_space "medicine/mocks/internal_/layers/business-logic/simple-actions/tags-space"
 	entityID "medicine/pkg/entity-id"
-	pkgErrors "medicine/pkg/errors/db"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -19,17 +18,11 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 
 	user := generators.TestUser()
 	name := "tags-space"
-	identifier := customIdentifiers.UserIDAndNameIdentifier{
-		UserID: user.ID,
-		Name:   name,
-	}
-	spaceNotFoundErr := pkgErrors.NewDoesNotExistError(identifier)
 	tagsSpaceID := generators.GenerateEntityID()
 	expectedTagsSpace := tagsSpaceModels.TagsSpace{
-		ID:     tagsSpaceID,
-		UserID: user.ID,
-		Name:   name,
-		Tags:   []tagModels.Tag{},
+		ID:   tagsSpaceID,
+		Name: name,
+		Tags: []tagModels.Tag{},
 	}
 
 	t.Run(
@@ -37,18 +30,22 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 		func(t *testing.T) {
 			t.Parallel()
 
+			authorizer := authorization.NewAuthorizer(t)
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
 			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
 			tagAtomicActions := tags_space.NewTagAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
+			sa := tagsSpaceSA.NewSimpleActions(
+				authorizer,
+				idGenerator,
+				tagsSpaceFactory,
+				tagAtomicActions,
+				tagsSpaceAtomicActions,
+			)
 
-			tagsSpaceAtomicActions.EXPECT().
-				GetByUserIDAndName(t.Context(), identifier).
-				Return(tagsSpaceModels.TagsSpace{}, spaceNotFoundErr)
 			idGenerator.EXPECT().Generate().Return(tagsSpaceID, nil)
 			tagsSpaceFactory.EXPECT().
-				New(tagsSpaceID, user.ID, name, []tagModels.Tag{}).
+				New(tagsSpaceID, name, []tagModels.Tag{}).
 				Return(expectedTagsSpace, nil)
 			tagsSpaceAtomicActions.EXPECT().Create(t.Context(), expectedTagsSpace).Return(nil)
 
@@ -64,18 +61,22 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 		func(t *testing.T) {
 			t.Parallel()
 
+			authorizer := authorization.NewAuthorizer(t)
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
 			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
 			tagAtomicActions := tags_space.NewTagAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
+			sa := tagsSpaceSA.NewSimpleActions(
+				authorizer,
+				idGenerator,
+				tagsSpaceFactory,
+				tagAtomicActions,
+				tagsSpaceAtomicActions,
+			)
 
-			tagsSpaceAtomicActions.EXPECT().
-				GetByUserIDAndName(t.Context(), identifier).
-				Return(tagsSpaceModels.TagsSpace{}, spaceNotFoundErr)
 			idGenerator.EXPECT().Generate().Return(tagsSpaceID, nil)
 			tagsSpaceFactory.EXPECT().
-				New(tagsSpaceID, user.ID, name, []tagModels.Tag{}).
+				New(tagsSpaceID, name, []tagModels.Tag{}).
 				Return(expectedTagsSpace, nil)
 			tagsSpaceAtomicActions.EXPECT().Create(t.Context(), expectedTagsSpace).Return(assert.AnError)
 
@@ -91,18 +92,22 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 		func(t *testing.T) {
 			t.Parallel()
 
+			authorizer := authorization.NewAuthorizer(t)
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
 			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
 			tagAtomicActions := tags_space.NewTagAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
+			sa := tagsSpaceSA.NewSimpleActions(
+				authorizer,
+				idGenerator,
+				tagsSpaceFactory,
+				tagAtomicActions,
+				tagsSpaceAtomicActions,
+			)
 
-			tagsSpaceAtomicActions.EXPECT().
-				GetByUserIDAndName(t.Context(), identifier).
-				Return(tagsSpaceModels.TagsSpace{}, spaceNotFoundErr)
 			idGenerator.EXPECT().Generate().Return(tagsSpaceID, nil)
 			tagsSpaceFactory.EXPECT().
-				New(tagsSpaceID, user.ID, name, []tagModels.Tag{}).
+				New(tagsSpaceID, name, []tagModels.Tag{}).
 				Return(tagsSpaceModels.TagsSpace{}, assert.AnError)
 
 			tagsSpace, err := sa.Create(t.Context(), user, name)
@@ -117,15 +122,19 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 		func(t *testing.T) {
 			t.Parallel()
 
+			authorizer := authorization.NewAuthorizer(t)
 			idGenerator := tags_space.NewEntityIDGenerator(t)
 			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
 			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
 			tagAtomicActions := tags_space.NewTagAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
+			sa := tagsSpaceSA.NewSimpleActions(
+				authorizer,
+				idGenerator,
+				tagsSpaceFactory,
+				tagAtomicActions,
+				tagsSpaceAtomicActions,
+			)
 
-			tagsSpaceAtomicActions.EXPECT().
-				GetByUserIDAndName(t.Context(), identifier).
-				Return(tagsSpaceModels.TagsSpace{}, spaceNotFoundErr)
 			idGenerator.EXPECT().Generate().Return(entityID.EntityID{}, assert.AnError)
 
 			tagsSpace, err := sa.Create(t.Context(), user, name)
@@ -134,49 +143,4 @@ func TestTagsSpaceCreateSA(t *testing.T) {
 			assert.Zero(t, tagsSpace)
 		},
 	)
-
-	t.Run(
-		"get tags space fail",
-		func(t *testing.T) {
-			t.Parallel()
-
-			idGenerator := tags_space.NewEntityIDGenerator(t)
-			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
-			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
-			tagAtomicActions := tags_space.NewTagAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
-
-			tagsSpaceAtomicActions.EXPECT().
-				GetByUserIDAndName(t.Context(), identifier).
-				Return(tagsSpaceModels.TagsSpace{}, assert.AnError)
-
-			tagsSpace, err := sa.Create(t.Context(), user, name)
-
-			assert.ErrorIs(t, err, assert.AnError)
-			assert.Zero(t, tagsSpace)
-		},
-	)
-
-	t.Run(
-		"tags space already exists",
-		func(t *testing.T) {
-			t.Parallel()
-
-			idGenerator := tags_space.NewEntityIDGenerator(t)
-			tagsSpaceFactory := tags_space.NewTagsSpaceFactory(t)
-			tagsSpaceAtomicActions := tags_space.NewTagsSpaceAtomicActions(t)
-			tagAtomicActions := tags_space.NewTagAtomicActions(t)
-			sa := tagsSpaceSA.NewSimpleActions(idGenerator, tagsSpaceFactory, tagAtomicActions, tagsSpaceAtomicActions)
-
-			tagsSpaceAtomicActions.EXPECT().
-				GetByUserIDAndName(t.Context(), identifier).
-				Return(expectedTagsSpace, nil)
-
-			tagsSpace, err := sa.Create(t.Context(), user, name)
-
-			assert.ErrorIs(t, err, tagsSpaceModels.NewTagsSpaceAlreadyExistError(identifier))
-			assert.Zero(t, tagsSpace)
-		},
-	)
-
 }

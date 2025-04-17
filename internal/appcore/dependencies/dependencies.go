@@ -13,7 +13,7 @@ import (
 )
 
 type ApplicationDependencies struct {
-	Telemetry telemetry.Infrastructure
+	Telemetry *telemetry.Infrastructure
 	IAM       iam.IAM
 	DB        *db.DB
 }

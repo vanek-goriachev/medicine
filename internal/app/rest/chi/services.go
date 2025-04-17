@@ -4,11 +4,14 @@ import (
 	"medicine/internal/appcore/collections"
 	chiTag "medicine/internal/layers/transport/rest/go-chi/tag"
 	chiTagsSpace "medicine/internal/layers/transport/rest/go-chi/tags-space"
+	chiVisitRecord "medicine/internal/layers/transport/rest/go-chi/visit-record"
 )
 
 type chiServices struct {
 	tag       *chiTag.Service
 	tagsSpace *chiTagsSpace.Service
+
+	visitRecord *chiVisitRecord.Service
 }
 
 func newChiServices(chiMappers *mappers, userActions *collections.UserActions) *chiServices {
@@ -23,9 +26,15 @@ func newChiServices(chiMappers *mappers, userActions *collections.UserActions) *
 	s.tagsSpace = chiTagsSpace.NewService(
 		chiMappers.tagsSpaceUA,
 		userActions.TagsSpace.GetByID,
-		userActions.TagsSpace.ListByUser,
+		userActions.TagsSpace.ListAllAvailable,
 		userActions.TagsSpace.Create,
 		userActions.TagsSpace.Delete,
+	)
+
+	s.visitRecord = chiVisitRecord.NewService(
+		chiMappers.visitRecordUA,
+		userActions.VisitRecord.Create,
+		userActions.VisitRecord.AttachMedicalFile,
 	)
 
 	return &s

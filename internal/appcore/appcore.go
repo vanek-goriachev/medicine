@@ -7,7 +7,7 @@ import (
 
 	"medicine/internal/appcore/collections"
 	"medicine/internal/appcore/dependencies"
-	"medicine/internal/layers/business-logic/authorization"
+	noop_authorizer "medicine/internal/layers/business-logic/authorization/noop-authorizer"
 )
 
 type Core struct {
@@ -17,9 +17,9 @@ type Core struct {
 	others *collections.Others
 
 	CommonMappers *collections.CommonMappers
-	gormMappers   *collections.GORMMappers
 
-	gateways *collections.Gateways
+	dbMappers  *collections.DBMappers
+	dbGateways *collections.DBGateways
 
 	validators *collections.Validators
 	factories  *collections.Factories
@@ -39,16 +39,18 @@ func (c *Core) Initialize(
 	c.others = collections.NewOthers()
 
 	c.CommonMappers = collections.NewCommonMappers()
-	c.gormMappers = collections.NewGORMMappers()
 
-	c.gateways = collections.NewGateways(c.ApplicationDependencies.DB.GormDB, c.gormMappers)
+	c.dbMappers = collections.NewDBMappers()
+	c.dbGateways = collections.NewDBGateways(c.ApplicationDependencies.DB, c.dbMappers)
 
 	c.validators = collections.NewValidators()
 	c.factories = collections.NewFactories(c.validators)
 
-	c.simpleActions = collections.NewSimpleActions(c.others, c.gateways, c.factories)
+	authorizer := noop_authorizer.NewNoopAuthorizer(
+		c.ApplicationDependencies.DB.GormDB,
+	)
+	c.simpleActions = collections.NewSimpleActions(authorizer, c.others, c.dbGateways, c.factories)
 
-	authorizer := authorization.NewAuthorizer(c.ApplicationDependencies.IAM)
 	c.UserActions = collections.NewUserActions(
 		authorizer,
 		c.simpleActions,

@@ -33,7 +33,6 @@ func NewValidator(
 
 func (v *Validator) Validate(tagsSpace TagsSpace) error {
 	idErr := v.idValidator.Validate(tagsSpace.ID)
-	userIDErr := v.idValidator.Validate(tagsSpace.UserID)
 
 	nameErr := v.validateName(tagsSpace.Name)
 
@@ -44,7 +43,7 @@ func (v *Validator) Validate(tagsSpace TagsSpace) error {
 
 	tagErrors := errors.Join(tagsErrorsArr...)
 
-	validationErrors := errors.Join(idErr, userIDErr, nameErr, tagErrors)
+	validationErrors := errors.Join(idErr, nameErr, tagErrors)
 	if validationErrors != nil {
 		return validation.NewValidationError(validationErrors)
 	}

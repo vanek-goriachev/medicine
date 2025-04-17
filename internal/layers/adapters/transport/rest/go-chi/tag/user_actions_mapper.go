@@ -24,7 +24,7 @@ func NewUserActionsChiMapper(
 }
 
 func (m *UserActionsChiMapper) TagForceCreateInFromChi(
-	in dto.TagForceCreateIn,
+	in *dto.TagForceCreateIn,
 ) (tagUA.TagForceCreateIn, error) {
 	tagsSpaceID, err := m.entityIDMapper.FromString(in.TagsSpaceID)
 	if err != nil {
@@ -37,14 +37,14 @@ func (m *UserActionsChiMapper) TagForceCreateInFromChi(
 	}, nil
 }
 
-func (m *UserActionsChiMapper) TagForceCreateOutToChi(out tagUA.TagForceCreateOut) dto.TagForceCreateOut {
+func (m *UserActionsChiMapper) TagForceCreateOutToChi(out *tagUA.TagForceCreateOut) dto.TagForceCreateOut {
 	return dto.TagForceCreateOut{
 		Tag: m.tagChiMapper.ToChi(out.Tag),
 	}
 }
 
 func (m *UserActionsChiMapper) TagUntagAllAndDeleteInFromChi(
-	in dto.TagUntagAllAndDeleteIn,
+	in *dto.TagUntagAllAndDeleteIn,
 ) (tagUA.TagUntagAllAndDeleteIn, error) {
 	id, err := m.entityIDMapper.FromString(in.ID)
 	if err != nil {
@@ -56,6 +56,8 @@ func (m *UserActionsChiMapper) TagUntagAllAndDeleteInFromChi(
 	}, nil
 }
 
-func (*UserActionsChiMapper) TagUntagAllAndDeleteOutToChi(_ tagUA.TagUntagAllAndDeleteOut) dto.TagUntagAllAndDeleteOut {
+func (*UserActionsChiMapper) TagUntagAllAndDeleteOutToChi(
+	_ *tagUA.TagUntagAllAndDeleteOut,
+) dto.TagUntagAllAndDeleteOut {
 	return dto.TagUntagAllAndDeleteOut{}
 }

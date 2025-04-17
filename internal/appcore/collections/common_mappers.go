@@ -1,15 +1,22 @@
 package collections
 
-import entityID "medicine/pkg/entity-id"
+import (
+	"time"
+
+	"medicine/internal/tooling/datetime"
+	entityID "medicine/pkg/entity-id"
+)
 
 type CommonMappers struct {
-	EntityIDMapper *entityID.MapperImpl
+	EntityIDMapper entityID.Mapper
+	Datetime       datetime.Mapper
 }
 
 func NewCommonMappers() *CommonMappers {
 	var c CommonMappers
 
 	c.EntityIDMapper = entityID.NewMapper()
+	c.Datetime = datetime.NewMapper(time.RFC3339)
 
 	return &c
 }

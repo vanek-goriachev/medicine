@@ -5,10 +5,10 @@ import (
 )
 
 type UserActions struct {
-	GetByID    *GetByIDUA
-	ListByUser *ListByUserUA
-	Create     *CreateUA
-	Delete     *DeleteUA
+	GetByID          *GetByIDUA
+	ListAllAvailable *ListAllAvailableUA
+	Create           *CreateUA
+	Delete           *DeleteUA
 }
 
 func NewUserActions(
@@ -16,14 +16,14 @@ func NewUserActions(
 	simpleActions SimpleActions,
 ) *UserActions {
 	getByID := NewGetByIDUA(authorizer, simpleActions)
-	listByUser := NewListByUserUA(authorizer, simpleActions)
+	listAllAvailableUser := NewListAllAvailableUA(simpleActions)
 	create := NewCreateUA(authorizer, simpleActions)
 	delete_ := NewDeleteUA(authorizer, simpleActions)
 
 	return &UserActions{
-		GetByID:    getByID,
-		ListByUser: listByUser,
-		Create:     create,
-		Delete:     delete_,
+		GetByID:          getByID,
+		ListAllAvailable: listAllAvailableUser,
+		Create:           create,
+		Delete:           delete_,
 	}
 }
