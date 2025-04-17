@@ -3,6 +3,7 @@ package visit_record
 import (
 	"context"
 	"fmt"
+
 	"medicine/internal/layers/business-logic/authorization"
 	medicalFileModels "medicine/internal/layers/business-logic/models/medical-file"
 	entityID "medicine/pkg/entity-id"
@@ -10,9 +11,8 @@ import (
 )
 
 type VisitRecordAttachMedicalFilesIn struct {
-	VisitRecordID entityID.EntityID
-
 	UploadedMedicalFiles []medicalFileModels.UploadedMedicalFile
+	VisitRecordID        entityID.EntityID
 }
 
 type VisitRecordAttachMedicalFilesOut struct{}
@@ -36,7 +36,7 @@ func (ua *AttachMedicalFilesUA) Act(
 	ctx context.Context,
 	user userModels.User,
 	in *VisitRecordAttachMedicalFilesIn,
-) (VisitRecordAttachMedicalFilesOut, error) {
+) (VisitRecordAttachMedicalFilesOut, error) { //nolint:unparam // Signature requires return value
 	err := ua.checkPermissions(ctx, user, in.VisitRecordID)
 	if err != nil {
 		return VisitRecordAttachMedicalFilesOut{}, err

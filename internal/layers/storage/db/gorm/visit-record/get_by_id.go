@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"gorm.io/gorm"
+
+	visitRecordModels "medicine/internal/layers/business-logic/models/visit-record"
 	gormModels "medicine/internal/layers/storage/db/gorm/models"
 	entityID "medicine/pkg/entity-id"
 	pkgErrors "medicine/pkg/errors/db"
-
-	visitRecordModels "medicine/internal/layers/business-logic/models/visit-record"
 )
 
 func (g *GORMGateway) GetByID(

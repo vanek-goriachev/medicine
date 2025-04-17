@@ -81,8 +81,8 @@ func (m *UserActionsChiMapper) VisitRecordAttachMedicalFilesInFromChi(
 	}, nil
 }
 
-func (m *UserActionsChiMapper) VisitRecordAttachMedicalFilesOutToChi(
-	out *visitRecordUA.VisitRecordAttachMedicalFilesOut,
+func (*UserActionsChiMapper) VisitRecordAttachMedicalFilesOutToChi(
+	_ *visitRecordUA.VisitRecordAttachMedicalFilesOut,
 ) dto.VisitRecordAttachMedicalFilesOut {
 	return dto.VisitRecordAttachMedicalFilesOut{}
 }

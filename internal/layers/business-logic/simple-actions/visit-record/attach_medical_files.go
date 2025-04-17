@@ -3,6 +3,7 @@ package visit_record
 import (
 	"context"
 	"fmt"
+
 	medicalFileModels "medicine/internal/layers/business-logic/models/medical-file"
 	entityID "medicine/pkg/entity-id"
 )
@@ -34,12 +35,13 @@ func (sa *SimpleActions) AttachMedicalFiles(
 	return nil
 }
 
-func (sa *SimpleActions) extractMedicalFilesIDs(
+func (*SimpleActions) extractMedicalFilesIDs(
 	medicalFiles []medicalFileModels.MedicalFile,
 ) []entityID.EntityID {
 	medicalFilesIDs := make([]entityID.EntityID, len(medicalFiles))
 	for i, medicalFile := range medicalFiles {
 		medicalFilesIDs[i] = medicalFile.ID
 	}
+
 	return medicalFilesIDs
 }

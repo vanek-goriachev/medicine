@@ -1,11 +1,17 @@
 package visit_record
 
 import (
+	"errors"
 	"fmt"
-	"github.com/go-andiamo/chioas"
-	medicalFileChi "medicine/internal/layers/transport/rest/go-chi/medical-file/dto"
 	"net/http"
+
+	"github.com/go-andiamo/chioas"
+
+	medicalFileChi "medicine/internal/layers/transport/rest/go-chi/medical-file/dto"
+	goChiTooling "medicine/internal/tooling/go-chi"
 )
+
+var ErrCantParseVisitRecordID = errors.New("cant parse visit_record_id (probably field is missing)")
 
 type VisitRecordAttachMedicalFilesIn struct {
 	VisitRecordID        string
@@ -32,21 +38,20 @@ var VisitRecordAttachMedicalFilesInOpenApiDefinition = chioas.Schema{
 	},
 }
 
-// ParseVisitRecordAttachMedicalFilesRequest parses the request body and returns a VisitRecordAttachMedicalFilesIn struct
-// A custom parser is required, because it's a little bit tricky to work with files
+// ParseVisitRecordAttachMedicalFilesRequest parses the request body and returns a VisitRecordAttachMedicalFilesIn
+// A custom parser is required, because it's a little bit tricky to work with files.
 func ParseVisitRecordAttachMedicalFilesRequest(r *http.Request) (VisitRecordAttachMedicalFilesIn, error) {
 	var zero VisitRecordAttachMedicalFilesIn
 
-	err := r.ParseMultipartForm(32 << 30)
+	err := r.ParseMultipartForm(goChiTooling.GB)
 	if err != nil {
 		return zero, fmt.Errorf("failed to parse multipart form: %w", err)
 	}
 
 	visitRecordIDs, ok := r.MultipartForm.Value["visit_record_id"]
 	if !ok || len(visitRecordIDs) == 0 {
-		return zero, fmt.Errorf("cant parse visit_record_id field (probably field is missing)")
+		return zero, ErrCantParseVisitRecordID
 	}
-	visitRecordID := visitRecordIDs[0]
 
 	uploadedFiles, err := medicalFileChi.ParseUploadedMedicalFiles(r.MultipartForm.File["uploaded_medical_files"])
 	if err != nil {
@@ -54,7 +59,7 @@ func ParseVisitRecordAttachMedicalFilesRequest(r *http.Request) (VisitRecordAtta
 	}
 
 	return VisitRecordAttachMedicalFilesIn{
-		VisitRecordID:        visitRecordID,
+		VisitRecordID:        visitRecordIDs[0],
 		UploadedMedicalFiles: uploadedFiles,
 	}, nil
 }
