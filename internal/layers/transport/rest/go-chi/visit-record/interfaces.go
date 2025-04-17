@@ -8,14 +8,14 @@ import (
 )
 
 type userActionsMapper interface {
-	VisitRecordCreateInFromChi(in VisitRecordCreateIn) (visitRecordUA.VisitRecordCreateIn, error)
-	VisitRecordCreateOutToChi(out visitRecordUA.VisitRecordCreateOut) VisitRecordCreateOut
+	VisitRecordCreateInFromChi(in *VisitRecordCreateIn) (visitRecordUA.VisitRecordCreateIn, error)
+	VisitRecordCreateOutToChi(out *visitRecordUA.VisitRecordCreateOut) VisitRecordCreateOut
 }
 
 type visitRecordCreateUserAction interface {
 	Act(
 		ctx context.Context,
 		user userModels.User,
-		in visitRecordUA.VisitRecordCreateIn,
+		in *visitRecordUA.VisitRecordCreateIn,
 	) (visitRecordUA.VisitRecordCreateOut, error)
 }

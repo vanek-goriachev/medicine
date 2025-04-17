@@ -33,7 +33,7 @@ func NewCreateUA(
 	}
 }
 
-func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in TagsSpaceCreateIn) (TagsSpaceCreateOut, error) {
+func (ua *CreateUA) Act(ctx context.Context, user userModels.User, in *TagsSpaceCreateIn) (TagsSpaceCreateOut, error) {
 	err := ua.authorizer.Authorize(
 		ctx,
 		user,

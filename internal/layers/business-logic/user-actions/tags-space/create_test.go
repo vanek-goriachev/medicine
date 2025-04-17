@@ -19,7 +19,7 @@ func TestCreateTagsSpaceUA(t *testing.T) {
 
 	// Test data
 	user := generators.TestUser()
-	in := tagsSpaceUA.TagsSpaceCreateIn{
+	in := &tagsSpaceUA.TagsSpaceCreateIn{
 		Name: "test",
 	}
 	createdTagsSpace := tagsSpaceModels.TagsSpace{

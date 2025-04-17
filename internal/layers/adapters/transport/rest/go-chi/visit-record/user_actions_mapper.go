@@ -5,19 +5,19 @@ import (
 
 	visitRecordUA "medicine/internal/layers/business-logic/user-actions/visit-record"
 	dto "medicine/internal/layers/transport/rest/go-chi/visit-record"
-	datetimeMapper "medicine/internal/tooling/datetime"
+	datetimeTooling "medicine/internal/tooling/datetime"
 	entityID "medicine/pkg/entity-id"
 )
 
 type UserActionsChiMapper struct {
-	datetimeMapper       datetimeMapper.Mapper
+	datetimeMapper       datetimeTooling.Mapper
 	entityIDMapper       entityID.Mapper
 	medicalFileChiMapper medicalFileChiMapper
 	visitRecordChiMapper visitRecordChiMapper
 }
 
 func NewUserActionsChiMapper(
-	datetimeMapper datetimeMapper.Mapper,
+	datetimeMapper datetimeTooling.Mapper,
 	entityIDMapper entityID.Mapper,
 	medicalFileChiMapper medicalFileChiMapper,
 	visitRecordChiMapper visitRecordChiMapper,
@@ -31,7 +31,7 @@ func NewUserActionsChiMapper(
 }
 
 func (m *UserActionsChiMapper) VisitRecordCreateInFromChi(
-	in dto.VisitRecordCreateIn,
+	in *dto.VisitRecordCreateIn,
 ) (visitRecordUA.VisitRecordCreateIn, error) {
 	datetime, err := m.datetimeMapper.FromString(in.Datetime)
 	if err != nil {
@@ -54,7 +54,7 @@ func (m *UserActionsChiMapper) VisitRecordCreateInFromChi(
 }
 
 func (m *UserActionsChiMapper) VisitRecordCreateOutToChi(
-	out visitRecordUA.VisitRecordCreateOut,
+	out *visitRecordUA.VisitRecordCreateOut,
 ) dto.VisitRecordCreateOut {
 	return dto.VisitRecordCreateOut{
 		VisitRecord:               m.visitRecordChiMapper.ToChi(out.VisitRecord),

@@ -25,27 +25,27 @@ func NewUserActionsChiMapper(
 }
 
 func (*UserActionsChiMapper) TagsSpaceCreateInFromChi(
-	in dto.TagsSpaceCreateIn,
+	in *dto.TagsSpaceCreateIn,
 ) (tagsSpaceUA.TagsSpaceCreateIn, error) {
 	return tagsSpaceUA.TagsSpaceCreateIn{
 		Name: in.Name,
 	}, nil
 }
 
-func (m *UserActionsChiMapper) TagsSpaceCreateOutToChi(out tagsSpaceUA.TagsSpaceCreateOut) dto.TagsSpaceCreateOut {
+func (m *UserActionsChiMapper) TagsSpaceCreateOutToChi(out *tagsSpaceUA.TagsSpaceCreateOut) dto.TagsSpaceCreateOut {
 	return dto.TagsSpaceCreateOut{
 		TagsSpace: m.tagsSpaceChiMapper.ToChi(out.TagsSpace),
 	}
 }
 
 func (*UserActionsChiMapper) TagsSpaceListAllAvailableInFromChi(
-	_ dto.TagsSpaceListAllAvailableIn,
+	_ *dto.TagsSpaceListAllAvailableIn,
 ) (tagsSpaceUA.TagsSpaceListAllAvailableIn, error) {
 	return tagsSpaceUA.TagsSpaceListAllAvailableIn{}, nil
 }
 
 func (m *UserActionsChiMapper) TagsSpaceListAllAvailableOutToChi(
-	out tagsSpaceUA.TagsSpaceListAllAvailableOut,
+	out *tagsSpaceUA.TagsSpaceListAllAvailableOut,
 ) dto.TagsSpaceListAllAvailableOut {
 	return dto.TagsSpaceListAllAvailableOut{
 		TagsSpaces: m.tagsSpaceChiMapper.MultipleToChi(out.TagsSpaces),
@@ -53,7 +53,7 @@ func (m *UserActionsChiMapper) TagsSpaceListAllAvailableOutToChi(
 }
 
 func (m *UserActionsChiMapper) TagsSpaceGetByIDInFromChi(
-	in dto.TagsSpaceGetByIDIn,
+	in *dto.TagsSpaceGetByIDIn,
 ) (tagsSpaceUA.TagsSpaceGetByIDIn, error) {
 	id, err := m.entityIDMapper.FromString(in.ID)
 	if err != nil {
@@ -65,14 +65,14 @@ func (m *UserActionsChiMapper) TagsSpaceGetByIDInFromChi(
 	}, nil
 }
 
-func (m *UserActionsChiMapper) TagsSpaceGetByIDOutToChi(out tagsSpaceUA.TagsSpaceGetByIDOut) dto.TagsSpaceGetByIDOut {
+func (m *UserActionsChiMapper) TagsSpaceGetByIDOutToChi(out *tagsSpaceUA.TagsSpaceGetByIDOut) dto.TagsSpaceGetByIDOut {
 	return dto.TagsSpaceGetByIDOut{
 		TagsSpace: m.tagsSpaceChiMapper.ToChi(out.TagsSpace),
 	}
 }
 
 func (m *UserActionsChiMapper) TagsSpaceDeleteInFromChi(
-	in dto.TagsSpaceDeleteIn,
+	in *dto.TagsSpaceDeleteIn,
 ) (tagsSpaceUA.TagsSpaceDeleteIn, error) {
 	id, err := m.entityIDMapper.FromString(in.ID)
 	if err != nil {
@@ -84,6 +84,6 @@ func (m *UserActionsChiMapper) TagsSpaceDeleteInFromChi(
 	}, nil
 }
 
-func (*UserActionsChiMapper) TagsSpaceDeleteOutToChi(_ tagsSpaceUA.TagsSpaceDeleteOut) dto.TagsSpaceDeleteOut {
+func (*UserActionsChiMapper) TagsSpaceDeleteOutToChi(_ *tagsSpaceUA.TagsSpaceDeleteOut) dto.TagsSpaceDeleteOut {
 	return dto.TagsSpaceDeleteOut{}
 }

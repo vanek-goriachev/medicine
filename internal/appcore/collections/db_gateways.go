@@ -17,15 +17,15 @@ type DBGateways struct {
 	visitRecord *visitRecordGORM.GORMGateway
 }
 
-func NewDBGateways(db *db.DB, gormMappers *DBMappers) *DBGateways {
+func NewDBGateways(database *db.DB, gormMappers *DBMappers) *DBGateways {
 	var c DBGateways
 
-	c.tag = tagGORM.NewGORMGateway(db.GormDB, gormMappers.tag)
-	c.tagsSpace = tagsSpaceGORM.NewGORMGateway(db.GormDB, gormMappers.tagsSpace)
+	c.tag = tagGORM.NewGORMGateway(database.GormDB, gormMappers.tag)
+	c.tagsSpace = tagsSpaceGORM.NewGORMGateway(database.GormDB, gormMappers.tagsSpace)
 
-	c.medicalFile = medicalFileGORM.NewGORMGateway(db.GormDB, gormMappers.medicalFile)
+	c.medicalFile = medicalFileGORM.NewGORMGateway(database.GormDB, gormMappers.medicalFile)
 
-	c.visitRecord = visitRecordGORM.NewGORMGateway(db.GormDB, gormMappers.visitRecord)
+	c.visitRecord = visitRecordGORM.NewGORMGateway(database.GormDB, gormMappers.visitRecord)
 
 	return &c
 }

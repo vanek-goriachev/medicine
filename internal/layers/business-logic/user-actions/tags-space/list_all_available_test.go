@@ -16,7 +16,7 @@ func TestTagsSpaceListAllAvailableUA(t *testing.T) {
 	// Test data
 	user := generators.TestUser()
 
-	in := tagsSpaceUA.TagsSpaceListAllAvailableIn{}
+	in := &tagsSpaceUA.TagsSpaceListAllAvailableIn{}
 	expectedTagsSpaces := []tagsSpaceModels.TagsSpace{
 		generators.GenerateTagsSpace(),
 		generators.GenerateTagsSpace(),

@@ -4,8 +4,8 @@ import entityID "medicine/pkg/entity-id"
 
 // UploadedMedicalFile is a struct representing MedicalFile after upload, but before saving.
 type UploadedMedicalFile struct {
-	Data []byte
 	Name string
+	Data []byte
 }
 
 type Extension string

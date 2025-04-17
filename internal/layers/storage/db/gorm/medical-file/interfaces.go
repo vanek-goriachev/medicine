@@ -13,13 +13,13 @@ type medicalFileGORMMapper interface {
 	// FromGORM(
 	//	dbMedicalFileInfo gormModels.MedicalFileInfo,
 	//	dbMedicalFileData gormModels.MedicalFileData,
-	//) medicalFileModels.MedicalFile
+	// ) medicalFileModels.MedicalFile
 
 	// InfoFromGORM(dbMedicalFileInfo gormModels.MedicalFileInfo) medicalFileModels.MedicalFileInfo
-	//MultipleInfoFromGORM(dbMedicalFileInfos []gormModels.MedicalFileInfo) []medicalFileModels.MedicalFile
-	//InfoToGORM(medicalFileInfo medicalFileModels.MedicalFileInfo) gormModels.MedicalFileInfo
-	//MultipleInfoToGORM(medicalFileInfos []medicalFileModels.MedicalFile) []gormModels.MedicalFileInfo
+	// MultipleInfoFromGORM(dbMedicalFileInfos []gormModels.MedicalFileInfo) []medicalFileModels.MedicalFile
+	// InfoToGORM(medicalFileInfo medicalFileModels.MedicalFileInfo) gormModels.MedicalFileInfo
+	// MultipleInfoToGORM(medicalFileInfos []medicalFileModels.MedicalFile) []gormModels.MedicalFileInfo
 	//
-	//DataFromGORM(dbMedicalFileData gormModels.MedicalFileData) medicalFileModels.MedicalFileData
-	//DataToGORM(medicalFileData medicalFileModels.MedicalFileData) gormModels.MedicalFileData
+	// DataFromGORM(dbMedicalFileData gormModels.MedicalFileData) medicalFileModels.MedicalFileData
+	// DataToGORM(medicalFileData medicalFileModels.MedicalFileData) gormModels.MedicalFileData
 }

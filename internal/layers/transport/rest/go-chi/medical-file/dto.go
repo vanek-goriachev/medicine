@@ -5,8 +5,8 @@ import (
 )
 
 type UploadedMedicalFile struct {
-	Data []byte `json:"data" schema:"data"`
 	Name string `json:"name" schema:"name"`
+	Data []byte `json:"data" schema:"data"`
 }
 
 var UploadedMedicalFileOpenApiDefinition = chioas.Schema{

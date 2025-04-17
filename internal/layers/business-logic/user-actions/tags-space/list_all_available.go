@@ -29,7 +29,7 @@ func NewListAllAvailableUA(
 func (ua *ListAllAvailableUA) Act(
 	ctx context.Context,
 	user userModels.User,
-	_ TagsSpaceListAllAvailableIn,
+	_ *TagsSpaceListAllAvailableIn,
 ) (TagsSpaceListAllAvailableOut, error) {
 	tagsSpaces, err := ua.simpleActions.ListAllAvailable(ctx, user)
 	if err != nil {

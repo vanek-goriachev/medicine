@@ -24,8 +24,6 @@ func (sa *SimpleActions) Create(
 		return tagsSpaceModels.TagsSpace{}, fmt.Errorf("can't create tagsSpace: %w", err)
 	}
 
-	// TODO: write to IAM that new tagsSpace created and owner by user
-
 	return tagsSpace, nil
 }
 

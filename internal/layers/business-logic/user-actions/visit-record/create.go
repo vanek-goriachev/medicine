@@ -41,7 +41,7 @@ func NewCreateUA(
 func (ua *CreateUA) Act(
 	ctx context.Context,
 	user userModels.User,
-	in VisitRecordCreateIn,
+	in *VisitRecordCreateIn,
 ) (VisitRecordCreateOut, error) {
 	err := ua.checkPermissions(ctx, user, in.TagIDs)
 	if err != nil {

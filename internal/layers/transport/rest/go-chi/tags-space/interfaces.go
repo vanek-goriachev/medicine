@@ -8,24 +8,24 @@ import (
 )
 
 type userActionsMapper interface {
-	TagsSpaceGetByIDInFromChi(in TagsSpaceGetByIDIn) (tagsSpaceUA.TagsSpaceGetByIDIn, error)
-	TagsSpaceGetByIDOutToChi(out tagsSpaceUA.TagsSpaceGetByIDOut) TagsSpaceGetByIDOut
+	TagsSpaceGetByIDInFromChi(in *TagsSpaceGetByIDIn) (tagsSpaceUA.TagsSpaceGetByIDIn, error)
+	TagsSpaceGetByIDOutToChi(out *tagsSpaceUA.TagsSpaceGetByIDOut) TagsSpaceGetByIDOut
 
-	TagsSpaceListAllAvailableInFromChi(in TagsSpaceListAllAvailableIn) (tagsSpaceUA.TagsSpaceListAllAvailableIn, error)
-	TagsSpaceListAllAvailableOutToChi(out tagsSpaceUA.TagsSpaceListAllAvailableOut) TagsSpaceListAllAvailableOut
+	TagsSpaceListAllAvailableInFromChi(in *TagsSpaceListAllAvailableIn) (tagsSpaceUA.TagsSpaceListAllAvailableIn, error)
+	TagsSpaceListAllAvailableOutToChi(out *tagsSpaceUA.TagsSpaceListAllAvailableOut) TagsSpaceListAllAvailableOut
 
-	TagsSpaceCreateInFromChi(in TagsSpaceCreateIn) (tagsSpaceUA.TagsSpaceCreateIn, error)
-	TagsSpaceCreateOutToChi(out tagsSpaceUA.TagsSpaceCreateOut) TagsSpaceCreateOut
+	TagsSpaceCreateInFromChi(in *TagsSpaceCreateIn) (tagsSpaceUA.TagsSpaceCreateIn, error)
+	TagsSpaceCreateOutToChi(out *tagsSpaceUA.TagsSpaceCreateOut) TagsSpaceCreateOut
 
-	TagsSpaceDeleteInFromChi(in TagsSpaceDeleteIn) (tagsSpaceUA.TagsSpaceDeleteIn, error)
-	TagsSpaceDeleteOutToChi(_ tagsSpaceUA.TagsSpaceDeleteOut) TagsSpaceDeleteOut
+	TagsSpaceDeleteInFromChi(in *TagsSpaceDeleteIn) (tagsSpaceUA.TagsSpaceDeleteIn, error)
+	TagsSpaceDeleteOutToChi(_ *tagsSpaceUA.TagsSpaceDeleteOut) TagsSpaceDeleteOut
 }
 
 type tagsSpaceCreateUserAction interface {
 	Act(
 		ctx context.Context,
 		user userModels.User,
-		in tagsSpaceUA.TagsSpaceCreateIn,
+		in *tagsSpaceUA.TagsSpaceCreateIn,
 	) (tagsSpaceUA.TagsSpaceCreateOut, error)
 }
 
@@ -33,7 +33,7 @@ type tagsSpaceListAllAvailableUserAction interface {
 	Act(
 		ctx context.Context,
 		user userModels.User,
-		in tagsSpaceUA.TagsSpaceListAllAvailableIn,
+		in *tagsSpaceUA.TagsSpaceListAllAvailableIn,
 	) (tagsSpaceUA.TagsSpaceListAllAvailableOut, error)
 }
 
@@ -41,7 +41,7 @@ type tagsSpaceGetByIDUserAction interface {
 	Act(
 		ctx context.Context,
 		user userModels.User,
-		in tagsSpaceUA.TagsSpaceGetByIDIn,
+		in *tagsSpaceUA.TagsSpaceGetByIDIn,
 	) (tagsSpaceUA.TagsSpaceGetByIDOut, error)
 }
 
@@ -49,6 +49,6 @@ type tagsSpaceDeleteUserAction interface {
 	Act(
 		ctx context.Context,
 		user userModels.User,
-		in tagsSpaceUA.TagsSpaceDeleteIn,
+		in *tagsSpaceUA.TagsSpaceDeleteIn,
 	) (tagsSpaceUA.TagsSpaceDeleteOut, error)
 }
