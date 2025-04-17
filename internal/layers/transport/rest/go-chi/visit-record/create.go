@@ -8,7 +8,7 @@ type VisitRecordCreateIn struct {
 	Name     string `json:"name"`
 	Datetime string `json:"datetime"`
 
-	TagIDs []string `json:"tag_ids"`
+	TagIDs []string `json:"tag_ids"` //nolint:tagliatelle // False positive
 }
 
 var VisitRecordCreateInOpenApiDefinition = chioas.Schema{

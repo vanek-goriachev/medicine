@@ -30,7 +30,7 @@ func (m *ChiMapper) ToChi(visitRecord visitRecordModels.VisitRecord) visitRecord
 	}
 }
 
-func (m *ChiMapper) LinkedEntitiesToChi(
+func (*ChiMapper) LinkedEntitiesToChi(
 	visitRecordLinkedEntities visitRecordModels.VisitRecordLinkedEntities,
 ) visitRecordChi.VisitRecordLinkedEntities {
 	tagIDs := make([]string, len(visitRecordLinkedEntities.TagIDs))

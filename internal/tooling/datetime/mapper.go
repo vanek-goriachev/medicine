@@ -1,6 +1,7 @@
 package datetime
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -24,7 +25,12 @@ func NewMapper(format string) *MapperImpl {
 }
 
 func (m *MapperImpl) FromString(rawDatetime string) (time.Time, error) {
-	return time.Parse(m.format, rawDatetime)
+	datetime, err := time.Parse(m.format, rawDatetime)
+	if err != nil {
+		return time.Time{}, fmt.Errorf("cannot parse datetime: %w", err)
+	}
+
+	return datetime, nil
 }
 
 func (m *MapperImpl) ToString(datetime time.Time) string {

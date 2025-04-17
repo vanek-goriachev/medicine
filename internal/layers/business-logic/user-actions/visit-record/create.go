@@ -19,8 +19,8 @@ type VisitRecordCreateIn struct {
 }
 
 type VisitRecordCreateOut struct {
-	VisitRecord               visitRecordModels.VisitRecord
 	VisitRecordLinkedEntities visitRecordModels.VisitRecordLinkedEntities
+	VisitRecord               visitRecordModels.VisitRecord
 }
 
 type CreateUA struct {

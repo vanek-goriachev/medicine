@@ -17,7 +17,7 @@ func (g *GORMGateway) LinkTags(
 ) error {
 	links := g.buildTagsLinks(visitRecordID, tagIDs)
 
-	result := g.db.Model(&gormModels.VisitRecordTag{}).CreateInBatches(links, len(links))
+	result := g.db.Model(gormModels.VisitRecordTagModel).CreateInBatches(links, len(links))
 	if err := result.Error; err != nil {
 		return fmt.Errorf("failed to insert links visitRecord-to-tags in DB: %w", err)
 	}
@@ -25,7 +25,7 @@ func (g *GORMGateway) LinkTags(
 	return nil
 }
 
-func (g *GORMGateway) buildTagsLinks(
+func (*GORMGateway) buildTagsLinks(
 	visitRecordID entityID.EntityID,
 	tagIDs []entityID.EntityID,
 ) []gormModels.VisitRecordTag {

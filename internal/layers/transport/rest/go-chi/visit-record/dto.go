@@ -34,8 +34,8 @@ var VisitRecordOpenApiDefinition = chioas.Schema{
 }
 
 type VisitRecordLinkedEntities struct {
-	TagIDs         []string `json:"tag_ids"`
-	MedicalFileIDs []string `json:"medical_file_ids"`
+	TagIDs         []string `json:"tag_ids"`          //nolint:tagliatelle // False positive
+	MedicalFileIDs []string `json:"medical_file_ids"` //nolint:tagliatelle // False positive
 }
 
 var VisitRecordLinkedEntitiesOpenApiDefinition = chioas.Schema{

@@ -37,7 +37,7 @@ func (g *GORMGateway) createFileInfo(_ context.Context, medicalFileInfo gormMode
 func (g *GORMGateway) createFileData(_ context.Context, medicalFileData gormModels.MedicalFileData) error {
 	result := g.db.Create(medicalFileData)
 	if result.Error != nil {
-		return fmt.Errorf("error on creating medicalFileInfo: %w", result.Error)
+		return fmt.Errorf("error on creating medicalFileData: %w", result.Error)
 	}
 
 	return nil

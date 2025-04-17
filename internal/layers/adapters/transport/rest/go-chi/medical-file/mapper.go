@@ -18,16 +18,16 @@ func NewChiMapper(
 	}
 }
 
-func (m *ChiMapper) UploadedMedicalFileFromChi(
+func (*ChiMapper) UploadedMedicalFileFromChi(
 	uploadedFile medicalFileChi.UploadedMedicalFile,
-) (medicalFileModels.UploadedMedicalFile, error) {
+) (medicalFileModels.UploadedMedicalFile, error) { //nolint:unparam // Required signature
 	return medicalFileModels.UploadedMedicalFile{
 		Name: uploadedFile.Name,
 		Data: uploadedFile.Data,
 	}, nil
 }
 
-func (m *ChiMapper) MedicalFileInfoToChi(
+func (*ChiMapper) MedicalFileInfoToChi(
 	medicalFileInfo medicalFileModels.MedicalFileInfo,
 ) medicalFileChi.MedicalFileInfo {
 	return medicalFileChi.MedicalFileInfo{

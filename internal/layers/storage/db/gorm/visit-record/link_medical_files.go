@@ -17,7 +17,7 @@ func (g *GORMGateway) LinkMedicalFiles(
 ) error {
 	links := g.buildMedicalFilesLinks(visitRecordID, medicalFileIDs)
 
-	result := g.db.Model(&gormModels.VisitRecordMedicalFile{}).CreateInBatches(links, len(links))
+	result := g.db.Model(gormModels.VisitRecordMedicalFileModel).CreateInBatches(links, len(links))
 	if err := result.Error; err != nil {
 		return fmt.Errorf("failed to insert links visitRecord-to-medicalFiles in DB: %w", err)
 	}
@@ -25,7 +25,7 @@ func (g *GORMGateway) LinkMedicalFiles(
 	return nil
 }
 
-func (g *GORMGateway) buildMedicalFilesLinks(
+func (*GORMGateway) buildMedicalFilesLinks(
 	visitRecordID entityID.EntityID,
 	medicalFileIDs []entityID.EntityID,
 ) []gormModels.VisitRecordMedicalFile {

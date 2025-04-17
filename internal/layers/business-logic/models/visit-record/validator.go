@@ -14,7 +14,10 @@ const MaxVisitRecordNameLength = 255
 var (
 	ErrVisitRecordDatetimeRequired = errors.New("visitRecord datetime is required")
 	ErrVisitRecordNameRequired     = errors.New("visitRecord name is required")
-	ErrVisitRecordNameTooLong      = fmt.Errorf("visitRecord namehould be less than %d characters", MaxVisitRecordNameLength)
+	ErrVisitRecordNameTooLong      = fmt.Errorf(
+		"visitRecord namehould be less than %d characters",
+		MaxVisitRecordNameLength,
+	)
 )
 
 type Validator struct {

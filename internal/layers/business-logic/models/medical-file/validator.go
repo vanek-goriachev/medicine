@@ -12,11 +12,17 @@ const MaxMedicalFileNameLength = 64
 const MaxMedicalFileDataLength = 1024 * 1024 * 1024 // 1GB
 
 var (
-	ErrMedicalFileDataRequired      = errors.New("medicalFile data is required")
-	ErrMedicalFileDataTooLarge      = fmt.Errorf("medicalFile data should be less than %d bytes", MaxMedicalFileDataLength)
+	ErrMedicalFileDataRequired = errors.New("medicalFile data is required")
+	ErrMedicalFileDataTooLarge = fmt.Errorf(
+		"medicalFile data should be less than %d bytes",
+		MaxMedicalFileDataLength,
+	)
 	ErrMedicalFileExtensionRequired = errors.New("medicalFile extension is required")
 	ErrMedicalFileNameRequired      = errors.New("medicalFile name is required")
-	ErrMedicalFileNameTooLong       = fmt.Errorf("medicalFile name should be less than %d characters", MaxMedicalFileNameLength)
+	ErrMedicalFileNameTooLong       = fmt.Errorf(
+		"medicalFile name should be less than %d characters",
+		MaxMedicalFileNameLength,
+	)
 )
 
 type Validator struct {
@@ -56,7 +62,7 @@ func (v *Validator) validateInfo(info MedicalFileInfo) error {
 	return nil
 }
 
-func (v *Validator) validateName(name string) error {
+func (*Validator) validateName(name string) error {
 	if name == "" {
 		return ErrMedicalFileNameRequired
 	}
@@ -68,7 +74,7 @@ func (v *Validator) validateName(name string) error {
 	return nil
 }
 
-func (v *Validator) validateExtension(extension Extension) error {
+func (*Validator) validateExtension(extension Extension) error {
 	if extension == EmptyFileException {
 		return ErrMedicalFileExtensionRequired
 	}
@@ -76,12 +82,12 @@ func (v *Validator) validateExtension(extension Extension) error {
 	return nil
 }
 
-func (v *Validator) validateData(data MedicalFileData) error {
-	if len(*data.Data) == 0 {
+func (*Validator) validateData(data MedicalFileData) error {
+	if len(data.Data) == 0 {
 		return ErrMedicalFileDataRequired
 	}
 
-	if len(*data.Data) > MaxMedicalFileDataLength {
+	if len(data.Data) > MaxMedicalFileDataLength {
 		return ErrMedicalFileDataTooLarge
 	}
 
