@@ -25,6 +25,6 @@ func NewDBMappers() *DBMappers {
 	c.medicalFile = gormMedicalFileMapper.NewGORMMapper()
 
 	c.visitRecord = gormVisitRecordMapper.NewGORMMapper()
-	
+
 	return &c
 }

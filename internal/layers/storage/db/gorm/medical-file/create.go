@@ -3,10 +3,11 @@ package medical_file
 import (
 	"context"
 	"fmt"
+
 	"golang.org/x/sync/errgroup"
-	gormModels "medicine/internal/layers/storage/db/gorm/models"
 
 	medicalFileModels "medicine/internal/layers/business-logic/models/medical-file"
+	gormModels "medicine/internal/layers/storage/db/gorm/models"
 )
 
 func (g *GORMGateway) Create(ctx context.Context, medicalFile medicalFileModels.MedicalFile) error {

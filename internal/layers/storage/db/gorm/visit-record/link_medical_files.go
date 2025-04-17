@@ -3,7 +3,9 @@ package visit_record
 import (
 	"context"
 	"fmt"
+
 	"github.com/google/uuid"
+
 	gormModels "medicine/internal/layers/storage/db/gorm/models"
 	entityID "medicine/pkg/entity-id"
 )
@@ -34,5 +36,6 @@ func (g *GORMGateway) buildMedicalFilesLinks(
 			MedicalFileID: uuid.UUID(id),
 		}
 	}
+
 	return links
 }

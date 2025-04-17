@@ -7,6 +7,6 @@ var MedicalFileDataModel = &MedicalFileData{} //nolint:exhaustruct // Used for O
 type DataType *[]byte
 
 type MedicalFileData struct {
-	ID   uuid.UUID `gorm:"primary_key;type:uuid"`
 	Data DataType  `gorm:"type:bytea"`
+	ID   uuid.UUID `gorm:"primary_key;type:uuid"`
 }

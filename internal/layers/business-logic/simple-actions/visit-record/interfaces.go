@@ -2,9 +2,9 @@ package visit_record
 
 import (
 	"context"
-	medicalFileModels "medicine/internal/layers/business-logic/models/medical-file"
 	"time"
 
+	medicalFileModels "medicine/internal/layers/business-logic/models/medical-file"
 	visitRecordModels "medicine/internal/layers/business-logic/models/visit-record"
 	entityID "medicine/pkg/entity-id"
 )

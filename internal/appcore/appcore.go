@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	noop_authorizer "medicine/internal/layers/business-logic/authorization/noop-authorizer"
 
 	"medicine/internal/appcore/collections"
 	"medicine/internal/appcore/dependencies"
+	noop_authorizer "medicine/internal/layers/business-logic/authorization/noop-authorizer"
 )
 
 type Core struct {

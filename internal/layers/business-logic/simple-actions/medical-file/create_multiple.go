@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	medicalFileModels "medicine/internal/layers/business-logic/models/medical-file"
 )
 
@@ -74,7 +75,6 @@ func (sa *SimpleActions) createMany(
 	files []medicalFileModels.MedicalFile,
 ) error {
 	// TODO replace with multiple files create
-
 	for _, file := range files {
 		err := sa.atomicActions.Create(ctx, file)
 		if err != nil {

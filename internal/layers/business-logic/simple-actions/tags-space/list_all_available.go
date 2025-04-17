@@ -3,8 +3,8 @@ package tags_space
 import (
 	"context"
 	"fmt"
-	"medicine/internal/layers/business-logic/authorization"
 
+	"medicine/internal/layers/business-logic/authorization"
 	tagsSpaceModels "medicine/internal/layers/business-logic/models/tags-space"
 	userModels "medicine/pkg/user"
 )
@@ -19,6 +19,7 @@ func (sa *SimpleActions) ListAllAvailable(
 		authorization.TagsSpaceResource,
 		authorization.ReadTagsSpacePermission,
 	)
+
 	switch {
 	case err != nil:
 		return nil, fmt.Errorf("can't get available tags spaces ids: %w", err)

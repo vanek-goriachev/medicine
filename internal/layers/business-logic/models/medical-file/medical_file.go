@@ -2,18 +2,18 @@ package medical_file
 
 import entityID "medicine/pkg/entity-id"
 
-// UploadedMedicalFile is a struct representing MedicalFile after upload, but before saving
+// UploadedMedicalFile is a struct representing MedicalFile after upload, but before saving.
 type UploadedMedicalFile struct {
-	Name string
 	Data *[]byte
+	Name string
 }
 
 type Extension string
 
 type MedicalFileInfo struct {
-	ID        entityID.EntityID
 	Extension Extension
 	Name      string
+	ID        entityID.EntityID
 }
 
 type DataType *[]byte
@@ -23,6 +23,6 @@ type MedicalFileData struct {
 }
 
 type MedicalFile struct {
-	MedicalFileInfo
 	MedicalFileData
+	MedicalFileInfo
 }

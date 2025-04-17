@@ -2,9 +2,9 @@ package authorization
 
 import (
 	"context"
-	entityID "medicine/pkg/entity-id"
 
 	"medicine/internal/tooling/iam"
+	entityID "medicine/pkg/entity-id"
 	userModels "medicine/pkg/user"
 )
 

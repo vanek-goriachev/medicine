@@ -92,7 +92,7 @@ func (db *DB) migrateDB(ctx context.Context) error {
 	err := db.GormDB.AutoMigrate(
 		gormModels.TagsSpaceModel,
 		gormModels.TagModel,
-		
+
 		gormModels.MedicalFileInfoModel,
 		gormModels.MedicalFileDataModel,
 

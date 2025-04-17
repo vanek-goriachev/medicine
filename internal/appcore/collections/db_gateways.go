@@ -3,10 +3,9 @@ package collections
 import (
 	"medicine/internal/appcore/dependencies/db"
 	medicalFileGORM "medicine/internal/layers/storage/db/gorm/medical-file"
-	visitRecordGORM "medicine/internal/layers/storage/db/gorm/visit-record"
-
 	tagGORM "medicine/internal/layers/storage/db/gorm/tag"
 	tagsSpaceGORM "medicine/internal/layers/storage/db/gorm/tags-space"
+	visitRecordGORM "medicine/internal/layers/storage/db/gorm/visit-record"
 )
 
 type DBGateways struct {

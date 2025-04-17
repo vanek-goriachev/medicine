@@ -3,10 +3,12 @@ package visit_record
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"golang.org/x/sync/errgroup"
+
 	visitRecordModels "medicine/internal/layers/business-logic/models/visit-record"
 	entityID "medicine/pkg/entity-id"
-	"time"
 )
 
 func (sa *SimpleActions) CreateWithEntities(
@@ -49,6 +51,7 @@ func (sa *SimpleActions) createNewEntities(
 			if err != nil {
 				return fmt.Errorf("failed to create visit record: %w", err)
 			}
+
 			return nil
 		},
 	)

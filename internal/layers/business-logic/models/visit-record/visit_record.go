@@ -1,14 +1,15 @@
 package visit_record
 
 import (
-	entityID "medicine/pkg/entity-id"
 	"time"
+
+	entityID "medicine/pkg/entity-id"
 )
 
 type VisitRecord struct {
-	ID       entityID.EntityID
-	Name     string
 	Datetime time.Time
+	Name     string
+	ID       entityID.EntityID
 }
 
 type VisitRecordLinkedEntities struct {

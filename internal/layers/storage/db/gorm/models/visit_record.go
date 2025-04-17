@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/google/uuid"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 var VisitRecordModel = &VisitRecord{}                       //nolint:exhaustruct // Used for ORM
@@ -10,9 +11,9 @@ var VisitRecordTagModel = &VisitRecordTag{}                 //nolint:exhaustruct
 var VisitRecordMedicalFileModel = &VisitRecordMedicalFile{} //nolint:exhaustruct // Used for ORM
 
 type VisitRecord struct {
+	Datetime time.Time `gorm:"type:timestamp"`
 	Name     string    `gorm:"type:varchar(255)"`
 	ID       uuid.UUID `gorm:"primary_key;type:uuid"`
-	Datetime time.Time `gorm:"type:timestamp"`
 }
 
 type VisitRecordTag struct {

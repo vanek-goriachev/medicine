@@ -10,12 +10,12 @@ type medicalFileGORMMapper interface {
 		gormModels.MedicalFileInfo,
 		gormModels.MedicalFileData,
 	)
-	//FromGORM(
+	// FromGORM(
 	//	dbMedicalFileInfo gormModels.MedicalFileInfo,
 	//	dbMedicalFileData gormModels.MedicalFileData,
 	//) medicalFileModels.MedicalFile
 
-	//InfoFromGORM(dbMedicalFileInfo gormModels.MedicalFileInfo) medicalFileModels.MedicalFileInfo
+	// InfoFromGORM(dbMedicalFileInfo gormModels.MedicalFileInfo) medicalFileModels.MedicalFileInfo
 	//MultipleInfoFromGORM(dbMedicalFileInfos []gormModels.MedicalFileInfo) []medicalFileModels.MedicalFile
 	//InfoToGORM(medicalFileInfo medicalFileModels.MedicalFileInfo) gormModels.MedicalFileInfo
 	//MultipleInfoToGORM(medicalFileInfos []medicalFileModels.MedicalFile) []gormModels.MedicalFileInfo

@@ -3,8 +3,10 @@ package noop_authorizer
 import (
 	"context"
 	"fmt"
+
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+
 	"medicine/internal/layers/business-logic/authorization"
 	"medicine/internal/layers/storage/db/gorm/models"
 	entityID "medicine/pkg/entity-id"

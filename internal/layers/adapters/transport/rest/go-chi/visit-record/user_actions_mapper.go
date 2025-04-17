@@ -1,8 +1,8 @@
-//nolint:unparam // Required signatures for handlers generation
 package visit_record
 
 import (
 	"fmt"
+
 	visitRecordUA "medicine/internal/layers/business-logic/user-actions/visit-record"
 	dto "medicine/internal/layers/transport/rest/go-chi/visit-record"
 	datetimeMapper "medicine/internal/tooling/datetime"
