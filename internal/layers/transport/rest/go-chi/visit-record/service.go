@@ -31,7 +31,7 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 		visitRecordUA.VisitRecordCreateOut,
 		VisitRecordCreateOut,
 	](
-		goChiTooling.ProcessRequestMultipartFormData,
+		goChiTooling.ProcessRequestBody,
 		s.mapper.VisitRecordCreateInFromChi,
 		s.createUA,
 		s.mapper.VisitRecordCreateOutToChi,
@@ -45,8 +45,7 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 						Description: "Эндпоинт для создания VisitRecord",
 						Handler:     createHandler,
 						Request: &chioas.Request{
-							ContentType: "multipart/form-data",
-							Schema:      VisitRecordCreateInOpenApiDefinition,
+							Schema: VisitRecordCreateInOpenApiDefinition,
 						},
 						Responses: chioas.Responses{
 							http.StatusCreated: {Schema: VisitRecordCreateOutOpenApiDefinition},

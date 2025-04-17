@@ -2,16 +2,13 @@ package visit_record
 
 import (
 	"github.com/go-andiamo/chioas"
-	medicalFileChi "medicine/internal/layers/transport/rest/go-chi/medical-file"
 )
 
 type VisitRecordCreateIn struct {
-	Name     string `schema:"name"`
-	Datetime string `schema:"datetime"`
+	Name     string `json:"name"`
+	Datetime string `json:"datetime"`
 
-	UploadedMedicalFile []medicalFileChi.UploadedMedicalFile `schema:"uploaded_medical_files"`
-
-	TagIDs []string `schema:"tag_ids"`
+	TagIDs []string `json:"tag_ids"`
 }
 
 var VisitRecordCreateInOpenApiDefinition = chioas.Schema{
@@ -29,12 +26,6 @@ var VisitRecordCreateInOpenApiDefinition = chioas.Schema{
 			Example: "2006-01-02T15:04:05Z",
 		},
 		{
-			Name:      "uploaded_medical_files",
-			Type:      "array",
-			ItemType:  "object",
-			SchemaRef: "uploaded-medical-file",
-		},
-		{
 			Name:     "tag_ids",
 			Type:     "array",
 			ItemType: "string",
@@ -50,12 +41,17 @@ type VisitRecordCreateOut struct {
 
 var VisitRecordCreateOutOpenApiDefinition = chioas.Schema{
 	Name:               "VisitRecordCreateOut",
-	RequiredProperties: []string{"visit_record"},
+	RequiredProperties: []string{"visit_record", "visit_record_linked_entities"},
 	Properties: chioas.Properties{
 		{
 			Name:      "visit_record",
 			Type:      "object",
-			SchemaRef: "tags-space",
+			SchemaRef: "visit-record",
+		},
+		{
+			Name:      "visit_record_linked_entities",
+			Type:      "object",
+			SchemaRef: "visit-record-linked-entities",
 		},
 	},
 }

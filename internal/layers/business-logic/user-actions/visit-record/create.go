@@ -3,7 +3,6 @@ package visit_record
 import (
 	"context"
 	"fmt"
-	medicalFileModels "medicine/internal/layers/business-logic/models/medical-file"
 	"time"
 
 	"medicine/internal/layers/business-logic/authorization"
@@ -15,8 +14,6 @@ import (
 type VisitRecordCreateIn struct {
 	Name     string
 	Datetime time.Time
-
-	UploadedMedicalFiles []medicalFileModels.UploadedMedicalFile
 
 	TagIDs []entityID.EntityID
 }
@@ -55,7 +52,6 @@ func (ua *CreateUA) Act(
 		ctx,
 		in.Name,
 		in.Datetime,
-		in.UploadedMedicalFiles,
 		in.TagIDs,
 	)
 	if err != nil {

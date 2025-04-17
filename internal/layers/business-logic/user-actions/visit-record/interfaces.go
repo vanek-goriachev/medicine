@@ -2,7 +2,6 @@ package visit_record
 
 import (
 	"context"
-	medicalFileModels "medicine/internal/layers/business-logic/models/medical-file"
 	visitRecordModels "medicine/internal/layers/business-logic/models/visit-record"
 	"time"
 
@@ -15,7 +14,6 @@ type SimpleActions interface {
 		name string,
 		datetime time.Time,
 
-		uploadedMedicalFiles []medicalFileModels.UploadedMedicalFile,
 		tagIDs []entityID.EntityID,
 	) (visitRecordModels.VisitRecord, visitRecordModels.VisitRecordLinkedEntities, error)
 }

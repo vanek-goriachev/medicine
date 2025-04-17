@@ -3,7 +3,6 @@ package visit_record
 
 import (
 	"fmt"
-	medical_file "medicine/internal/layers/business-logic/models/medical-file"
 	visitRecordUA "medicine/internal/layers/business-logic/user-actions/visit-record"
 	dto "medicine/internal/layers/transport/rest/go-chi/visit-record"
 	datetimeMapper "medicine/internal/tooling/datetime"
@@ -39,18 +38,6 @@ func (m *UserActionsChiMapper) VisitRecordCreateInFromChi(
 		return visitRecordUA.VisitRecordCreateIn{}, fmt.Errorf("cant parse datetime: %w", err)
 	}
 
-	medicalFiles := make([]medical_file.UploadedMedicalFile, len(in.UploadedMedicalFile))
-	for i, file := range in.UploadedMedicalFile {
-		medicalFiles[i], err = m.medicalFileChiMapper.UploadedMedicalFileFromChi(file)
-		if err != nil {
-			return visitRecordUA.VisitRecordCreateIn{}, fmt.Errorf(
-				"cant map file with name='%s': %w",
-				file.Name,
-				err,
-			)
-		}
-	}
-
 	tagIDs := make([]entityID.EntityID, len(in.TagIDs))
 	for i, tagID := range in.TagIDs {
 		tagIDs[i], err = m.entityIDMapper.FromString(tagID)
@@ -60,10 +47,9 @@ func (m *UserActionsChiMapper) VisitRecordCreateInFromChi(
 	}
 
 	return visitRecordUA.VisitRecordCreateIn{
-		Name:                 in.Name,
-		Datetime:             datetime,
-		UploadedMedicalFiles: medicalFiles,
-		TagIDs:               tagIDs,
+		Name:     in.Name,
+		Datetime: datetime,
+		TagIDs:   tagIDs,
 	}, nil
 }
 

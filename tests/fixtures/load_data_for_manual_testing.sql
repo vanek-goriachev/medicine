@@ -1,9 +1,11 @@
+-- tags_spaces
 INSERT INTO
     tags_spaces (name, id)
 VALUES
    ('first-tags-space', '2df72cd2-5c77-48bd-8f24-985a97c75923'),
    ('second-tags-space', 'bc7c9821-9bee-43ca-8135-3827ec97b44e');
 
+-- tags
 INSERT INTO
     tags (name, id, tags_space_id)
 VALUES
