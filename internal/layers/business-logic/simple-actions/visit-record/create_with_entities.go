@@ -70,7 +70,7 @@ func (sa *SimpleActions) linkEntities(
 ) (visitRecordModels.VisitRecordLinkedEntities, error) {
 	eg, ctx := errgroup.WithContext(ctx)
 
-	eg.Go(func() error { return sa.linkTags(ctx, visitRecord, tagIDs) })
+	eg.Go(func() error { return sa.atomicActions.LinkTags(ctx, visitRecord.ID, tagIDs) })
 
 	if err := eg.Wait(); err != nil {
 		return visitRecordModels.VisitRecordLinkedEntities{}, fmt.Errorf("failed to link entities: %w", err)
@@ -80,17 +80,4 @@ func (sa *SimpleActions) linkEntities(
 		MedicalFileIDs: []entityID.EntityID{},
 		TagIDs:         tagIDs,
 	}, nil
-}
-
-func (sa *SimpleActions) linkTags(
-	ctx context.Context,
-	visitRecord visitRecordModels.VisitRecord,
-	tagIDs []entityID.EntityID,
-) error {
-	err := sa.atomicActions.LinkTags(ctx, visitRecord.ID, tagIDs)
-	if err != nil {
-		return fmt.Errorf("failed to link tags: %w", err)
-	}
-
-	return nil
 }

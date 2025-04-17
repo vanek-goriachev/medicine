@@ -29,6 +29,7 @@ var VisitRecordCreateInOpenApiDefinition = chioas.Schema{
 			Name:     "tag_ids",
 			Type:     "array",
 			ItemType: "string",
+			Format:   "uuid",
 			Example:  "00000000-0000-0000-0000-000000000001",
 		},
 	},

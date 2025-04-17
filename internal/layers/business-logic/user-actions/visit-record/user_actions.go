@@ -3,7 +3,8 @@ package visit_record
 import "medicine/internal/layers/business-logic/authorization"
 
 type UserActions struct {
-	Create *CreateUA
+	Create            *CreateUA
+	AttachMedicalFile *AttachMedicalFilesUA
 }
 
 func NewUserActions(
@@ -11,8 +12,10 @@ func NewUserActions(
 	simpleActions SimpleActions,
 ) *UserActions {
 	createUA := NewCreateUA(authorizer, simpleActions)
+	attachMedicalFilesUA := NewAttachMedicalFilesUA(authorizer, simpleActions)
 
 	return &UserActions{
-		Create: createUA,
+		Create:            createUA,
+		AttachMedicalFile: attachMedicalFilesUA,
 	}
 }

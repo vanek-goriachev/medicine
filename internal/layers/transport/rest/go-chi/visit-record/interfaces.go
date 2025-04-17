@@ -1,21 +1,21 @@
 package visit_record
 
 import (
-	"context"
+	ua "medicine/pkg/user-action"
 
 	visitRecordUA "medicine/internal/layers/business-logic/user-actions/visit-record"
-	userModels "medicine/pkg/user"
 )
 
 type userActionsMapper interface {
 	VisitRecordCreateInFromChi(in *VisitRecordCreateIn) (visitRecordUA.VisitRecordCreateIn, error)
 	VisitRecordCreateOutToChi(out *visitRecordUA.VisitRecordCreateOut) VisitRecordCreateOut
+
+	VisitRecordAttachMedicalFilesInFromChi(in *VisitRecordAttachMedicalFilesIn) (visitRecordUA.VisitRecordAttachMedicalFilesIn, error)
+	VisitRecordAttachMedicalFilesOutToChi(out *visitRecordUA.VisitRecordAttachMedicalFilesOut) VisitRecordAttachMedicalFilesOut
 }
 
-type visitRecordCreateUserAction interface {
-	Act(
-		ctx context.Context,
-		user userModels.User,
-		in *visitRecordUA.VisitRecordCreateIn,
-	) (visitRecordUA.VisitRecordCreateOut, error)
-}
+type visitRecordCreateUserAction = ua.UserAction[visitRecordUA.VisitRecordCreateIn, visitRecordUA.VisitRecordCreateOut]
+type visitRecordAttachMedicalFilesUserAction = ua.UserAction[
+	visitRecordUA.VisitRecordAttachMedicalFilesIn,
+	visitRecordUA.VisitRecordAttachMedicalFilesOut,
+]

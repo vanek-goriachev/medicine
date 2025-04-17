@@ -17,9 +17,11 @@ var TagsSpaceOpenApiDefinition = chioas.Schema{
 	RequiredProperties: []string{"id", "name", "tags"},
 	Properties: chioas.Properties{
 		{
-			Name:    "id",
-			Type:    "string",
-			Example: "00000000-0000-0000-0000-000000000001",
+			Name:     "id",
+			Type:     "string",
+			Format:   "uuid",
+			Required: true,
+			Example:  "00000000-0000-0000-0000-000000000001",
 		},
 		{
 			Name:    "name",

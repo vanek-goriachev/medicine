@@ -61,3 +61,28 @@ func (m *UserActionsChiMapper) VisitRecordCreateOutToChi(
 		VisitRecordLinkedEntities: m.visitRecordChiMapper.LinkedEntitiesToChi(out.VisitRecordLinkedEntities),
 	}
 }
+
+func (m *UserActionsChiMapper) VisitRecordAttachMedicalFilesInFromChi(
+	in *dto.VisitRecordAttachMedicalFilesIn,
+) (visitRecordUA.VisitRecordAttachMedicalFilesIn, error) {
+	visitRecordID, err := m.entityIDMapper.FromString(in.VisitRecordID)
+	if err != nil {
+		return visitRecordUA.VisitRecordAttachMedicalFilesIn{}, fmt.Errorf("cant map visit record ID: %w", err)
+	}
+
+	uploadedMedicalFiles, err := m.medicalFileChiMapper.MultipleUploadedMedicalFileFromChi(in.UploadedMedicalFiles)
+	if err != nil {
+		return visitRecordUA.VisitRecordAttachMedicalFilesIn{}, fmt.Errorf("cant map uploaded medical files: %w", err)
+	}
+
+	return visitRecordUA.VisitRecordAttachMedicalFilesIn{
+		VisitRecordID:        visitRecordID,
+		UploadedMedicalFiles: uploadedMedicalFiles,
+	}, nil
+}
+
+func (m *UserActionsChiMapper) VisitRecordAttachMedicalFilesOutToChi(
+	out *visitRecordUA.VisitRecordAttachMedicalFilesOut,
+) dto.VisitRecordAttachMedicalFilesOut {
+	return dto.VisitRecordAttachMedicalFilesOut{}
+}

@@ -3,7 +3,7 @@ package chi
 import (
 	"github.com/go-andiamo/chioas"
 
-	medicalFileChi "medicine/internal/layers/transport/rest/go-chi/medical-file"
+	medicalFileChi "medicine/internal/layers/transport/rest/go-chi/medical-file/dto"
 	tagChi "medicine/internal/layers/transport/rest/go-chi/tag"
 	tagsSpaceChi "medicine/internal/layers/transport/rest/go-chi/tags-space"
 	visitRecordChi "medicine/internal/layers/transport/rest/go-chi/visit-record"
@@ -31,7 +31,6 @@ func generateApiSpec(services *chiServices) chioas.Definition {
 				tagChi.TagOpenApiDefinition,
 				tagsSpaceChi.TagsSpaceOpenApiDefinition,
 
-				medicalFileChi.UploadedMedicalFileOpenApiDefinition,
 				medicalFileChi.MedicalFileInfoOpenApiDefinition,
 
 				visitRecordChi.VisitRecordOpenApiDefinition,

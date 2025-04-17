@@ -18,9 +18,11 @@ var TagForceCreateInOpenApiDefinition = chioas.Schema{
 			Type: "string",
 		},
 		{
-			Name:    "tags_space_id",
-			Type:    "string",
-			Example: "00000000-0000-0000-0000-000000000000",
+			Name:     "tags_space_id",
+			Type:     "string",
+			Format:   "uuid",
+			Required: true,
+			Example:  "00000000-0000-0000-0000-000000000000",
 		},
 	},
 }

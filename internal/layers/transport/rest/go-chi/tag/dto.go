@@ -13,14 +13,18 @@ var TagOpenApiDefinition = chioas.Schema{
 	RequiredProperties: []string{"id", "tags_space_id", "name"},
 	Properties: chioas.Properties{
 		{
-			Name:    "id",
-			Type:    "string",
-			Example: "00000000-0000-0000-0000-000000000001",
+			Name:     "id",
+			Type:     "string",
+			Format:   "uuid",
+			Required: true,
+			Example:  "00000000-0000-0000-0000-000000000001",
 		},
 		{
-			Name:    "tags_space_id",
-			Type:    "string",
-			Example: "00000000-0000-0000-0000-000000000001",
+			Name:     "tags_space_id",
+			Type:     "string",
+			Format:   "uuid",
+			Required: true,
+			Example:  "00000000-0000-0000-0000-000000000001",
 		},
 		{
 			Name:    "name",

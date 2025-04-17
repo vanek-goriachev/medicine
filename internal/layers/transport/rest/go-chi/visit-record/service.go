@@ -10,17 +10,20 @@ import (
 )
 
 type Service struct {
-	mapper   userActionsMapper
-	createUA visitRecordCreateUserAction
+	mapper               userActionsMapper
+	createUA             visitRecordCreateUserAction
+	attachMedicalFilesUA visitRecordAttachMedicalFilesUserAction
 }
 
 func NewService(
 	mapper userActionsMapper,
 	createUA visitRecordCreateUserAction,
+	attachMedicalFilesUA visitRecordAttachMedicalFilesUserAction,
 ) *Service {
 	return &Service{
-		mapper:   mapper,
-		createUA: createUA,
+		mapper:               mapper,
+		createUA:             createUA,
+		attachMedicalFilesUA: attachMedicalFilesUA,
 	}
 }
 
@@ -37,6 +40,18 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 		s.mapper.VisitRecordCreateOutToChi,
 	)
 
+	attachmedicalFilesHandler := goChiTooling.Handler[
+		VisitRecordAttachMedicalFilesIn,
+		visitRecordUA.VisitRecordAttachMedicalFilesIn,
+		visitRecordUA.VisitRecordAttachMedicalFilesOut,
+		VisitRecordAttachMedicalFilesOut,
+	](
+		ParseVisitRecordAttachMedicalFilesRequest,
+		s.mapper.VisitRecordAttachMedicalFilesInFromChi,
+		s.attachMedicalFilesUA,
+		s.mapper.VisitRecordAttachMedicalFilesOutToChi,
+	)
+
 	return chioas.Path{
 		Paths: chioas.Paths{
 			"/create": {
@@ -49,6 +64,21 @@ func (s *Service) GenerateOpenApiDefinition() chioas.Path {
 						},
 						Responses: chioas.Responses{
 							http.StatusCreated: {Schema: VisitRecordCreateOutOpenApiDefinition},
+						},
+					},
+				},
+			},
+			"/attach-medical-files": {
+				Methods: chioas.Methods{
+					http.MethodPost: {
+						Description: "Эндпоинт для добавления медицинских файлов к VisitRecord",
+						Handler:     attachmedicalFilesHandler,
+						Request: &chioas.Request{
+							ContentType: "multipart/form-data",
+							Schema:      VisitRecordAttachMedicalFilesInOpenApiDefinition,
+						},
+						Responses: chioas.Responses{
+							http.StatusCreated: {},
 						},
 					},
 				},

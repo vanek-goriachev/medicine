@@ -15,6 +15,7 @@ type EntityIDGenerator interface {
 
 type AtomicActions interface {
 	Create(ctx context.Context, visitRecord visitRecordModels.VisitRecord) error
+	GetByID(ctx context.Context, visitRecordID entityID.EntityID) (visitRecordModels.VisitRecord, error)
 	LinkTags(ctx context.Context, visitRecord entityID.EntityID, tagIDs []entityID.EntityID) error
 	LinkMedicalFiles(ctx context.Context, visitRecordID entityID.EntityID, medicalFileIDs []entityID.EntityID) error
 }

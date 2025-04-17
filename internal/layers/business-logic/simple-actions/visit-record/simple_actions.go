@@ -4,8 +4,8 @@ type SimpleActions struct {
 	idGenerator        EntityIDGenerator
 	visitRecordFactory VisitRecordFactory
 
-	fileAtomicActions MedicalFileAtomicActions
-	atomicActions     AtomicActions
+	medicalFileAtomicActions MedicalFileAtomicActions
+	atomicActions            AtomicActions
 }
 
 func NewSimpleActions(
@@ -15,9 +15,9 @@ func NewSimpleActions(
 	atomicActions AtomicActions,
 ) *SimpleActions {
 	return &SimpleActions{
-		idGenerator:        idGenerator,
-		visitRecordFactory: visitRecordFactory,
-		fileAtomicActions:  fileAtomicActions,
-		atomicActions:      atomicActions,
+		idGenerator:              idGenerator,
+		visitRecordFactory:       visitRecordFactory,
+		medicalFileAtomicActions: fileAtomicActions,
+		atomicActions:            atomicActions,
 	}
 }

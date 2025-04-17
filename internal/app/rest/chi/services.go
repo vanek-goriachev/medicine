@@ -34,6 +34,7 @@ func newChiServices(chiMappers *mappers, userActions *collections.UserActions) *
 	s.visitRecord = chiVisitRecord.NewService(
 		chiMappers.visitRecordUA,
 		userActions.VisitRecord.Create,
+		userActions.VisitRecord.AttachMedicalFile,
 	)
 
 	return &s

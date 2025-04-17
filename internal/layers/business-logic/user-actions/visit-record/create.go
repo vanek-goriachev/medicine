@@ -88,11 +88,6 @@ func (ua *CreateUA) checkPermissions(
 			authorization.VisitRecordResource,
 			entityID.EntityID{},
 		),
-		authorization.NewAction(
-			authorization.UploadFilePermission,
-			authorization.MedicalFileResource,
-			entityID.EntityID{},
-		),
 	)
 
 	err := ua.authorizer.BatchAuthorize(

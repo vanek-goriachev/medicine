@@ -13,7 +13,7 @@ func (sa *SimpleActions) IndependentCreate(
 	name string,
 	datetime time.Time,
 ) (visitRecordModels.VisitRecord, error) {
-	visitRecord, err := sa.build(name, datetime)
+	visitRecord, err := sa.buildVisitRecord(name, datetime)
 	if err != nil {
 		return visitRecordModels.VisitRecord{}, err
 	}
@@ -26,7 +26,7 @@ func (sa *SimpleActions) IndependentCreate(
 	return visitRecord, nil
 }
 
-func (sa *SimpleActions) build(name string, datetime time.Time) (visitRecordModels.VisitRecord, error) {
+func (sa *SimpleActions) buildVisitRecord(name string, datetime time.Time) (visitRecordModels.VisitRecord, error) {
 	id, err := sa.idGenerator.Generate()
 	if err != nil {
 		return visitRecordModels.VisitRecord{}, fmt.Errorf("can't generate an id: %w", err)

@@ -11,9 +11,10 @@ const (
 
 	ReadVisitRecordPermission   Permission = "medicine.ReadVisitRecordPermission"
 	CreateVisitRecordPermission Permission = "medicine.CreateVisitRecordPermission"
+	AttachMedicalFilePermission Permission = "medicine.AttachMedicalFilePermission"
 	DeleteVisitRecordPermission Permission = "medicine.DeleteVisitRecordPermission"
 
-	UploadFilePermission Permission = "medicine.UploadFilePermission"
+	UploadMedicalFilePermission Permission = "medicine.UploadMedicalFilePermission"
 )
 
 const (
